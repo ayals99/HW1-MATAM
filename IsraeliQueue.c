@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include "IsraeliQueue.h"
 #include "Node.h"
@@ -17,7 +18,7 @@ typedef struct IsraeliQueue_t {
  * to the new object. In case of failure, return NULL.*/
 IsraeliQueue IsraeliQueueCreate(FriendshipFunction* friendshipFunctions, ComparisonFunction comparisonFunction,
                                 int friendship_th, int rivalry_th){
-    IsraeliQueue newQueue = (IsraeliQueue) malloc(sizeof(IsraeliQueue_t));
+    IsraeliQueue newQueue = (IsraeliQueue)malloc(sizeof(IsraeliQueue_t));
     if (newQueue == NULL){
         return ISRAELIQUEUE_ALLOC_FAILED;
     }
@@ -49,7 +50,9 @@ IsraeliQueue IsraeliQueueClone(IsraeliQueue q){
  * Makes the IsraeliQueue provided recognize the FriendshipFunction provided.*/
 IsraeliQueueError IsraeliQueueAddFriendshipMeasure(IsraeliQueue q, FriendshipFunction friendships_function){
     int functionsCounter = countFunction(q->friendshipFunctions);
-    FriendshipFunction* newArray = realloc(q->friendshipFunctions, sizeof(FriendshipFunction) * (functionsCounter + 1));
+    FriendshipFunction* newArray = realloc(q->friendshipFunctions,
+                                           sizeof(FriendshipFunction) * (functionsCounter + 1));
+    // Using realloc - Need to check that the data isn't lost
     if (newArray == NULL){
         return ISRAELIQUEUE_ALLOC_FAILED;
     }
@@ -58,8 +61,31 @@ IsraeliQueueError IsraeliQueueAddFriendshipMeasure(IsraeliQueue q, FriendshipFun
     return ISRAELIQUEUE_SUCCESS;
 }
 
-/*
- * We'll want to use realloc in order to add 1 function to the array
- * */
+/**Returns the number of elements of the given queue. If the parameter is NULL, 0
+ * is returned.*/
+int IsraeliQueueSize(IsraeliQueue q){
+    int counter = 0;
+    Node* current = q->head;
+    while (current != NULL){
+        counter++;
+        current = q->next->head;
+    }
+    return counter;
+}
 
-#endif
+/**@param item: an object comparable to the objects in the IsraeliQueue
+ *
+ * Returns whether the queue contains an element equal to item. If either
+ * parameter is NULL, false is returned.*/
+bool IsraeliQueueContains(IsraeliQueue q, void* item){
+    Node* current = q->head;
+    ComparisonFunction compare = q->comparisonFunction;
+    while (current != NULL){
+        if (compare(current, item)) {   // question @149 on piazza states that
+                                        // compare will return 1 if identical and 0 if different
+            return true;
+        }
+        current = q->next->head;
+    }
+    return false;
+}

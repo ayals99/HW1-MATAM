@@ -1,13 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#ifndef ISRAELIQUEUE.h
+#ifndef ISRAELIQUEUE_H
 #include "IsraeliQueue.h"
+#include "Node.h"
 
 typedef struct IsraeliQueue_t {
     FriendshipFunction* friendshipFunctions;
     ComparisonFunction comparisonFunction;
-    void* head;
+    Node* head; // Node contains: Person* person, Node* previous, Node* next.
     int friendshipThreshold;
     int rivalryThreshold;
 } IsraeliQueue_t;
@@ -42,5 +43,22 @@ IsraeliQueue IsraeliQueueClone(IsraeliQueue q){
     CLONE_ALL_NODES(q, clonedQueue); // Need to write
     return clonedQueue;
 }
+
+/**@param IsraeliQueue: an IsraeliQueue to which the function is to be added
+ * @param FriendshipFunction: a FriendshipFunction to be recognized by the IsraeliQueue
+ * going forward.
+ *
+ * Makes the IsraeliQueue provided recognize the FriendshipFunction provided.*/
+IsraeliQueueError IsraeliQueueAddFriendshipMeasure(IsraeliQueue q, FriendshipFunction friendships_function){
+    int amountOfFunctions = countFunction(q->friendshipFunctions);
+    FriendshipFunction* newArray = realloc(q->friendshipFunctions, sizeof(FriendshipFunction) * (amountOfFunctions + 1));
+    if (newArray == NULL){
+        return ISRAELIQUEUE_ALLOC_FAILED;
+    }
+    
+}
+/*
+ * We'll want to use realloc in order to add 1 function to the array
+ * */
 
 #endif

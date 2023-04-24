@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#ifndef ISRAELIQUEUE_H
 #include "IsraeliQueue.h"
 #include "Node.h"
 
@@ -19,8 +18,8 @@ typedef struct IsraeliQueue_t {
 IsraeliQueue IsraeliQueueCreate(FriendshipFunction* friendshipFunctions, ComparisonFunction comparisonFunction,
                                 int friendship_th, int rivalry_th){
     IsraeliQueue newQueue = (IsraeliQueue) malloc(sizeof(IsraeliQueue_t));
-    if (!newQueue){
-        return NULL;
+    if (newQueue == NULL){
+        return ISRAELIQUEUE_ALLOC_FAILED;
     }
     newQueue -> friendshipFunctions = friendshipFunctions;
     newQueue -> comparisonFunction = comparisonFunction;
@@ -33,12 +32,11 @@ IsraeliQueue IsraeliQueueCreate(FriendshipFunction* friendshipFunctions, Compari
 /**Returns a new queue with the same elements as the parameter. If the parameter is NULL,
  * NULL is returned.*/
 IsraeliQueue IsraeliQueueClone(IsraeliQueue q){
-
-    clonedFriendshipFiunctions = COPY_friendshipFunctions(); // Need to write
+    clonedFriendshipFunctions = COPY_friendshipFunctions(); // Need to write
     clonedComparisonFunction = COPY_comparisonFunction();    // Need to write
 
-    IsraeliQueue clonedQueue =  IsraeliQueueCreate(friendshipFunctions,
-                                                   comparisonFunction,
+    IsraeliQueue clonedQueue =  IsraeliQueueCreate(clonedFriendshipFunctions,
+                                                   clonedComparisonFunction,
                                                    q->friendshipThreshold, q->rivalryThreshold);
     CLONE_ALL_NODES(q, clonedQueue); // Need to write
     return clonedQueue;
@@ -50,13 +48,16 @@ IsraeliQueue IsraeliQueueClone(IsraeliQueue q){
  *
  * Makes the IsraeliQueue provided recognize the FriendshipFunction provided.*/
 IsraeliQueueError IsraeliQueueAddFriendshipMeasure(IsraeliQueue q, FriendshipFunction friendships_function){
-    int amountOfFunctions = countFunction(q->friendshipFunctions);
-    FriendshipFunction* newArray = realloc(q->friendshipFunctions, sizeof(FriendshipFunction) * (amountOfFunctions + 1));
+    int functionsCounter = countFunction(q->friendshipFunctions);
+    FriendshipFunction* newArray = realloc(q->friendshipFunctions, sizeof(FriendshipFunction) * (functionsCounter + 1));
     if (newArray == NULL){
         return ISRAELIQUEUE_ALLOC_FAILED;
     }
-    
+    *(newArray + functionsCounter - 2) = friendships_function;
+    *(newArray + functionsCounter - 1) = NULL;
+    return ISRAELIQUEUE_SUCCESS;
 }
+
 /*
  * We'll want to use realloc in order to add 1 function to the array
  * */

@@ -5,10 +5,11 @@
 #include "IsraeliQueue.h"
 #include "Node.h"
 
+
 typedef struct IsraeliQueue_t {
     FriendshipFunction* friendshipFunctions;
     ComparisonFunction comparisonFunction;
-    Node* head; // Node contains: Person* person, Node* previous, Node* next.
+    Node* head; // Node should contain: Person* person, Node* previous, Node* next.
     int friendshipThreshold;
     int rivalryThreshold;
 } IsraeliQueue_t;
@@ -56,8 +57,8 @@ IsraeliQueueError IsraeliQueueAddFriendshipMeasure(IsraeliQueue q, FriendshipFun
     if (newArray == NULL){
         return ISRAELIQUEUE_ALLOC_FAILED;
     }
-    *(newArray + functionsCounter - 2) = friendships_function;
-    *(newArray + functionsCounter - 1) = NULL;
+    *(newArray + functionsCounter - 2) = friendships_function; // Accessing the one before last value in the array
+    *(newArray + functionsCounter - 1) = NULL; // Accessing the last value in the array
     return ISRAELIQUEUE_SUCCESS;
 }
 
@@ -88,4 +89,51 @@ bool IsraeliQueueContains(IsraeliQueue q, void* item){
         current = q->next->head;
     }
     return false;
+}
+
+/**Removes and returns the foremost element of the provided queue. If the parameter
+ * is NULL or a pointer to an empty queue, NULL is returned.*/
+void* IsraeliQueueDequeue(IsraeliQueue q){
+    if (q->head == NULL || q == NULL){
+        return NULL;
+    }
+    void* first = q->head->next;
+    removeFirstNode(q); // This function NEEDS to be declared in "Node.h"
+    return first;
+}
+
+/**@param IsraeliQueue: an IsraeliQueue whose friendship threshold is to be modified
+ * @param friendship_threshold: a new friendship threshold for the IsraeliQueue*/
+IsraeliQueueError IsraeliQueueUpdateFriendshipThreshold(IsraeliQueue q, int n_thresh){
+    if(q == NULL){
+        return ISRAELIQUEUE_BAD_PARAM;
+    }
+    q->friendshipThreshold = n_thresh;
+    return ISRAELIQUEUE_SUCCESS;
+}
+
+/**@param IsraeliQueue: an IsraeliQueue whose rivalry threshold is to be modified
+ * @param friendship_threshold: a new rivalry threshold for the IsraeliQueue*/
+IsraeliQueueError IsraeliQueueUpdateRivalryThreshold(IsraeliQueue q, int n_thresh){
+    if(q == NULL){
+        return ISRAELIQUEUE_BAD_PARAM;
+    }
+    q->rivalryThreshold = n_thresh;
+    return ISRAELIQUEUE_SUCCESS;
+}
+
+/**@param IsraeliQueue: an IsraeliQueue created by IsraeliQueueCreate
+ *
+ * Deallocates all memory allocated by IsraeliQueueCreate for the object pointed to by
+ * the parameter.*/
+void IsraeliQueueDestroy(IsraeliQueue q){ // This function NEEDS to be reviewed!
+    Node* current = q->head;
+    while (current != NULL){
+        Node* next = q->head->next;
+        free(current);
+        current = next;
+    }
+    free(q->friendshipFunctions);
+    free(q->comparisonFunction);
+    free(q);
 }

@@ -123,9 +123,7 @@ bool IsraeliQueueContains(IsraeliQueue q, void* item){
 
 /**Advances each item in the queue to the foremost position accessible to it,
  * from the back of the queue frontwards.*/
-IsraeliQueueError IsraeliQueueImprovePositions(IsraeliQueue q){
-
-}
+IsraeliQueueError IsraeliQueueImprovePositions(IsraeliQueue q);
 
 /**@param q_arr: a NULL-terminated array of IsraeliQueues
  * @param ComparisonFunction: a comparison function for the merged queue
@@ -133,9 +131,7 @@ IsraeliQueueError IsraeliQueueImprovePositions(IsraeliQueue q){
  * Merges all queues in q_arr into a single new queue, with parameters the parameters described
  * in the exercise. Each queue in q_arr enqueues its head in the merged queue, then lets the next
  * one enqueue an item, in the order defined by q_arr. In the event of any error during execution, return NULL.*/
-IsraeliQueue IsraeliQueueMerge(IsraeliQueue* q, ComparisonFunction compare_function){
-
-}
+IsraeliQueue IsraeliQueueMerge(IsraeliQueue* q, ComparisonFunction compare_function);
 
 /**Returns a new queue with the same elements as the parameter. If the parameter is NULL,
  * NULL is returned.*/

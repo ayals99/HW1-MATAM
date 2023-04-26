@@ -150,7 +150,7 @@ bool IsraeliQueueContains(IsraeliQueue q, void* item){
 /**Advances each item in the queue to the foremost position accessible to it,
  * from the back of the queue frontwards.*/
 IsraeliQueueError IsraeliQueueImprovePositions(IsraeliQueue q){
-    
+
 }
 
 /**@param q_arr: a NULL-terminated array of IsraeliQueues

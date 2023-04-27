@@ -5,6 +5,7 @@
 #include "IsraeliQueue.h"
 #include "Node.h"
 
+
 typedef struct IsraeliQueue_t {
     FriendshipFunction* friendshipFunctions;
     ComparisonFunction comparisonFunction;
@@ -31,23 +32,74 @@ IsraeliQueue IsraeliQueueCreate(FriendshipFunction* friendshipFunctions, Compari
     return newQueue;
 }
 
-/**@param IsraeliQueue: an IsraeliQueue in which to insert the item.
- * @param item: an item to enqueue
- *
- * Places the item in the foremost position accessible to it.*/
-IsraeliQueueError IsraeliQueueEnqueue(IsraeliQueue q, void * item){
-
-}
-
-
 int countFunction(FriendshipFunction* array){
     int counter = 0;
     FriendshipFunction* pointer = array;
     while (pointer != NULL){ // It's a given that the function array ends with NULL
         pointer++;
     }
-        return counter;
+    return counter;
 }
+
+enum int Relationship {Friends, Foes, Neutral};
+
+Relationship getFriendship(IsraeliQueue queue,Node* A, Node* B){
+    int numberOfFunctions = countFunction(queue->friendshipFunctions);
+    FriendshipFunction* array = queue->friendshipFunctions
+    double average;
+
+    for (int index = 0; index < numberOfFunctions; index++){
+        int friendshipFunctionResult = queue->friendshipThreshold;
+        if( *(array+index)(A, B) > friendshipFunctionResult){
+            return Friends;
+        }
+        average += friendshipFunctionResult;
+    }
+
+    // We only get here if A and B are not friends according to all functions in the array.
+    average /= numberOfFunctions;
+
+    // An attempt to apply an upper-ceiling function to "average":
+    // We apply a floor function by casting to int and then casting back to double,
+    // then check if "average" got smaller.
+    if ( (double) ( (int) average) < average){
+        average = ((int)average) + 1;
+    }
+
+    if (average < queue->rivalryThreshold){
+        return Foes;
+    }
+
+    else{
+        return Neutral;
+    }
+
+}
+
+/**@param IsraeliQueue: an IsraeliQueue in which to insert the item.
+ * @param item: an item to enqueue
+ *
+ * Places the item in the foremost position accessible to it.*/
+IsraeliQueueError IsraeliQueueEnqueue(IsraeliQueue q, void * item){
+    Node* current = head;
+    Node* friendPlace = NULL;
+
+    while(current != NULL){
+        Relationship status = getFriendship(current, item);
+        if(friendPlace == NULL && status == Friends){
+               friendPlace = current;
+        }
+        if (friendPlace != NULL && status == Foes){
+            current->blocksCount += 1; // Applying a block
+            friendPlace = NULL;
+        }
+        current = current->next;
+    }
+
+    friendPlace->passCount += 1; // This friends let "item" pass
+    insertAfter(item ,friendPlace);
+}
+
 
 /**@param IsraeliQueue: an IsraeliQueue to which the function is to be added
  * @param FriendshipFunction: a FriendshipFunction to be recognized by the IsraeliQueue
@@ -212,13 +264,14 @@ void IsraeliQueueDestroy(IsraeliQueue q){ // This function NEEDS to be reviewed!
     Node* current = q->head;
     while (current != NULL){ // So we don't try and apply free on a NULL pointer
         Node* next = q->head->next;
-        free(current);
+        free(current); // NEED to check in "node.h" that we don't use any other dynamic memory allocations
         current = NULL;
         current = next;
     }
-    free(q->friendshipFunctions);
+
+    //free(q->friendshipFunctions); // According to question @273, we can't free this
     q->friendshipFunctions = NULL;
-    free(q->comparisonFunction);
+    //free(q->comparisonFunction);  // According to question @273, we can't free this
     q->comparisonFunction = NULL;
     free(q);
     q = NULL; // assigning NULL in order to ensure that we don't use this pointer again

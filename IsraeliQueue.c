@@ -96,10 +96,11 @@ IsraeliQueueError IsraeliQueueEnqueue(IsraeliQueue q, void * item){
             current->blocksCount += 1; // Applying a block
             friendPlace = NULL; // The friend can't help "item" pass so he's useless as a friend now.
 
-            //
+            // Search for the last foe, so we know where to put "item" in case he was blocked
             Node* searchForFoes = current;
             while(searchForFoes != NULL && getFriendship(searchForFoes, item) != Friends){
                 if(getFriendship(searchForFoes, item) == Foes)
+                    // NEED to check what happens if the last foe is out of blocks!
                 foePlace = searchForFoes;
                 searchForFoes->next;
             }

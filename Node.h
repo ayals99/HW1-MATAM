@@ -3,10 +3,10 @@
 
 #include "IsraeliQueue.h"
 
-/** Type fore defining the Node */
+/** Type for defining the Node */
 typedef struct Node_t *Node;
 
-/*
+/**
  * nodeCreate: Allocates a new node with a Person struct and a pointer to the
  * previous node and the next one.
  *
@@ -14,14 +14,14 @@ typedef struct Node_t *Node;
  */
 Node nodeCreate();
 
-/*
+/**
  * nodeDestroy: Deallocates an existing node, including its Person.
  * Gets the node and the function: freePerson.
  */
 void nodeDestroy(Node* toDestroy, FreePerson free_person);
 
 
-/*
+/**
  * nodeGetNext: Getter for the next Node.
  * gets the Node.
  *
@@ -29,7 +29,7 @@ void nodeDestroy(Node* toDestroy, FreePerson free_person);
  */
 Node nodeGetNext(Node* node);
 
-/*
+/**
  * nodeGetPrevious: Getter for the previous Node.
  * gets the Node.
  *
@@ -38,17 +38,28 @@ Node nodeGetNext(Node* node);
  */
 Node nodeGetPrevious(Node* node);
 
-/*
+/**
  * addNodeAfter: Puts a new node between the current and next Nodes.
  * gets the current Node and the Node to inject.
+ *
+ * return - BAD_PARAM if any of the parameters are NULL Or SUCCESS otherwise
  */
-void addNodeAfter(Node* currNode, Node* nextNode);
+IsraeliQueueError addNodeAfter(Node* currNode, Node* newNode);
 
-/*
+/**
  * addNodeBefore: Puts a new node between the current and previous Nodes.
  * gets the current Node and the Node to inject.
+ *
+ * return - BAD_PARAM if any of the parameters are NULL Or SUCCESS otherwise
  */
-void addNodeBefore(Node* currNode, Node* preNode);
+IsraeliQueueError addNodeBefore(Node* currNode, Node* preNode);
 
+/**
+ * addPersonToNode: Adds a Person ptr to the selected Node.
+ * gets: a Node ptr and a Person ptr.
+ *
+ * return - BAD_PARAM if any of the parameters are NULL Or SUCCESS otherwise
+ */
+IsraeliQueueError addPersonToNode(Node* node, Person* person);
 
-#endif //NODE_H
+#endif

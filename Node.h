@@ -4,7 +4,7 @@
 #include "IsraeliQueue.h"
 
 /** Type for defining the Node */
-typedef struct Node_t *Node;
+typedef struct Node_t Node;
 
 /**
  * nodeCreate: Allocates a new node with a Person struct and a pointer to the
@@ -12,7 +12,7 @@ typedef struct Node_t *Node;
  *
  * return - the Node if successful or NULL in case of any error.
  */
-Node nodeCreate();
+Node* nodeCreate();
 
 /**
  * nodeDestroy: Deallocates an existing node, including its Person.
@@ -27,7 +27,7 @@ void nodeDestroy(Node* toDestroy, FreePerson free_person);
  *
  * return - a pointer to the next Node, or NULL if the next is NULL;
  */
-Node nodeGetNext(Node* node);
+Node* nodeGetNext(Node* node);
 
 /**
  * nodeGetPrevious: Getter for the previous Node.
@@ -36,7 +36,7 @@ Node nodeGetNext(Node* node);
  * return - a pointer to the previous Node; (Any extreme cast that
  * the return value is anything but a ptr?)
  */
-Node nodeGetPrevious(Node* node);
+Node* nodeGetPrevious(Node* node);
 
 /**
  * addNodeAfter: Puts a new node between the current and next Nodes.
@@ -52,7 +52,7 @@ IsraeliQueueError addNodeAfter(Node* currNode, Node* newNode);
  *
  * return - BAD_PARAM if any of the parameters are NULL Or SUCCESS otherwise
  */
-IsraeliQueueError addNodeBefore(Node* currNode, Node* preNode);
+IsraeliQueueError addNodeBefore(Node* currNode, Node* newNode);
 
 /**
  * addPersonToNode: Adds a Person ptr to the selected Node.
@@ -60,6 +60,6 @@ IsraeliQueueError addNodeBefore(Node* currNode, Node* preNode);
  *
  * return - BAD_PARAM if any of the parameters are NULL Or SUCCESS otherwise
  */
-IsraeliQueueError addPersonToNode(Node* node, Person* person);
+IsraeliQueueError addPersonToNode(Node* node, Person* newPerson);
 
 #endif

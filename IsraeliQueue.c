@@ -55,8 +55,7 @@ Relationship getFriendship(IsraeliQueue queue, Node* existing, Node* toAdd){
         }
         average += friendshipFunctionResult;
     }
-
-    // We only get here if A and B are not friends according to all functions in the array.
+    // We only get here if "existing" and "toAdd" are not friends according to all functions in the array.
     average /= numberOfFunctions;
 
     // An attempt to apply an upper-ceiling function to "average":

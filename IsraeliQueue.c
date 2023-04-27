@@ -43,14 +43,14 @@ int countFunction(FriendshipFunction* array){
 
 enum int Relationship {Friends, Foes, Neutral};
 
-Relationship getFriendship(IsraeliQueue queue,Node* A, Node* B){
+Relationship getFriendship(IsraeliQueue queue, Node* existing, Node* toAdd){
     int numberOfFunctions = countFunction(queue->friendshipFunctions);
     FriendshipFunction* array = queue->friendshipFunctions
     double average;
 
     for (int index = 0; index < numberOfFunctions; index++){
         int friendshipFunctionResult = queue->friendshipThreshold;
-        if( *(array+index)(A, B) > friendshipFunctionResult){
+        if( *(array+index)(existing, toAdd) > friendshipFunctionResult && (existing->passCount <= FRIEND_QUOTA) ){
             return Friends;
         }
         average += friendshipFunctionResult;
@@ -66,14 +66,13 @@ Relationship getFriendship(IsraeliQueue queue,Node* A, Node* B){
         average = ((int)average) + 1;
     }
 
-    if (average < queue->rivalryThreshold){
+    if (average < queue->rivalryThreshold && existing->blockCount <= RIVAL_QUOTA){
         return Foes;
     }
 
     else{
         return Neutral;
     }
-
 }
 
 /**@param IsraeliQueue: an IsraeliQueue in which to insert the item.
@@ -83,21 +82,44 @@ Relationship getFriendship(IsraeliQueue queue,Node* A, Node* B){
 IsraeliQueueError IsraeliQueueEnqueue(IsraeliQueue q, void * item){
     Node* current = head;
     Node* friendPlace = NULL;
+    Node* foePlace = NULL;
 
     while(current != NULL){
         Relationship status = getFriendship(current, item);
+        // Found someone who'll let "item" pass:
         if(friendPlace == NULL && status == Friends){
                friendPlace = current;
+               foePlace = NULL;
         }
+        // Had someone allow "item" to pass, but then found an enemy later:
         if (friendPlace != NULL && status == Foes){
             current->blocksCount += 1; // Applying a block
-            friendPlace = NULL;
+            friendPlace = NULL; // The friend can't help "item" pass so he's useless as a friend now.
+
+            //
+            Node* searchForFoes = current;
+            while(searchForFoes != NULL && getFriendship(searchForFoes, item) != Friends){
+                if(getFriendship(searchForFoes, item) == Foes)
+                foePlace = searchForFoes;
+                searchForFoes->next;
+            }
         }
         current = current->next;
     }
-
-    friendPlace->passCount += 1; // This friends let "item" pass
-    insertAfter(item ,friendPlace);
+    // If "item" has a friend who lets him pass
+    if(friendPlace != NULL) {
+        friendPlace->passCount += 1; // This friends let "item" pass
+        // According to @253, we only add a pass if he actually let him pass
+        // So we don't add a passCount if the pass was blocked
+        insertAfter(item, friendPlace);
+    }
+    // If "item" was blocked it need to go behind the last enemy that's in the segment in which it was blocked.
+    else if(friendPlace == NULL && foePlace != NULL){
+        insertAfter(item, foePlace);
+    }
+    else{
+        insertBefore(item, current); // current points to the last place of the list
+    }
 }
 
 

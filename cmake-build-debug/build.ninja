@@ -63,6 +63,13 @@ build CMakeFiles/ex1___Berko_and_Ayal.dir/main.c.obj: C_COMPILER__ex1___Berko_an
   OBJECT_DIR = CMakeFiles\ex1___Berko_and_Ayal.dir
   OBJECT_FILE_DIR = CMakeFiles\ex1___Berko_and_Ayal.dir
 
+build CMakeFiles/ex1___Berko_and_Ayal.dir/Person.c.obj: C_COMPILER__ex1___Berko_and_Ayal_Debug C$:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/Person.c || cmake_object_order_depends_target_ex1___Berko_and_Ayal
+  DEP_FILE = CMakeFiles\ex1___Berko_and_Ayal.dir\Person.c.obj.d
+  FLAGS = -g -std=gnu11
+  INCLUDES = -IC:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/.
+  OBJECT_DIR = CMakeFiles\ex1___Berko_and_Ayal.dir
+  OBJECT_FILE_DIR = CMakeFiles\ex1___Berko_and_Ayal.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target ex1___Berko_and_Ayal
@@ -71,7 +78,7 @@ build CMakeFiles/ex1___Berko_and_Ayal.dir/main.c.obj: C_COMPILER__ex1___Berko_an
 #############################################
 # Link the executable ex1___Berko_and_Ayal.exe
 
-build ex1___Berko_and_Ayal.exe: C_EXECUTABLE_LINKER__ex1___Berko_and_Ayal_Debug CMakeFiles/ex1___Berko_and_Ayal.dir/Node.c.obj CMakeFiles/ex1___Berko_and_Ayal.dir/main.c.obj
+build ex1___Berko_and_Ayal.exe: C_EXECUTABLE_LINKER__ex1___Berko_and_Ayal_Debug CMakeFiles/ex1___Berko_and_Ayal.dir/Node.c.obj CMakeFiles/ex1___Berko_and_Ayal.dir/main.c.obj CMakeFiles/ex1___Berko_and_Ayal.dir/Person.c.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\ex1___Berko_and_Ayal.dir

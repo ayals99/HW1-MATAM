@@ -2,9 +2,12 @@
 #define NODE_H
 
 #include "IsraeliQueue.h"
+#include "Person.h"
 
 /** Type for defining the Node */
 typedef struct Node_t Node;
+
+typedef void (*FreePerson)(void*);
 
 /**
  * nodeCreate: Allocates a new node with a Person struct and a pointer to the

@@ -23,6 +23,25 @@ Node* nodeCreate();
  */
 void nodeDestroy(Node* toDestroy, FreePerson free_person);
 
+/**
+ * addNodeAfter: Puts a new node between the current and next Nodes.
+ * gets the current Node and the Node to inject.
+ *
+ * return - BAD_PARAM if any of the parameters are NULL Or SUCCESS otherwise
+ */
+IsraeliQueueError addNodeAfter(Node* currNode, Node* newNode);
+
+/**
+ * addNodeBefore: Puts a new node between the current and previous Nodes.
+ * gets the current Node and the Node to inject.
+ *
+ * return - BAD_PARAM if any of the parameters are NULL Or SUCCESS otherwise
+ */
+IsraeliQueueError addNodeBefore(Node* currNode, Node* newNode);
+
+
+
+/** Getter Functions */
 
 /**
  * nodeGetNext: Getter for the next Node.
@@ -41,28 +60,42 @@ Node* nodeGetNext(Node* node);
  */
 Node* nodeGetPrevious(Node* node);
 
-/**
- * addNodeAfter: Puts a new node between the current and next Nodes.
- * gets the current Node and the Node to inject.
- *
- * return - BAD_PARAM if any of the parameters are NULL Or SUCCESS otherwise
- */
-IsraeliQueueError addNodeAfter(Node* currNode, Node* newNode);
 
 /**
- * addNodeBefore: Puts a new node between the current and previous Nodes.
- * gets the current Node and the Node to inject.
+ * nodeGetPerson: Getter for the Person.
+ * gets the Person.
  *
- * return - BAD_PARAM if any of the parameters are NULL Or SUCCESS otherwise
+ * return - a pointer to the person;
  */
-IsraeliQueueError addNodeBefore(Node* currNode, Node* newNode);
+Person* nodeGetPerson(Node* node);
+
+
+
+/** Setter Functions */
 
 /**
- * addPersonToNode: Adds a Person ptr to the selected Node.
+ * nodeSetPerson: Adds a Person ptr to the selected Node.
  * gets: a Node ptr and a Person ptr.
  *
  * return - BAD_PARAM if any of the parameters are NULL Or SUCCESS otherwise
  */
-IsraeliQueueError addPersonToNode(Node* node, Person* newPerson);
+IsraeliQueueError nodeSetPerson(Node* node, Person* newPerson);
+
+/**
+ * nodeSetNext: sets the Next node to the given one in the function.
+ * gets: a Node ptr and a Next ptr.
+ *
+ * return - BAD_PARAM if any of the parameters are NULL Or SUCCESS otherwise
+ */
+IsraeliQueueError nodeSetNext(Node* node, Node* nextToSet)
+
+/**
+ * nodeSetPrevious: sets the Previous node to the given one in the function.
+ * gets: a Node ptr and a Previous ptr.
+ *
+ * return - BAD_PARAM if any of the parameters are NULL Or SUCCESS otherwise
+ */
+IsraeliQueueError nodeSetPrevious(Node* node, Node* preToSet)
+
 
 #endif

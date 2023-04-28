@@ -28,6 +28,12 @@ Person* personCreate();
 void freePerson(Person* toDestroy);
 
 /**
+ * freePersonFields: Frees all the fields under a given struct.
+ * gets a person ptr
+ */
+void freePersonFields(Person* toDestroy);
+
+/**
  * copyPerson: makes a new copy of a Person;
  * gets the Person wished to be copied
  *
@@ -36,10 +42,17 @@ void freePerson(Person* toDestroy);
  */
 Person* copyPerson(Person* toBeCopied);
 
+/**
+ * copyPersonFields: copies the fields from src struct to dest.
+ *
+ * return - returns SUCCESS or FAILURE according to the enum FAILURE chart.
+ */
+IsraeliQueueError copyPersonFields(Person* src, Person* dest);
+
 /** Getter Functions */
 
 //personGetID: returns a ptr to a str that holds the ID of the given person
-int* personGetID(Person* currPerson);
+char* personGetID(Person* currPerson);
 
 //personGetTotalCredits: returns the Total Credits of given person
 int personGetTotalCredits(Person* currPerson);
@@ -63,7 +76,7 @@ char* personGetDepartment(Person* currPerson);
 
 //personSetID: Sets the selected persons ID with the ID provided
 //returns SUCCESS or FAILURE according to the enum FAILURE chart.
-IsraeliQueueError personSetID(Person* currPerson, int* idString);
+IsraeliQueueError personSetID(Person* currPerson, char* idString);
 
 //personSetTotalCredits: Sets the selected persons Total credits with the Total
 // credits provided, returns SUCCESS or FAILURE according to the enum FAILURE chart.
@@ -79,7 +92,7 @@ IsraeliQueueError personSetName(Person* currPerson, char* nameToSet);
 
 //personSetSurName: Sets the selected persons Surname with the string
 //provided, returns SUCCESS or FAILURE according to the enum FAILURE chart.
-IsraeliQueueError personGetSurName(Person* currPerson, char* surNameToSet);
+IsraeliQueueError personSetSurName(Person* currPerson, char* surNameToSet);
 
 //personSetCity: Sets the selected persons City with the string
 //provided, returns SUCCESS or FAILURE according to the enum FAILURE chart.

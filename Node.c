@@ -33,24 +33,6 @@ void nodeDestroy(Node* toDestroy, FreePerson free_person)
     free(toDestroy);
 }
 
-Node* nodeGetNext(Node* node)
-{
-    if(node == NULL)
-    {
-        return NULL;
-    }
-    return node->next;
-}
-
-Node* nodeGetPrevious(Node* node)
-{
-    if(node == NULL)
-    {
-        return NULL;
-    }
-    return node->previous;
-}
-
 IsraeliQueueError addNodeAfter(Node* currNode, Node* newNode)
 {
     if(currNode == NULL || newNode == NULL)
@@ -74,9 +56,44 @@ IsraeliQueueError addNodeBefore(Node* currNode, Node* newNode)
     newNode->previous = currNode->previous;
     currNode->previous = newNode;
     currNode->previous->next = newNode;
+    return ISRAELIQUEUE_SUCCESS;
 }
 
-IsraeliQueueError addPersonToNode(Node* node, Person* newPerson)
+
+
+/** Getter Functions Implementation */
+
+Node* nodeGetNext(Node* node)
+{
+    if(node == NULL)
+    {
+        return NULL;
+    }
+    return node->next;
+}
+
+Node* nodeGetPrevious(Node* node)
+{
+    if(node == NULL)
+    {
+        return NULL;
+    }
+    return node->previous;
+}
+
+Person* nodeGetPerson(Node* node)
+{
+    if(node == NULL)
+    {
+        return NULL;
+    }
+    return node->person;
+}
+
+
+/** Setter Functions Implementation */
+
+IsraeliQueueError nodeSetPerson(Node* node, Person* newPerson)
 {
     if(node == NULL || newPerson == NULL)
     {
@@ -86,3 +103,22 @@ IsraeliQueueError addPersonToNode(Node* node, Person* newPerson)
     return ISRAELIQUEUE_SUCCESS;
 }
 
+IsraeliQueueError nodeSetNext(Node* node, Node* nextToSet)
+{
+    if(node == NULL)
+    {
+        return ISRAELIQUEUE_BAD_PARAM;
+    }
+    node->next = nextToSet;
+    return ISRAELIQUEUE_SUCCESS;
+}
+
+IsraeliQueueError nodeSetPrevious(Node* node, Node* preToSet)
+{
+    if(node == NULL)
+    {
+        return ISRAELIQUEUE_BAD_PARAM;
+    }
+    node->next = preToSet;
+    return ISRAELIQUEUE_SUCCESS;
+}

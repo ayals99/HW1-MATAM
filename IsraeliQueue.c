@@ -113,26 +113,28 @@ Node* searchForMoreFoes(Node* current, void* item){
     return lastFoe;
 }
 
-
-Node* findPlacementAndOrder(IsraeliQueue queue, void* item, void* insertOrder){
-    Node* current = head;
-    Node* friendPlace = NULL;
-    Node* foePlace = NULL;
-    while(current != NULL){
-        Relationship status = getFriendship(current->data, item);
+void findBetterPlacement(Node** current, Node** toInsert, Node** friendPlace, Node** foePlace){
+    while(pointer != NULL && pointer != *toInsert){
+        Relationship status = getFriendship((*current)->data, (*toInsert)->data);
         if (foundFriend(friendsPlace, status)){ // Found someone who'll let "item" pass:
-            friendPlace = current;
-            foePlace = NULL;
+            *friendPlace = *current;
+            *foePlace = NULL;
         }
         if (foundFoe(friendsPlace, status)){ // Had someone allow "item" to pass, but then found an enemy later:
-            current->blocksCount += 1; // Applying a block
-            friendPlace = NULL; // The friend can't help "item" pass, so he's useless as a friend now.
+            (*current)->blocksCount += 1; // Applying a block
+            *friendPlace = NULL; // The friend can't help "item" pass, so he's useless as a friend now.
             // Search for the last foe, so we know to put "item" behind all enemies
-            foePlace = searchForMoreFoes(current, item);
+            *foePlace = searchForMoreFoes(*current, (*toInsert)->data);
         }
-        current = current->next;
+        *current = (*current)->next;
     }
+}
 
+Node* findPlacementAndOrder(IsraeliQueue queue, Node** toInsert, void* insertOrder){
+    Node* current = queue->head;
+    Node* friendPlace = NULL;
+    Node* foePlace = NULL;
+    findBetterPlacement(&current, &friendPlace, &foePlace, toInsert)
     if(friendPlace != NULL) {
         friendPlace->passCount += 1; // This friends let "item" pass
         // According to @253, we only add a pass if he actually let him pass
@@ -140,14 +142,14 @@ Node* findPlacementAndOrder(IsraeliQueue queue, void* item, void* insertOrder){
         insertOrder = &insertAfter;
         return friendPlace;
     }
-        // If "item" was blocked it need to go behind the last enemy that's in the segment in which it was blocked.
+    // If "item" was blocked it need to go behind the last enemy that's in the segment in which it was blocked.
     else if(friendPlace == NULL && foePlace != NULL){
         insertOrder = &insertAfter;
         return foePlace;
     }
     else{
         insertOrder = &insertBefore;
-        return current;
+        return *current;
     }
 }
 
@@ -164,7 +166,7 @@ IsraeliQueueError IsraeliQueueEnqueue(IsraeliQueue queue, void * item){
     Node* foePlace = NULL;
 
     void* insertOrder = NULL; // Will point to functions "insertBefore" or "insertAfter" which are in "Node.h"
-    Node* newPlace = findPlacementAndOrder(queue, item, insertOrder);
+    Node* newPlace = findPlacementAndOrder(queue, &toInsert, insertOrder);
     insertOrder(toInsert, newPlace);
     return ISRAELIQUEUE_SUCCESS;
 }
@@ -251,17 +253,17 @@ void* IsraeliQueueDequeue(IsraeliQueue q){
  * Returns whether the queue contains an element equal to item. If either
  * parameter is NULL, false is returned.*/
 bool IsraeliQueueContains(IsraeliQueue queue, void* item){
-    if(queue== NULL || queue->head == NULL || item == NULL){
+    if(queue== NULL || queue->head == NULL){
         return false;
     }
     Node* current = queue->head;
     ComparisonFunction compare = queue->comparisonFunction;
     while (current != NULL){
-        if (compare(current, item)) {   // question @149 on piazza states that
-                                        // compare will return 1 if identical and 0 if different
+        if (compare(current->data, item)) {   // question @149 on piazza states that
+            // compare will return 1 if identical and 0 if different
             return true;
         }
-        current = queue->next->head;
+        current = current->next;
     }
     return false;
 }
@@ -278,8 +280,13 @@ bool hasFriend(IsraeliQueue queue, Node* currentNodeToMove){
     Node* pointer = queue->head;
     while (pointer != currentNodeToMove){
         if (getFriendship(pointer, currentNodeToMove) == Friends){
-
-            return true;
+            Node* friendPlace = NULL;
+            Node* foePlace = NULL;
+            Node* head = (queue->head);
+            findBetterPlacement( &head, &friendPlace, &foePlace, &currentNodeToMove)
+            if (friendPlace != NULL){
+                return true;
+            }
         }
         pointer++;
     }

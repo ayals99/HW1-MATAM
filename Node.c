@@ -46,8 +46,9 @@ IsraeliQueueError addNodeAfter(Node* currNode, Node* newNode)
     }
     newNode->previous = currNode;
     newNode->next = currNode->next;
-    currNode->next = newNode;
     currNode->next->previous = newNode;
+    currNode->next = newNode;
+
     return ISRAELIQUEUE_SUCCESS;
 }
 
@@ -59,8 +60,8 @@ IsraeliQueueError addNodeBefore(Node* currNode, Node* newNode)
     }
     newNode->next = currNode;
     newNode->previous = currNode->previous;
-    currNode->previous = newNode;
     currNode->previous->next = newNode;
+    currNode->previous = newNode;
     return ISRAELIQUEUE_SUCCESS;
 }
 
@@ -165,6 +166,6 @@ IsraeliQueueError nodeSetPrevious(Node* node, Node* preToSet)
     {
         return ISRAELIQUEUE_BAD_PARAM;
     }
-    node->next = preToSet;
+    node->previous = preToSet;
     return ISRAELIQUEUE_SUCCESS;
 }

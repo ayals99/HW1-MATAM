@@ -420,7 +420,7 @@ IsraeliQueue IsraeliQueueClone(IsraeliQueue queue){
     IsraeliQueue clonedQueue =  IsraeliQueueCreate(clonedFriendshipFunctions,
                                                    *clonedComparisonFunction,
                                                    q->friendshipThreshold, q->rivalryThreshold);
-    cloneAllNodes(q, clonedQueue); // Need to write
+    cloneAllNodes(q, clonedQueue);
     return clonedQueue;
 }
 
@@ -439,9 +439,12 @@ void IsraeliQueueDestroy(IsraeliQueue q){ // This function NEEDS to be reviewed!
         current = NULL;
         current = next;
     }
-    free(q->friendshipFunctions); // According to question @273, we can't free this, but we used malloc to copy it.
+    free(q->friendshipFunctions);
+    // (According to question @273 we can't assume that "friendshipFunctions" was malloced,
+    // therefore we used malloc to copy it and to clone it and then we always need to free() it.
     q->friendshipFunctions = NULL;
     free(q->comparisonFunction);
+    // We free() "comparisonFunction" because if we want to clone it we have to malloc and therefore we always malloc it
     q->comparisonFunction = NULL;
     free(q);
     q = NULL; // assigning NULL in order to ensure that we don't use this pointer again

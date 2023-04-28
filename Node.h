@@ -7,21 +7,23 @@
 /** Type for defining the Node */
 typedef struct Node_t Node;
 
-typedef void (*FreePerson)(void*);
 
 /**
- * nodeCreate: Allocates a new node with a Person struct and a pointer to the
- * previous node and the next one.
+ * nodeCreate: Allocates a new node with an Item pointer and a pointer to the
+ * previous node and the next node, including friends that passed and foes that
+ * got blocked.
+ *
+ * gets - Item
  *
  * return - the Node if successful or NULL in case of any error.
  */
-Node* nodeCreate();
+Node* nodeCreate(void*);
 
 /**
- * nodeDestroy: Deallocates an existing node, including its Person.
- * Gets the node and the function: freePerson.
+ * nodeDestroy: Deallocates an existing node.
+ * Gets the node we wish to destroy.
  */
-void nodeDestroy(Node* toDestroy, FreePerson free_person);
+void nodeDestroy(Node*);
 
 /**
  * addNodeAfter: Puts a new node between the current and next Nodes.
@@ -29,7 +31,7 @@ void nodeDestroy(Node* toDestroy, FreePerson free_person);
  *
  * return - BAD_PARAM if any of the parameters are NULL Or SUCCESS otherwise
  */
-IsraeliQueueError addNodeAfter(Node* currNode, Node* newNode);
+IsraeliQueueError addNodeAfter(Node*, Node*);
 
 /**
  * addNodeBefore: Puts a new node between the current and previous Nodes.
@@ -37,7 +39,7 @@ IsraeliQueueError addNodeAfter(Node* currNode, Node* newNode);
  *
  * return - BAD_PARAM if any of the parameters are NULL Or SUCCESS otherwise
  */
-IsraeliQueueError addNodeBefore(Node* currNode, Node* newNode);
+IsraeliQueueError addNodeBefore(Node*, Node*);
 
 
 
@@ -49,7 +51,7 @@ IsraeliQueueError addNodeBefore(Node* currNode, Node* newNode);
  *
  * return - a pointer to the next Node, or NULL if the next is NULL;
  */
-Node* nodeGetNext(Node* node);
+Node* nodeGetNext(Node*);
 
 /**
  * nodeGetPrevious: Getter for the previous Node.
@@ -58,28 +60,27 @@ Node* nodeGetNext(Node* node);
  * return - a pointer to the previous Node; (Any extreme cast that
  * the return value is anything but a ptr?)
  */
-Node* nodeGetPrevious(Node* node);
-
+Node* nodeGetPrevious(Node*);
 
 /**
- * nodeGetPerson: Getter for the Person.
- * gets the Person.
+ * nodeGetItem: Getter for the Item.
+ * gets the node.
  *
- * return - a pointer to the person;
+ * return - a pointer to the Item;
  */
-Person* nodeGetPerson(Node* node);
+void* nodeGetItem(Node*);
 
 
 
 /** Setter Functions */
 
 /**
- * nodeSetPerson: Adds a Person ptr to the selected Node.
- * gets: a Node ptr and a Person ptr.
+ * nodeSetItem: Adds an Item ptr to the selected Node.
+ * gets: a Node ptr and an Item ptr.
  *
  * return - BAD_PARAM if any of the parameters are NULL Or SUCCESS otherwise
  */
-IsraeliQueueError nodeSetPerson(Node* node, Person* newPerson);
+IsraeliQueueError nodeSetItem(Node*, Person*);
 
 /**
  * nodeSetNext: sets the Next node to the given one in the function.
@@ -87,7 +88,7 @@ IsraeliQueueError nodeSetPerson(Node* node, Person* newPerson);
  *
  * return - BAD_PARAM if any of the parameters are NULL Or SUCCESS otherwise
  */
-IsraeliQueueError nodeSetNext(Node* node, Node* nextToSet)
+IsraeliQueueError nodeSetNext(Node*, Node*)
 
 /**
  * nodeSetPrevious: sets the Previous node to the given one in the function.
@@ -95,7 +96,7 @@ IsraeliQueueError nodeSetNext(Node* node, Node* nextToSet)
  *
  * return - BAD_PARAM if any of the parameters are NULL Or SUCCESS otherwise
  */
-IsraeliQueueError nodeSetPrevious(Node* node, Node* preToSet)
+IsraeliQueueError nodeSetPrevious(Node*, Node*)
 
 
 #endif

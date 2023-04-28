@@ -1,19 +1,20 @@
 #include <stdlib.h>
 
 #include "Node.h"
-#include "Person.h"
 
 /** Struct declaration */
 
 struct Node_t{
-    Person* person;
+    void* Item;
+    int passCount;
+    int blockCount;
     Node* next;
     Node* previous;
 };
 
 /**Function Implementations */
 
-Node* nodeCreate()
+Node* nodeCreate(void* item)
 {
     Node* newNode = malloc(sizeof(newNode));
     if(!newNode)

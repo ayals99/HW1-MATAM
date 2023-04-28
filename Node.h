@@ -80,7 +80,7 @@ void* nodeGetItem(Node*);
  *
  * return - BAD_PARAM if any of the parameters are NULL Or SUCCESS otherwise
  */
-IsraeliQueueError nodeSetItem(Node*, Person*);
+IsraeliQueueError nodeSetItem(Node*, void*);
 
 /**
  * nodeSetNext: sets the Next node to the given one in the function.

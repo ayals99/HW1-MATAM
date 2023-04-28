@@ -12,7 +12,7 @@ struct Node_t{
     Node* previous;
 };
 
-/**Function Implementations */
+/** Function Implementations */
 
 Node* nodeCreate(void* item)
 {
@@ -84,8 +84,6 @@ IsraeliQueueError addBlockCount(Node* node)
     node->blockCount += 1;
     return ISRAELIQUEUE_SUCCESS;
 }
-
-
 
 
 /** Getter Functions Implementation */

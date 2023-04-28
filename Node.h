@@ -56,6 +56,7 @@ IsraeliQueueError addPassCount(Node*);
  */
 IsraeliQueueError addBlockCount(Node*);
 
+
 /** Getter Functions */
 
 /**
@@ -127,6 +128,7 @@ IsraeliQueueError nodeSetNext(Node*, Node*);
  * return - BAD_PARAM if any of the parameters are NULL Or SUCCESS otherwise
  */
 IsraeliQueueError nodeSetPrevious(Node*, Node*);
+
 
 
 #endif

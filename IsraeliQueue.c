@@ -130,44 +130,22 @@ void findBetterPlacement(Node** current, Node** toInsert, Node** friendPlace, No
     }
 }
 
-Node* findPlacementAndOrder(IsraeliQueue queue, Node** toInsert, void* insertOrder){
-    Node* current = queue->head;
-    Node* friendPlace = NULL;
-    Node* foePlace = NULL;
-    findBetterPlacement(&current, &friendPlace, &foePlace, toInsert)
-    if(friendPlace != NULL) {
-        friendPlace->passCount += 1; // This friends let "item" pass
-        // According to @253, we only add a pass if he actually let him pass
-        // So we don't add a passCount if the pass was blocked
-        insertOrder = &insertAfter;
-        return friendPlace;
-    }
-    // If "item" was blocked it need to go behind the last enemy that's in the segment in which it was blocked.
-    else if(friendPlace == NULL && foePlace != NULL){
-        insertOrder = &insertAfter;
-        return foePlace;
-    }
-    else{
-        insertOrder = &insertBefore;
-        return *current;
-    }
-}
-
 /**@param IsraeliQueue: an IsraeliQueue in which to insert the item.
  * @param item: an item to enqueue
  *
  * Places the item in the foremost position accessible to it.*/
 IsraeliQueueError IsraeliQueueEnqueue(IsraeliQueue queue, void * item){
     Node* toInsert = &(nodeCreate());
+    if (*toInsert == NULL){
+        return ISRAELIQUEUE_ALLOC_FAILED;
+    }
     toInsert->person = item;
 
-    Node* current = head;
+    Node* current = queue->head;
     Node* friendPlace = NULL;
     Node* foePlace = NULL;
-
-    void* insertOrder = NULL; // Will point to functions "insertBefore" or "insertAfter" which are in "Node.h"
-    Node* newPlace = findPlacementAndOrder(queue, &toInsert, insertOrder);
-    insertOrder(toInsert, newPlace);
+    Node* newPlace = findBetterPlacement(&current, &toInsert, &friendPlace, &foePlace);
+    executeMove(friendPlace, foePlace, current, currentNodeToMove);
     return ISRAELIQUEUE_SUCCESS;
 }
 
@@ -276,21 +254,45 @@ Node* findLastElement(IsraeliQueue queue){
     return last;
 }
 
-bool hasFriend(IsraeliQueue queue, Node* currentNodeToMove){
-    Node* pointer = queue->head;
-    while (pointer != currentNodeToMove){
-        if (getFriendship(pointer, currentNodeToMove) == Friends){
-            Node* friendPlace = NULL;
-            Node* foePlace = NULL;
-            Node* head = (queue->head);
-            findBetterPlacement( &head, &friendPlace, &foePlace, &currentNodeToMove)
-            if (friendPlace != NULL){
-                return true;
-            }
-        }
-        pointer++;
+bool hasFriend(Node* friendPlace){
+    if (friendPlace != NULL){
+        return true;
     }
-    return false;
+    else {
+        return false;
+    }
+}
+
+bool canMoveForwards(Node* friendPlace, Node* foePlace){
+    return (hasFriend(friendPlace) || foePlace != NULL);
+}
+
+void executeMove(Node* friendPlace, Node* foePlace, Node* end, Node* currentNodeToMove){
+    if(hasFriend(friendPlace)) {
+        friendPlace->passCount += 1; // This friends let "item" pass
+        // According to @253, we only add a pass if he actually let him pass
+        // So we don't add a passCount if the pass was blocked
+        insertAfter(currentNodeToMove, friendPlace);
+    }
+        // If "item" was blocked it need to go behind the last enemy that's in the segment in which it was blocked.
+    else if(friendPlace == NULL && foePlace != NULL){
+        insertAfter(currentNodeToMove, foePlace);
+    }
+    else{
+        insertBefore(currentNodeToMove, end);
+    }
+}
+
+bool MovedForwards(IsraeliQueue queue, Node* currentNodeToMove){
+    bool canAdvance = false;
+    Node* friendPlace = NULL, foePlace = NULL, current = (queue->head);
+    Node* placement = findBetterPlacement( &current, &friendPlace, &foePlace, &currentNodeToMove);
+    if ( canMoveForwards(friendsPlace, foePlace) ) {
+        canAdvance = true;
+        removeNodeFromQueue(currentNodeToMove); // removes "previous" and "next"
+        executeMove(friendPlace, foePlace, current, currentNodeToMove);
+    }
+    return canAdvance;
 }
 
 /**Advances each item in the queue to the foremost position accessible to it,
@@ -299,33 +301,17 @@ IsraeliQueueError IsraeliQueueImprovePositions(IsraeliQueue queue){
     bool canImprove = true;
     while(canImprove){
         Node * currentHead = queue->head;
-        Node * last = findLastElement(queue);
-        Node * currentNodeToMove = last;
-
+        Node * currentNodeToMove = findLastElement(queue);
         bool noOneCanMove = true;
         while (currentNodeToMove != currentHead) { // NEED to take care of first node!
-            if ( hasFriend(currentNodeToMove) ) {
-                noOneCanMove = false;
-                Node * previous = currentNodeToMove->previous;
-                Node * tempNode = cloneNode(currentNodeToMove); // Should be in "Node.h"
-                removeNode(currentNodeToMove);
-                void * insertOrder = NULL;
-                Node * placement = findPlacementAndOrder(queue, insertOrder);
-
-                insertOrder(currentNodeToMove, placment);
-                free(tempNode);
-            }
-            currentNodeToMove = previous;
+            noOneCanMove = !MovedForwards(queue, currentNodeToMove);
+            currentNodeToMove = currentNodeToMove->previous;
         }
+        noOneCanMove = !MovedForwards(queue, currentNodeToMove); //"currentNodeToMove" points to "currentHead"
         if(noOneCanMove){
             canImprove = false;
         }
     }
-
-
-    Node* previous = last->previous;
-    removeElementFromQueue(last);
-
 }
 
 int countQueues(IsraeliQueue* queueArray){

@@ -5,11 +5,11 @@
 /** Struct declaration */
 
 struct Node_t{
-    void* Item;
-    int passCount;
-    int blockCount;
-    Node* next;
-    Node* previous;
+    void* Item = NULL;
+    int passCount = 0;
+    int blockCount = 0;
+    Node* next = NULL;
+    Node* previous = NULL;
 };
 
 /**Function Implementations */
@@ -21,16 +21,16 @@ Node* nodeCreate(void* item)
     {
         return NULL;
     }
+    newNode->Item = item;
     return newNode;
 }
 
-void nodeDestroy(Node* toDestroy, FreePerson free_person)
+void nodeDestroy(Node* toDestroy)
 {
     if(toDestroy == NULL)
     {
         return;
     }
-    free_person(toDestroy->person);
     free(toDestroy);
 }
 
@@ -60,6 +60,27 @@ IsraeliQueueError addNodeBefore(Node* currNode, Node* newNode)
     return ISRAELIQUEUE_SUCCESS;
 }
 
+IsraeliQueueError addPassCount(Node* node)
+{
+    if(node == NULL)
+    {
+        return ISRAELIQUEUE_BAD_PARAM;
+    }
+    node->passCount += 1;
+    return ISRAELIQUEUE_SUCCESS;
+}
+
+IsraeliQueueError addBlockCount(Node* node)
+{
+    if(node == NULL)
+    {
+        return ISRAELIQUEUE_BAD_PARAM;
+    }
+    node->blockCountCount += 1;
+    return ISRAELIQUEUE_SUCCESS;
+}
+
+
 
 
 /** Getter Functions Implementation */
@@ -82,25 +103,45 @@ Node* nodeGetPrevious(Node* node)
     return node->previous;
 }
 
-Person* nodeGetPerson(Node* node)
+void* nodeGetItem(Node* node)
 {
     if(node == NULL)
     {
         return NULL;
     }
-    return node->person;
+    return node->Item;
+}
+
+int nodeGetPassCount(Node* node)
+{
+    if(node == NULL)
+    {
+        //We need to establish an ERROR return message.
+        return -1;
+    }
+    return node->passCount;
+}
+
+int nodeGetBlockCount(Node* node)
+{
+    if(node == NULL)
+    {
+        //We need to establish an ERROR return message.
+        return -1;
+    }
+    return node->blockCount;
 }
 
 
 /** Setter Functions Implementation */
 
-IsraeliQueueError nodeSetPerson(Node* node, Person* newPerson)
+IsraeliQueueError nodeSetItem(Node* node, void* itemToSet)
 {
-    if(node == NULL || newPerson == NULL)
+    if(node == NULL || itemToSet == NULL)
     {
         return ISRAELIQUEUE_BAD_PARAM;
     }
-    node->person = newPerson;
+    node->Item = itemToSet;
     return ISRAELIQUEUE_SUCCESS;
 }
 

@@ -2,7 +2,6 @@
 #define NODE_H
 
 #include "IsraeliQueue.h"
-#include "Person.h"
 
 /** Type for defining the Node */
 typedef struct Node_t Node;
@@ -41,7 +40,21 @@ IsraeliQueueError addNodeAfter(Node*, Node*);
  */
 IsraeliQueueError addNodeBefore(Node*, Node*);
 
+/**
+ * addPassCount: add +1 to the passCount of the given node.
+ * gets a node.
+ *
+ * @return - BAD_PARAM if the node is NULL or SUCCESS otherwise.
+ */
+IsraeliQueueError addPassCount(Node*);
 
+/**
+ * addBlockCount: add +1 to the blockCount of the given node.
+ * gets a node.
+ *
+ * @return - BAD_PARAM if the node is NULL or SUCCESS otherwise.
+ */
+IsraeliQueueError addBlockCount(Node*);
 
 /** Getter Functions */
 
@@ -70,6 +83,21 @@ Node* nodeGetPrevious(Node*);
  */
 void* nodeGetItem(Node*);
 
+/**
+ * nodeGetPassCount: Getter for the passCount.
+ * gets the node.
+ *
+ * return - The passCount, NEEDS TO ESTABLISH AND ERROR MESSAGE
+ */
+int nodeGetPassCount(Node*);
+
+/**
+ * nodeGetBlockCount: Getter for the blockCount.
+ * gets the node.
+ *
+ * return - The blockCount, NEEDS TO ESTABLISH AND ERROR MESSAGE
+ */
+int nodeGetBlockCount(Node*);
 
 
 /** Setter Functions */
@@ -84,19 +112,21 @@ IsraeliQueueError nodeSetItem(Node*, void*);
 
 /**
  * nodeSetNext: sets the Next node to the given one in the function.
- * gets: a Node ptr and a Next ptr.
+ * @param Node*, a ptr to the current node.
+ * @param Node* a ptr to the node we with to set next.
  *
  * return - BAD_PARAM if any of the parameters are NULL Or SUCCESS otherwise
  */
-IsraeliQueueError nodeSetNext(Node*, Node*)
+IsraeliQueueError nodeSetNext(Node*, Node*);
 
 /**
  * nodeSetPrevious: sets the Previous node to the given one in the function.
- * gets: a Node ptr and a Previous ptr.
+ * @param Node*, a ptr to the current node.
+ * @param Node* a ptr to the node we with to set previous.
  *
  * return - BAD_PARAM if any of the parameters are NULL Or SUCCESS otherwise
  */
-IsraeliQueueError nodeSetPrevious(Node*, Node*)
+IsraeliQueueError nodeSetPrevious(Node*, Node*);
 
 
 #endif

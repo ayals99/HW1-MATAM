@@ -113,6 +113,7 @@ Node* searchForMoreFoes(Node* current, void* item){
     return lastFoe;
 }
 
+
 Node* findPlacementAndOrder(IsraeliQueue queue, void* item, void* insertOrder){
     Node* current = head;
     Node* friendPlace = NULL;

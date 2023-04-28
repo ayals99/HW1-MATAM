@@ -1,9 +1,6 @@
 cmake_minimum_required(VERSION 3.23)
 project(ex1___Berko_and_Ayal C)
 
-set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD 99)
 
-include_directories(.)
-
-add_executable(ex1___Berko_and_Ayal
-        IsraeliQueue.h Node.c Node.h main.c main.c)
+add_executable(ex1___Berko_and_Ayal main.c Node.h Node.c Person.c Person.h)

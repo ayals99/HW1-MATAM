@@ -5,23 +5,27 @@
 /** Struct declaration */
 
 struct Node_t{
-    void* Item = NULL;
-    int passCount = 0;
-    int blockCount = 0;
-    Node* next = NULL;
-    Node* previous = NULL;
+    void* Item;
+    int passCount;
+    int blockCount;
+    Node* next;
+    Node* previous;
 };
 
 /**Function Implementations */
 
 Node* nodeCreate(void* item)
 {
-    Node* newNode = malloc(sizeof(newNode));
+    Node* newNode = malloc(sizeof(*newNode));
     if(!newNode)
     {
         return NULL;
     }
     newNode->Item = item;
+    newNode->next = NULL;
+    newNode->previous = NULL;
+    newNode->passCount = 0;
+    newNode->blockCount = 0;
     return newNode;
 }
 
@@ -76,7 +80,7 @@ IsraeliQueueError addBlockCount(Node* node)
     {
         return ISRAELIQUEUE_BAD_PARAM;
     }
-    node->blockCountCount += 1;
+    node->blockCount += 1;
     return ISRAELIQUEUE_SUCCESS;
 }
 

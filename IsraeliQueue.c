@@ -169,9 +169,38 @@ IsraeliQueueError IsraeliQueueEnqueue(IsraeliQueue queue, void* item){
 }
 */
 
-Node* findFriend(Node* current, Node* nodeToAdd)
+Node* findFriend(IsraeliQueue queue, Node* current, Node* nodeToAdd)
 {
+    if(current == NULL)
+    {
+        return NULL;
+    }
+    Relationship relationshipStatus = getRelationship(queue, current, nodeToAdd);;
+    while(relationshipStatus != FRIENDS && current != NULL)
+    {
+        current = nodeGetNext(current);
+        relationshipStatus = getRelationship(queue, current, nodeToAdd);
+    }
+    if(current == NULL)
+    {
+        return NULL;
+    }
+    return current;
+}
 
+Node* findFoe(IsraeliQueue queue, Node* current, Node* nodeToAdd)
+{
+    Relationship relationshipStatus = getRelationship(queue, current, nodeToAdd);;
+    while(relationshipStatus != FOES && current != NULL)
+    {
+        current = nodeGetNext(current);
+        relationshipStatus = getRelationship(queue, current, nodeToAdd);
+    }
+    if(current == NULL)
+    {
+        return NULL;
+    }
+    return current;
 }
 
 /**@param IsraeliQueue: an IsraeliQueue in which to insert the item.
@@ -180,16 +209,24 @@ Node* findFriend(Node* current, Node* nodeToAdd)
  * Places the item in the foremost position accessible to it.*/
 IsraeliQueueError IsraeliQueueEnqueue(IsraeliQueue queue, void* item)
 {
+    if(queue == NULL || item == NULL)
+    {
+        return ISRAELIQUEUE_BAD_PARAM;
+    }
     Node* nodeToAdd = nodeCreate(item);
     if(nodeToAdd == NULL)
     {
         return ISRAELIQUEUE_ALLOC_FAILED;
     }
-    Node* potentialFriend = findFriend(queue->head, nodeToAdd);
-    Node* potentialFoe;
+    if(queue->friendshipFunctions == NULL)
+    {
+        return addNodeAfter(getLastElement(queue), nodeToAdd);
+    }
+    Node* potentialFriend = findFriend(queue, queue->head, nodeToAdd);
+    Node* potentialFoe = NULL;
     while(potentialFriend != NULL)
     {
-        potentialFoe = findFoe(potentialFriend, nodeToAdd);
+        potentialFoe = findFoe(queue, potentialFriend, nodeToAdd);
         if(potentialFoe == NULL)
         {
             if(addNodeAfter(potentialFriend, nodeToAdd) == ISRAELIQUEUE_SUCCESS)
@@ -200,7 +237,7 @@ IsraeliQueueError IsraeliQueueEnqueue(IsraeliQueue queue, void* item)
             return ISRAELIQUEUE_BAD_PARAM;
         }
         addBlockCount(potentialFoe);
-        potentialFriend = findFriend(nodeGetNext(potentialFoe), nodeToAdd);
+        potentialFriend = findFriend(queue, nodeGetNext(potentialFoe), nodeToAdd);
     }
     if(potentialFoe != NULL)
     {
@@ -210,11 +247,7 @@ IsraeliQueueError IsraeliQueueEnqueue(IsraeliQueue queue, void* item)
         }
         return ISRAELIQUEUE_BAD_PARAM;
     }
-    if(addNodeAfter(getLastElement(queue), nodeToAdd) == ISRAELIQUEUE_SUCCESS)
-    {
-        return ISRAELIQUEUE_SUCCESS;
-    }
-    return ISRAELIQUEUE_BAD_PARAM;
+    return addNodeAfter(getLastElement(queue), nodeToAdd);
 }
 
 
@@ -317,6 +350,10 @@ Node* getLastElement(IsraeliQueue queue){
     if(queue == NULL)
     {
         return NULL;
+    }
+    if(queue->head == NULL)
+    {
+        return queue->head;
     }
     Node* current;
     for(current = queue->head; nodeGetNext(current) != NULL; current = nodeGetNext(current));

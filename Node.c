@@ -40,15 +40,19 @@ void nodeDestroy(Node* toDestroy)
 
 IsraeliQueueError addNodeAfter(Node* currNode, Node* newNode)
 {
-    if(currNode == NULL || newNode == NULL)
+    if(newNode == NULL)
     {
         return ISRAELIQUEUE_BAD_PARAM;
+    }
+    if(currNode == NULL)
+    {
+        currNode = newNode;
+        return ISRAELIQUEUE_SUCCESS;
     }
     newNode->previous = currNode;
     newNode->next = currNode->next;
     currNode->next->previous = newNode;
     currNode->next = newNode;
-
     return ISRAELIQUEUE_SUCCESS;
 }
 

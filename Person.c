@@ -65,7 +65,7 @@ Person* copyPerson(Person* toBeCopied)
         return NULL;
     }
     Person* newPerson = personCreate();
-    if(copyPersonFields(toBeCopied, newPerson) == ISRAELIQUEUE_SUCCESS)
+    if(copyPersonFields(toBeCopied, newPerson) == ISRAELIQUEUE_SUCCESS) // Maybe we should use new success enums?
     {
         return newPerson;
     }

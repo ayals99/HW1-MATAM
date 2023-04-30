@@ -2,6 +2,8 @@
 
 #include "Node.h"
 
+#define INITIALIZATION 0;
+
 /** Struct declaration */
 
 struct Node_t{
@@ -24,8 +26,8 @@ Node* nodeCreate(void* item)
     newNode->Item = item;
     newNode->next = NULL;
     newNode->previous = NULL;
-    newNode->passCount = 0;
-    newNode->blockCount = 0;
+    newNode->passCount = INITIALIZATION;
+    newNode->blockCount = INITIALIZATION;
     return newNode;
 }
 
@@ -41,14 +43,9 @@ void nodeDestroy(Node* toDestroy)
 
 IsraeliQueueError addNodeAfter(Node* currNode, Node* newNode)
 {
-    if(newNode == NULL)
+    if(newNode == NULL || currNode == NULL)
     {
         return ISRAELIQUEUE_BAD_PARAM;
-    }
-    if(currNode == NULL)
-    {
-        currNode = newNode;
-        return ISRAELIQUEUE_SUCCESS;
     }
     newNode->previous = currNode;
     newNode->next = currNode->next;
@@ -59,7 +56,7 @@ IsraeliQueueError addNodeAfter(Node* currNode, Node* newNode)
 
 IsraeliQueueError addNodeBefore(Node* currNode, Node* newNode)
 {
-    if(currNode == NULL || newNode == NULL)
+    if(newNode == NULL || currNode == NULL)
     {
         return ISRAELIQUEUE_BAD_PARAM;
     }
@@ -87,6 +84,17 @@ IsraeliQueueError addBlockCount(Node* node)
         return ISRAELIQUEUE_BAD_PARAM;
     }
     node->blockCount += 1;
+    return ISRAELIQUEUE_SUCCESS;
+}
+
+IsraeliQueueError resetCount(Node* node)
+{
+    if(node == NULL)
+    {
+        return ISRAELIQUEUE_BAD_PARAM;
+    }
+    node->blockCount = INITIALIZATION;
+    node->passCount = INITIALIZATION;
     return ISRAELIQUEUE_SUCCESS;
 }
 
@@ -118,21 +126,11 @@ void* nodeGetItem(Node* node)
 
 int nodeGetPassCount(Node* node)
 {
-    if(node == NULL)
-    {
-        //We need to establish an ERROR return message.
-        return -1;
-    }
     return node->passCount;
 }
 
 int nodeGetBlockCount(Node* node)
 {
-    if(node == NULL)
-    {
-        //We need to establish an ERROR return message.
-        return -1;
-    }
     return node->blockCount;
 }
 

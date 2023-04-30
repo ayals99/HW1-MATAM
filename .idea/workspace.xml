@@ -21,6 +21,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/IsraeliQueue.c" beforeDir="false" afterPath="$PROJECT_DIR$/IsraeliQueue.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Node.c" beforeDir="false" afterPath="$PROJECT_DIR$/Node.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Node.h" beforeDir="false" afterPath="$PROJECT_DIR$/Node.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +84,7 @@
       <workItem from="1682691181384" duration="94000" />
       <workItem from="1682691450620" duration="11000" />
       <workItem from="1682691498338" duration="3055000" />
-      <workItem from="1682694583686" duration="38093000" />
+      <workItem from="1682694583686" duration="49445000" />
     </task>
     <servers />
   </component>

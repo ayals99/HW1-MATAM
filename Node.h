@@ -56,6 +56,13 @@ IsraeliQueueError addPassCount(Node*);
  */
 IsraeliQueueError addBlockCount(Node*);
 
+/**
+ * resetCount: resets the counts on a given node.
+ * gets a node.
+ *
+ * @return - BAD_PARAM if the node is NULL or SUCCESS otherwise.
+ */
+IsraeliQueueError resetCount(Node*);
 
 /** Getter Functions */
 

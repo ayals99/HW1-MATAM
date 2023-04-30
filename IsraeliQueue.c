@@ -50,7 +50,7 @@ IsraeliQueue IsraeliQueueCreate(FriendshipFunction* friendshipFunctions, Compari
     }
     newQueue -> friendshipFunctions = newFunctionsArray;
     ComparisonFunction* newComparisonFunction = (ComparisonFunction*)malloc(sizeof(ComparisonFunction) * 1);
-    *newComparisonFunction = comparisonFunction;
+    **newComparisonFunction = *comparisonFunction;
     if(newComparisonFunction == NULL){
         return ISRAELIQUEUE_ALLOC_FAILED;
     }

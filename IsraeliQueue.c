@@ -37,6 +37,10 @@ int getAverageFriendshipThreshold(IsraeliQueue* queueArray, int numberOfQueues);
 int getNewRivalryThreshold(IsraeliQueue* queueArray, int numberOfQueues);
 void initializeFriendshipArray(FriendshipFunction* newFriendshipArray, IsraeliQueue* queueArray);
 void mergeQueues(IsraeliQueue newQueue,IsraeliQueue* queueArray,int numberOfQueues);
+FriendshipFunction* cloneFriendshipFunctions(FriendshipFunction* original);
+void cloneAllNodes(IsraeliQueue original, IsraeliQueue clonedQueue);
+void addFirstNode(IsraeliQueue clonedQueue, Node* clonedNode);
+
 
 
 
@@ -315,14 +319,14 @@ bool IsraeliQueueContains(IsraeliQueue queue, void* item){
 }
 
 Node* getLastElement(IsraeliQueue queue){
-    if(queue == NULL)
+    if(queue == NULL || queue->head == NULL)
     {
         return NULL;
     }
-    if(queue->head == NULL)
-    {
-        return queue->head;
-    }
+//    if(queue->head == NULL)
+//    {
+//        return queue->head;
+//    }
     Node* current;
     for(current = queue->head; nodeGetNext(current) != NULL; current = nodeGetNext(current));
     return current;
@@ -587,23 +591,57 @@ IsraeliQueue IsraeliQueueMerge(IsraeliQueue* queueArray, ComparisonFunction comp
     return newQueue;
 }
 
-void cloneAllNodes(IsraeliQueue original, IsraeliQueue cloned){
-    if (original == NULL){
-        return ISRAELIQUEUE_BAD_PARAM;
-    }
-    Node* current = original->head;
-    while(current != NULL){
-        copyNodeToStart(current, cloned); // NEEDS to be implemented in "Node.c"
-        current = current->next;
+void addFirstNode(IsraeliQueue clonedQueue, Node* clonedNode)
+{
+    assert(clonedQueue != NULL && clonedNode != NULL);
+    clonedQueue->head = clonedNode;
+}
+
+void addToEnd(IsraeliQueue clonedQueue,Node* clonedNode)
+{
+    assert(clonedQueue != NULL && clonedNode != NULL);
+    Node* lastNode = getLastElement(clonedQueue);
+    addNodeAfter(lastNode, clonedNode);
+}
+
+
+void cloneAllNodes(IsraeliQueue original, IsraeliQueue clonedQueue)
+{
+    assert(original != NULL && clonedQueue != NULL);
+    Node* originalCurrentNode = original->head;
+    bool firstNode = true;
+    while(originalCurrentNode != NULL)
+    {
+        if (firstNode)
+        {
+            Node* clonedNode = cloneNode(originalCurrentNode);
+            addFirstNode(clonedQueue, clonedNode);
+            firstNode = false;
+            originalCurrentNode = nodeGetNext(originalCurrentNode);
+        }
+        else
+        {
+            Node* clonedNode = cloneNode(originalCurrentNode);
+            addToEnd(clonedQueue, clonedNode);
+            originalCurrentNode = nodeGetNext(originalCurrentNode);
+        }
     }
 }
 
-FriendshipFunction* cloneFriendshipFunctions(FriendshipFunction* original){
+FriendshipFunction* cloneFriendshipFunctions(FriendshipFunction* original)
+{
     int numberOfFunctions = countFunction(original);
     FriendshipFunction* newArray = (FriendshipFunction*) malloc(sizeof(FriendshipFunction) *  (numberOfFunctions + 1));
-    for (int i = 0; i < (numberOfFunctions + 1); i++){
-        newArray[i] = original[i]
+    if (newArray == NULL)
+    {
+        return NULL;
     }
+    int i;
+    for (i = 0; original[i] != NULL; i++)
+    {
+        newArray[i] = original[i];
+    }
+    newArray[i] = original[i];
     return newArray;
 }
 
@@ -611,18 +649,19 @@ FriendshipFunction* cloneFriendshipFunctions(FriendshipFunction* original){
  * NULL is returned.*/
 IsraeliQueue IsraeliQueueClone(IsraeliQueue queue){
     if (queue == NULL){
-        abort(); // For debugging. TO BE REMOVED BEFORE COMPILING
-        return ISRAELIQUEUE_BAD_PARAM;
+        return NULL;
     }
-
     FriendshipFunction* clonedFriendshipFunctions = cloneFriendshipFunctions(queue->friendshipFunctions);
-    ComparisonFunction* clonedComparisonFunction = (ComparisonFunction*)malloc(sizeof(ComparisonFunction) * 1);
-    clonedComparisonFunction = q->comparisonFunction;
-
+    if (clonedFriendshipFunctions == NULL)
+    {
+        return NULL;
+    }
+    ComparisonFunction clonedComparisonFunction = queue->comparisonFunction;
     IsraeliQueue clonedQueue =  IsraeliQueueCreate(clonedFriendshipFunctions,
-                                                   *clonedComparisonFunction,
-                                                   q->friendshipThreshold, q->rivalryThreshold);
-    cloneAllNodes(q, clonedQueue);
+                                                   clonedComparisonFunction,
+                                                   queue->friendshipThreshold,
+                                                   queue->rivalryThreshold);
+    cloneAllNodes(queue, clonedQueue);
     return clonedQueue;
 }
 
@@ -630,24 +669,20 @@ IsraeliQueue IsraeliQueueClone(IsraeliQueue queue){
  *
  * Deallocates all memory allocated by IsraeliQueueCreate for the object pointed to by
  * the parameter.*/
-void IsraeliQueueDestroy(IsraeliQueue q){ // This function NEEDS to be reviewed!
-    if (q == NULL){
+void IsraeliQueueDestroy(IsraeliQueue queue)
+{
+    if (queue == NULL){
         return; // To check that we're not given a NULL pointer, since we can't free() a NULL pointer.
     }
-    Node* current = q->head;
-    while (current != NULL){ // So we don't try and apply free on a NULL pointer
-        Node* next = q->head->next;
-        free(current); // NEED to check in "node.h" that we don't use any other dynamic memory allocations
-        current = NULL;
+    Node* current = queue->head;
+    while (current != NULL)
+    {
+        Node* next = nodeGetNext(current);
+        nodeDestroy(current); // NEED to check in "node.h" that we don't use any other dynamic memory allocations
         current = next;
     }
-    free(q->friendshipFunctions);
-    // (According to question @273 we can't assume that "friendshipFunctions" was malloced,
-    // therefore we used malloc to copy it and to clone it and then we always need to free() it.
-    q->friendshipFunctions = NULL;
-    free(q->comparisonFunction);
-    // We free() "comparisonFunction" because if we want to clone it we have to malloc and therefore we always malloc it
-    q->comparisonFunction = NULL;
-    free(q);
-    q = NULL; // assigning NULL in order to ensure that we don't use this pointer again
+    free(queue->friendshipFunctions);
+    // According to question @273 we can't assume that "friendshipFunctions" was malloced,
+    // therefore we used malloc to copy it and to clone it, then we always need to free() it.
+    free(queue);
 }

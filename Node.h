@@ -64,6 +64,15 @@ IsraeliQueueError addBlockCount(Node*);
  */
 IsraeliQueueError resetCount(Node*);
 
+/**
+ * cloneNode: clones a node with the exact same parameters. but the cloned item
+ * pointer points to the same item (they share the item basically)
+ * gets a node.
+ *
+ * @return - NULL if the node is NULL or the clonedNode otherwise.
+ */
+Node* cloneNode(Node*);
+
 /** Getter Functions */
 
 /**

@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <assert.h>
 
 #include "Node.h"
 
@@ -49,6 +50,11 @@ IsraeliQueueError addNodeAfter(Node* currNode, Node* newNode)
     }
     newNode->previous = currNode;
     newNode->next = currNode->next;
+    if(currNode->next == NULL)
+    {
+        currNode->next = newNode;
+        return ISRAELIQUEUE_SUCCESS;
+    }
     currNode->next->previous = newNode;
     currNode->next = newNode;
     return ISRAELIQUEUE_SUCCESS;
@@ -98,6 +104,20 @@ IsraeliQueueError resetCount(Node* node)
     return ISRAELIQUEUE_SUCCESS;
 }
 
+Node* cloneNode(Node* nodeToClone)
+{
+    assert(nodeToClone != NULL);
+    Node* clonedNode = nodeCreate(nodeToClone->Item);
+    if(clonedNode == NULL)
+    {
+        return NULL;
+    }
+    clonedNode->next = nodeToClone->next;
+    clonedNode->previous = nodeToClone->previous;
+    clonedNode->passCount = nodeToClone->passCount;
+    clonedNode->blockCount = nodeToClone->blockCount;
+    return clonedNode;
+}
 
 /** Getter Functions Implementation */
 

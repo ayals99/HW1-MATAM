@@ -49,7 +49,11 @@ IsraeliQueueError addNodeAfter(Node* currNode, Node* newNode)
     }
     newNode->previous = currNode;
     newNode->next = currNode->next;
-    currNode->next->previous = newNode;
+    // if(currNode->next != NULL) // this is in case currNode is the last in the list and doesn't have a next
+    // {
+    //      currNode->next->previous = newNode;
+    // }
+    currNode->next->previous = newNode; // AYAL: What happens if "next" is NULL?
     currNode->next = newNode;
     return ISRAELIQUEUE_SUCCESS;
 }
@@ -62,7 +66,11 @@ IsraeliQueueError addNodeBefore(Node* currNode, Node* newNode)
     }
     newNode->next = currNode;
     newNode->previous = currNode->previous;
-    currNode->previous->next = newNode;
+    // if(currNode->previous != NULL) // this is in case currNode is the first in the list and doesn't have a previous
+    // {
+    //      currNode->previous->next = newNode;
+    // }
+    currNode->previous->next = newNode; // AYAL: What happens if "previous" is NULL? I think this needs to be changed
     currNode->previous = newNode;
     return ISRAELIQUEUE_SUCCESS;
 }

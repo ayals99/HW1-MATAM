@@ -80,8 +80,11 @@ IsraeliQueue IsraeliQueueCreate(FriendshipFunction* friendshipFunctions, Compari
         abort(); // For debugging. TO BE REMOVED BEFORE COMPILING
         return NULL;
     }
-    //Why create a new array when we can allocate the ptr.
-    //FriendshipFunction* newFunctionsArray = createFriendshipFunction(friendshipFunctions); // Uses malloc - needs free()
+    //Why create a new array when we can allocate the ptr. -AYAL: because of the clone function.
+    // FriendshipFunction* newFunctionsArray = createFriendshipFunction(friendshipFunctions); // Uses malloc - needs free()
+    // if(newFunctionsArray == NULL){
+    //      return ISRAELIQUEUE_ALLOC_FAILED;
+    // }
     // Will probably be in IsraeliQueueDestroy.
     //We should check the return value.
     newQueue -> friendshipFunctions = friendshipFunctions;
@@ -131,7 +134,7 @@ Node* findFriend(IsraeliQueue queue, Node* current, Node* nodeToAdd)
     {
         return NULL;
     }
-    Relationship relationshipStatus = getRelationship(queue, current, nodeToAdd);;
+    Relationship relationshipStatus = getRelationship(queue, current, nodeToAdd); // Ayal: How do you know that "nodeToAdd" isn't NULL?
     while(relationshipStatus != FRIENDS && current != NULL)
     {
         current = nodeGetNext(current);

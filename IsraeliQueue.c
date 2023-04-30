@@ -24,7 +24,7 @@ typedef enum {FRIENDS, FOES, NEUTRAL} Relationship;
 
 Node* getLastElement(IsraeliQueue queue);
 
-
+// TODO: Add "addToEnd" function and to think of other extreme cases.
 
 /** Function Implementations */
 
@@ -52,12 +52,17 @@ FriendshipFunction* createFriendshipFunction(FriendshipFunction* friendshipFunct
  * to the new object. In case of failure, return NULL.*/
 IsraeliQueue IsraeliQueueCreate(FriendshipFunction* friendshipFunctions, ComparisonFunction comparisonFunction,
                                 int friendship_th, int rivalry_th){
+    if(friendshipFunctions == NULL)
+    {
+        return NULL;
+    }
     IsraeliQueue newQueue = (IsraeliQueue)malloc(sizeof(*newQueue));
     if (newQueue == NULL){
         abort(); // For debugging. TO BE REMOVED BEFORE COMPILING
         return NULL;
     }
     FriendshipFunction* newFunctionsArray = createFriendshipFunction(friendshipFunctions); // Uses malloc - needs free()
+    // Will probably be in IsraeliqueueDestroy.
     //We should check the return value.
     if(newFunctionsArray == NULL){
         return NULL;
@@ -77,8 +82,6 @@ IsraeliQueue IsraeliQueueCreate(FriendshipFunction* friendshipFunctions, Compari
     newQueue -> rivalryThreshold = rivalry_th;
     return newQueue;
 }
-
-//enum int Relationship {Friends, Foes, Neutral};
 
 Relationship getRelationship(IsraeliQueue queue, Node* existing, Node* toAdd){
     int numberOfFunctions = countFunction(queue->friendshipFunctions);
@@ -209,7 +212,7 @@ Node* findFoe(IsraeliQueue queue, Node* current, Node* nodeToAdd)
  * Places the item in the foremost position accessible to it.*/
 IsraeliQueueError IsraeliQueueEnqueue(IsraeliQueue queue, void* item)
 {
-    if(queue == NULL || item == NULL)
+    if(queue == NULL)
     {
         return ISRAELIQUEUE_BAD_PARAM;
     }
@@ -220,6 +223,7 @@ IsraeliQueueError IsraeliQueueEnqueue(IsraeliQueue queue, void* item)
     }
     if(queue->friendshipFunctions == NULL)
     {
+        //addToEnd(queue, nodeToAdd); Implement this better version for readability.
         return addNodeAfter(getLastElement(queue), nodeToAdd);
     }
     Node* potentialFriend = findFriend(queue, queue->head, nodeToAdd);
@@ -239,14 +243,16 @@ IsraeliQueueError IsraeliQueueEnqueue(IsraeliQueue queue, void* item)
         addBlockCount(potentialFoe);
         potentialFriend = findFriend(queue, nodeGetNext(potentialFoe), nodeToAdd);
     }
-    if(potentialFoe != NULL)
-    {
-        if(addNodeAfter(potentialFoe, nodeToAdd) == ISRAELIQUEUE_SUCCESS)
-        {
-            return ISRAELIQUEUE_SUCCESS;
-        }
-        return ISRAELIQUEUE_BAD_PARAM;
-    }
+    //Adds to the end of the list in case of no friends or an enemy has blocked.
+
+//    if(potentialFoe != NULL)
+//    {
+//        if(addNodeAfter(potentialFoe, nodeToAdd) == ISRAELIQUEUE_SUCCESS)
+//        {
+//            return ISRAELIQUEUE_SUCCESS;
+//        }
+//        return ISRAELIQUEUE_BAD_PARAM;
+//    }
     return addNodeAfter(getLastElement(queue), nodeToAdd);
 }
 

@@ -38,6 +38,7 @@ void nodeDestroy(Node* toDestroy)
     free(toDestroy);
 }
 
+
 IsraeliQueueError addNodeAfter(Node* currNode, Node* newNode)
 {
     if(newNode == NULL)
@@ -94,16 +95,12 @@ IsraeliQueueError addBlockCount(Node* node)
 
 Node* nodeGetNext(Node* node)
 {
-    if(node == NULL)
-    {
-        return NULL;
-    }
-    return node->next;
+    return (node == NULL) ? NULL : node->next;//Implement this style for the rest of the functions.
 }
 
 Node* nodeGetPrevious(Node* node)
 {
-    if(node == NULL)
+    if (node == NULL)
     {
         return NULL;
     }

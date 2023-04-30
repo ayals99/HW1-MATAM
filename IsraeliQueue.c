@@ -518,6 +518,7 @@ void mergeQueues(IsraeliQueue newQueue,IsraeliQueue* queueArray,int numberOfQueu
  * Merges all queues in q_arr into a single new queue, with parameters the parameters described
  * in the exercise. Each queue in q_arr enqueues its head in the merged queue, then lets the next
  * one enqueue an item, in the order defined by q_arr. In the event of any error during execution, return NULL.*/
+ //Change coompare_function
 IsraeliQueue IsraeliQueueMerge(IsraeliQueue* queueArray, ComparisonFunction compare_function){
     if (queueArray == NULL || compare_function == NULL)
     { // According to question @210
@@ -565,14 +566,13 @@ void cloneAllNodes(IsraeliQueue original, IsraeliQueue clonedQueue)
             Node* clonedNode = cloneNode(originalCurrentNode);
             addFirstNode(clonedQueue, clonedNode);
             firstNode = false;
-            originalCurrentNode = nodeGetNext(originalCurrentNode);
         }
         else
         {
             Node* clonedNode = cloneNode(originalCurrentNode);
             addToEnd(clonedQueue, clonedNode);
-            originalCurrentNode = nodeGetNext(originalCurrentNode);
         }
+        originalCurrentNode = nodeGetNext(originalCurrentNode);
     }
 }
 
@@ -634,3 +634,6 @@ void IsraeliQueueDestroy(IsraeliQueue queue)
     // therefore we used malloc to copy it and to clone it, then we always need to free() it.
     free(queue);
 }
+
+//TODO add a function that clones by value comarison function.
+//TODO set to free in IsraeliQueueDestroy comaprison function.

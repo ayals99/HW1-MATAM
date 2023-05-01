@@ -53,7 +53,7 @@ Node** makeNodeArray(IsraeliQueue queue, int queueSize);
 int countFunction(FriendshipFunction* array)
 {
     int counter = 0;
-    while (array != NULL)
+    while (*array != NULL)
     { // It's a given that the function array ends with NULL
         counter++;
         array++;
@@ -99,16 +99,8 @@ IsraeliQueue IsraeliQueueCreate(FriendshipFunction* friendshipFunctions,
         IsraeliQueueDestroy(newQueue);
         return NULL;
     }
-    ComparisonFunction* newComparisonFunction = malloc(sizeof(*comparisonFunction));
-    if (newComparisonFunction == NULL)
-    {
-        IsraeliQueueDestroy(newQueue);
-        free(newFunctionsArray);
-        return NULL;
-    }
-    *newComparisonFunction = *comparisonFunction;
     newQueue -> friendshipFunctions = newFunctionsArray;
-    newQueue -> comparisonFunction = *newComparisonFunction;
+    newQueue -> comparisonFunction = comparisonFunction;
     newQueue -> head = NULL;
     newQueue -> friendshipThreshold = friendship_th;
     newQueue -> rivalryThreshold = rivalry_th;
@@ -668,8 +660,5 @@ void IsraeliQueueDestroy(IsraeliQueue queue)
     free(queue->friendshipFunctions);
     // According to question @273 we can't assume that "friendshipFunctions" was malloced,
     // therefore we used malloc to copy it and to clone it, then we always need to free() it.
-    free(&(queue->comparisonFunction));
-    //we used malloc to allocates memory for a place to copy by valur the comparisonFunction.
-    //there for we free the & for comparisonFunction.
     free(queue);
 }

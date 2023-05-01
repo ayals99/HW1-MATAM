@@ -20,7 +20,7 @@ int comparePersons(void* person1, void* person2) {
 }
 
 int areFriends1(void* person1, void* person2) {
-    return ((Person*)person1)->height & ((Person*)person2)->height;
+    return ((Person*)person1)->height && ((Person*)person2)->height;
 }
 
 int areFriends2(void* person1, void* person2) {
@@ -51,7 +51,7 @@ int main() {
     IsraeliQueueEnqueue(queue, person2);
     IsraeliQueueEnqueue(queue, person3);
 
-    IsraeliQueueImprovePositions(queue);
+     IsraeliQueueImprovePositions(queue);
 
     IsraeliQueueDestroy(queue);
     return 0;

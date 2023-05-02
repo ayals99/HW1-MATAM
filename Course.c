@@ -2,7 +2,7 @@
 
 
 struct course_t{
-    int courseNumber;
-    int courseCapacity;
-    IsraeliQueue courseQueue;
+    int m_courseNumber;
+    int m_courseCapacity;
+    IsraeliQueue m_courseQueue;
 };

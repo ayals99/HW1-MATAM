@@ -26,11 +26,11 @@ typedef Node** HackerArray;
 typedef Course* courseStructPointerArray;
 
 struct enrollmentSystem_t{
-    courseStructPointerArray Courses;
-    int numberOfCourses;
-    HackerArray hackerPointerArray;
-    int numberOfHackers;
-    Person* students;
+    courseStructPointerArray m_courses;
+    int m_numberOfCourses;
+    HackerArray m_hackerPointerArray;
+    int m_numberOfHackers;
+    Person* m_students;
 };
 
 /** Function Signatures */
@@ -45,13 +45,21 @@ HackerArray createHackerList(Node* studentList, int hackerCount);
 int byHackerFile(void* student1, void* student2)
 {
     assert(student1 != NULL && student2 != NULL);
-    Person *student1_AUX = (Person*) student1;
-    Person *student2_AUX = (Person*) student2;
+    Person student1_AUX = (Person) student1;
+    Person student2_AUX = (Person) student2;
     bool isStudent1Hacker = isPersonHacker(student1_AUX);
+    Hacker student1_Hacker = NULL;
+    Hacker student2_Hacker = NULL;
+    if (isStudent1Hacker){
+        student1_Hacker = personGetHacker(student1_AUX);
+    }
     bool isStudent2Hacker = isPersonHacker(student2_AUX);
+    if (isStudent2Hacker){
+        student2_Hacker = personGetHacker(student2_AUX);
+    }
     if (isStudent1Hacker)
     {
-        Friends *tmp = getFriendsArray(student1_AUX);
+        Friends *tmp = getFriendsArray(student1_AUX); //This function is supposed to receive a Hacker but is given a person.
         while (tmp != NULL)
         {
             if (strcmp(*tmp, personGetID(student2_AUX)) == 0)
@@ -97,8 +105,8 @@ int byHackerFile(void* student1, void* student2)
 int byNameDelta(void* student1, void* student2)
 {
     assert(student1 != NULL && student2 != NULL);
-    Person *student1_AUX = (Person*) student1;
-    Person *student2_AUX = (Person*) student2;
+    Person student1_AUX = (Person) student1;
+    Person student2_AUX = (Person) student2;
     unsigned int studentsFullNameLength = strlen(personGetName(student1_AUX)) +
             strlen(personGetSurName(student1_AUX));
     char* student1name = malloc(sizeof(char) * (studentsFullNameLength + 1));
@@ -142,8 +150,8 @@ int byNameDelta(void* student1, void* student2)
 int byIdDelta(void* student1, void* student2)
 {
     assert(student1 != NULL && student2 != NULL);
-    Person *student1_AUX = (Person*) student1;
-    Person *student2_AUX = (Person*) student2;
+    Person student1_AUX = (Person) student1;
+    Person student2_AUX = (Person) student2;
     char* student1ID = personGetID(student1_AUX);
     char* student2ID = personGetID(student2_AUX);
     int firstNumericalID = 0;
@@ -177,15 +185,15 @@ EnrollmentSystem createEnrollment(FILE* students, FILE* courses, FILE* hackers)
  */
  // loops through all hackers and tries to enqueue them into the queue.
 
-Hacker* getHackerPointerFromList(HackerArray listOfHackers, int index){
+Hacker getHackerPointerFromList(HackerArray listOfHackers, int index){
     Node* pointerToHackerNode = listOfHackers[index];
-    Person* originalHacker = nodeGetItem(pointerToHackerNode);
-    Person* currentHacker = copyPerson(originalHacker);
+    Person originalHacker = nodeGetItem(pointerToHackerNode);
+    Person currentHacker = copyPerson(originalHacker);
     return personGetHacker(currentHacker);
 }
 
 Course findCourseByNumber(int courseNumber, EnrollmentSystem system, Course* courseArrayPointer){
-    int numberOfCourses = system->numberOfCourses;
+    int numberOfCourses = system->m_numberOfCourses;
     for(int i = 0; i< numberOfCourses; i++){
         Course current = courseArrayPointer[i];
         if(courseNumber == getCourseNumber(current)){
@@ -196,14 +204,14 @@ Course findCourseByNumber(int courseNumber, EnrollmentSystem system, Course* cou
 }
 
 void hackEnrollment(EnrollmentSystem system, FILE* out){
-    int numberOfHackers = system->numberOfHackers;
+    int numberOfHackers = system->m_numberOfHackers;
 
-    Course* firstCoursePointer = system->Courses;
-    HackerArray listOfHackers = system->hackerPointerArray;
+    Course* firstCoursePointer = system->m_courses;
+    HackerArray listOfHackers = system->m_hackerPointerArray;
 
     for (int index = 0; index < numberOfHackers; index++){
 
-        Hacker* hackerStructPointer = getHackerPointerFromList(listOfHackers, index);
+        Hacker hackerStructPointer = getHackerPointerFromList(listOfHackers, index);
 
         int numberOfDesiredCourses = getCoursesCount(hackerStructPointer);
 

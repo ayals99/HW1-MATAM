@@ -11,18 +11,18 @@
 #define MAX_GPA 100
 #define MIN_GPA 0
 #define MIN_TOTAl_CREDITS 0
-
+#define ID_MAX_LENGTH 10
 /** Struct Declaration */
 
 struct Person_t{
-    char ID[10];
-    int TotalCredits;
-    int GPA;
-    char* Name;
-    char* SurName;
-    char* City;
-    char* Department;
-    Hacker* Hacker;
+    char m_ID[ID_MAX_LENGTH];
+    int m_TotalCredits;
+    int m_GPA;
+    char* m_Name;
+    char* m_SurName;
+    char* m_City;
+    char* m_Department;
+    Hacker m_Hacker;
 
 };
 
@@ -31,6 +31,10 @@ struct Person_t{
 Person personCreate()
 {
     Person newPerson = malloc(sizeof(*newPerson));
+    for(int i = 0; i < ID_MAX_LENGTH; i++){
+        newPerson->ID[i] = 0;
+    }
+
     if(newPerson == NULL)
     {
         return NULL;

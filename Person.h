@@ -30,7 +30,7 @@ Person personCreate(char* studentID,
                      ,char* name
                      ,char* surName
                      ,char* department
-                     ,Hacker* hacker);
+                     ,Hacker hacker);
 
 /**
  * freePerson: frees the person sent to the function.
@@ -91,7 +91,7 @@ char* personGetCity(Person currPerson);
 char* personGetDepartment(Person currPerson);
 
 //personGetHacker: returns a ptr to a Hacker struct held by person.
-Hacker* personGetHacker(Person currPerson);
+Hacker personGetHacker(Person currPerson);
 
 /** Setter Functions */
 
@@ -124,6 +124,6 @@ PersonError personSetCity(Person currPerson, char* cityToSet);
 PersonError personSetDepartment(Person currPerson, char* depToSet);
 
 //personSetHacker: sets a ptr to a Hacker struct held by person.
-Hacker* personSetHacker(Person currPerson, Hacker* hackerToSet);
+Hacker personSetHacker(Person currPerson, Hacker hackerToSet);
 
 #endif

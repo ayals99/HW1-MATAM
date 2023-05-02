@@ -8,7 +8,7 @@
 /** Struct declaration */
 
 struct Node_t{
-    void* Item;
+    void* m_Item;
     int passCount;
     int blockCount;
     Node* next;
@@ -17,14 +17,14 @@ struct Node_t{
 
 /** Function Implementations */
 
-Node* nodeCreate(void* item)
+Node* nodeCreate(void* m_item)
 {
     Node* newNode = malloc(sizeof(*newNode));
     if(!newNode)
     {
         return NULL;
     }
-    newNode->Item = item;
+    newNode->m_Item = m_item;
     newNode->next = NULL;
     newNode->previous = NULL;
     newNode->passCount = INITIALIZATION;
@@ -107,7 +107,7 @@ NodeError resetCount(Node* node)
 Node* cloneNode(Node* nodeToClone)
 {
     assert(nodeToClone != NULL);
-    Node* clonedNode = nodeCreate(nodeToClone->Item);
+    Node* clonedNode = nodeCreate(nodeToClone->m_Item);
     if(clonedNode == NULL)
     {
         return NULL;
@@ -141,7 +141,7 @@ void* nodeGetItem(Node* node)
     {
         return NULL;
     }
-    return node->Item;
+    return node->m_Item;
 }
 
 int nodeGetPassCount(Node* node)
@@ -163,7 +163,7 @@ NodeError nodeSetItem(Node* node, void* itemToSet)
     {
         return NODE_ERROR_BAD_PARAM;
     }
-    node->Item = itemToSet;
+    node->m_Item = itemToSet;
     return NODE_ERROR_SUCCESS;
 }
 

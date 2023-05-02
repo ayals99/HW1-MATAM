@@ -1,8 +1,9 @@
 #ifndef PERSON_H
 #define PERSON_H
+#include <stdbool.h>
 
-#include "IsraeliQueue.h"
 #include "Node.h"
+#include "Hacker.h"
 
 /** Type for defining the Person */
 typedef struct Person_t Person;
@@ -27,7 +28,7 @@ Person* personCreate(char* studentID,
                      int totalCredits
                      ,int GPA
                      ,char* name
-                     ,char* surName,
+                     ,char* surName
                      ,char* department
                      ,Hacker* hacker);
 
@@ -57,7 +58,14 @@ Person* copyPerson(Person* toBeCopied);
  *
  * return - returns SUCCESS or FAILURE according to the enum FAILURE chart.
  */
-IsraeliQueueError copyPersonFields(Person* src, Person* dest);
+PersonError copyPersonFields(Person* src, Person* dest);
+
+/**
+ * isPersonHacer: checks if a certain student is a hacker,
+ *
+ * return - returns true, or false.
+ */
+bool isPersonHacker(Person* student);
 
 /** Getter Functions */
 
@@ -89,35 +97,33 @@ Hacker* personGetHacker(Person* currPerson);
 
 //personSetID: Sets the selected persons ID with the ID provided
 //returns SUCCESS or FAILURE according to the enum FAILURE chart.
-IsraeliQueueError personSetID(Person* currPerson, char* idString);
+PersonError personSetID(Person* currPerson, char* idString);
 
 //personSetTotalCredits: Sets the selected persons Total credits with the Total
 // credits provided, returns SUCCESS or FAILURE according to the enum FAILURE chart.
-IsraeliQueueError personSetTotalCredits(Person* currPerson, int creditsToSet);
+PersonError personSetTotalCredits(Person* currPerson, int creditsToSet);
 
 //personSetGPA: Sets the selected persons GPA with the GPA
 //provided, returns SUCCESS or FAILURE according to the enum FAILURE chart.
-IsraeliQueueError personSetGPA(Person* currPerson, int toSetGPA);
+PersonError personSetGPA(Person* currPerson, int toSetGPA);
 
 //personSetName: Sets the selected persons Name with the string
 //provided, returns SUCCESS or FAILURE according to the enum FAILURE chart.
-IsraeliQueueError personSetName(Person* currPerson, char* nameToSet);
+PersonError personSetName(Person* currPerson, char* nameToSet);
 
 //personSetSurName: Sets the selected persons Surname with the string
 //provided, returns SUCCESS or FAILURE according to the enum FAILURE chart.
-IsraeliQueueError personSetSurName(Person* currPerson, char* surNameToSet);
+PersonError personSetSurName(Person* currPerson, char* surNameToSet);
 
 //personSetCity: Sets the selected persons City with the string
 //provided, returns SUCCESS or FAILURE according to the enum FAILURE chart.
-IsraeliQueueError personSetCity(Person* currPerson, char* cityToSet);
+PersonError personSetCity(Person* currPerson, char* cityToSet);
 
 //personSetDepartment: Sets the selected persons Department with the string
 //provided, returns SUCCESS or FAILURE according to the enum FAILURE chart.
-IsraeliQueueError personSetDepartment(Person* currPerson, char* depToSet);
+PersonError personSetDepartment(Person* currPerson, char* depToSet);
 
 //personSetHacker: sets a ptr to a Hacker struct held by person.
-Hacker* personGetHacker(Person* currPerson, Hacker* hackerToSet);
+Hacker* personSetHacker(Person* currPerson, Hacker* hackerToSet);
 
 #endif
-
-//TODO change IsraeliQueueError to PersonError just in this file.

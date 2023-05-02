@@ -3,11 +3,6 @@
 
 /** Included files */
 
-#include "IsraeliQueue.h"
-#include "Node.h"
-#include "Person.h"
-#include "HackEnrollment.h"
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

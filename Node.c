@@ -42,66 +42,66 @@ void nodeDestroy(Node* toDestroy)
 }
 
 
-IsraeliQueueError addNodeAfter(Node* currNode, Node* newNode)
+NodeError addNodeAfter(Node* currNode, Node* newNode)
 {
     if(newNode == NULL || currNode == NULL)
     {
-        return ISRAELIQUEUE_BAD_PARAM;
+        return NODE_ERROR_BAD_PARAM;
     }
     newNode->previous = currNode;
     newNode->next = currNode->next;
     if(currNode->next == NULL)
     {
         currNode->next = newNode;
-        return ISRAELIQUEUE_SUCCESS;
+        return NODE_ERROR_SUCCESS;
     }
     currNode->next->previous = newNode;
     currNode->next = newNode;
-    return ISRAELIQUEUE_SUCCESS;
+    return NODE_ERROR_SUCCESS;
 }
 
-IsraeliQueueError addNodeBefore(Node* currNode, Node* newNode)
+NodeError addNodeBefore(Node* currNode, Node* newNode)
 {
     if(newNode == NULL || currNode == NULL)
     {
-        return ISRAELIQUEUE_BAD_PARAM;
+        return NODE_ERROR_BAD_PARAM;
     }
     newNode->next = currNode;
     newNode->previous = currNode->previous;
     currNode->previous->next = newNode;
     currNode->previous = newNode;
-    return ISRAELIQUEUE_SUCCESS;
+    return NODE_ERROR_SUCCESS;
 }
 
-IsraeliQueueError addPassCount(Node* node)
+NodeError addPassCount(Node* node)
 {
     if(node == NULL)
     {
-        return ISRAELIQUEUE_BAD_PARAM;
+        return NODE_ERROR_BAD_PARAM;
     }
     node->passCount += 1;
-    return ISRAELIQUEUE_SUCCESS;
+    return NODE_ERROR_SUCCESS;
 }
 
-IsraeliQueueError addBlockCount(Node* node)
+NodeError addBlockCount(Node* node)
 {
     if(node == NULL)
     {
-        return ISRAELIQUEUE_BAD_PARAM;
+        return NODE_ERROR_BAD_PARAM;
     }
     node->blockCount += 1;
-    return ISRAELIQUEUE_SUCCESS;
+    return NODE_ERROR_SUCCESS;
 }
 
-IsraeliQueueError resetCount(Node* node)
+NodeError resetCount(Node* node)
 {
     if(node == NULL)
     {
-        return ISRAELIQUEUE_BAD_PARAM;
+        return NODE_ERROR_BAD_PARAM;
     }
     node->blockCount = INITIALIZATION;
     node->passCount = INITIALIZATION;
-    return ISRAELIQUEUE_SUCCESS;
+    return NODE_ERROR_SUCCESS;
 }
 
 Node* cloneNode(Node* nodeToClone)
@@ -157,32 +157,32 @@ int nodeGetBlockCount(Node* node)
 
 /** Setter Functions Implementation */
 
-IsraeliQueueError nodeSetItem(Node* node, void* itemToSet)
+NodeError nodeSetItem(Node* node, void* itemToSet)
 {
     if(node == NULL || itemToSet == NULL)
     {
-        return ISRAELIQUEUE_BAD_PARAM;
+        return NODE_ERROR_BAD_PARAM;
     }
     node->Item = itemToSet;
-    return ISRAELIQUEUE_SUCCESS;
+    return NODE_ERROR_SUCCESS;
 }
 
-IsraeliQueueError nodeSetNext(Node* node, Node* nextToSet)
+NodeError nodeSetNext(Node* node, Node* nextToSet)
 {
     if(node == NULL)
     {
-        return ISRAELIQUEUE_BAD_PARAM;
+        return NODE_ERROR_BAD_PARAM;
     }
     node->next = nextToSet;
-    return ISRAELIQUEUE_SUCCESS;
+    return NODE_ERROR_SUCCESS;
 }
 
-IsraeliQueueError nodeSetPrevious(Node* node, Node* preToSet)
+NodeError nodeSetPrevious(Node* node, Node* preToSet)
 {
     if(node == NULL)
     {
-        return ISRAELIQUEUE_BAD_PARAM;
+        return NODE_ERROR_BAD_PARAM;
     }
     node->previous = preToSet;
-    return ISRAELIQUEUE_SUCCESS;
+    return NODE_ERROR_SUCCESS;
 }

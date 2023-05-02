@@ -3,10 +3,15 @@
 
 /** Included files */
 
-#include "IsraeliQueue.h"
-#include "Node.h"
 #include "Person.h"
-#include "Hacker.h"
+#include "Course.h"
+/*
+    Include tree:
+    HackEnrollment.h includes Person.h and Courses.h
+        Person.h includes Hacker.h and Node.h
+        Courses.h includes IsraeliQueue.h
+            IsraeliQueue.h includes Node.h
+  */
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -40,9 +45,7 @@ int byIdDelta(void*, void*);
  *
  * @return EnrollmentSystem, or NULL in case of failure
  */
-EnrollmentSystem createEnrollment(FILE*, FILE*, FILE*);
-
-
+EnrollmentSystem createEnrollment(FILE* students, FILE* course, FILE* hackers);
 
 /**
  * readEnrollment: reads a file that describes the courses queues.
@@ -71,6 +74,5 @@ void hackEnrollment(EnrollmentSystem, FILE*);
  * gets: an Enrollment system.
  */
 void enrollmentDestroy(EnrollmentSystem);
-
 
 #endif

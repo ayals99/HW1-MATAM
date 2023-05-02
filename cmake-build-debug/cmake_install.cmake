@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/Shani Sazbon/Desktop/לימודים/סמסטר ב/מת''מ/HW/ex1---Berko-and-Ayal
+# Install script for directory: C:/Users/Shani Sazbon/CLionProjects/CLionProjects/ex1---Berko-and-Ayal
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/Shani Sazbon/Desktop/לימודים/סמסטר ב/מת''מ/HW/ex1---Berko-and-Ayal/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/Shani Sazbon/CLionProjects/CLionProjects/ex1---Berko-and-Ayal/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

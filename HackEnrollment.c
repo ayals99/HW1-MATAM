@@ -43,23 +43,23 @@ int byHackerFile(void* student1, void* student2)
     assert(student1 != NULL && student2 != NULL);
     Person *student1_AUX = (Person*) student1;
     Person *student2_AUX = (Person*) student2;
-    bool isStudent1Hacker = isStudentHacker(student1_AUX);
-    bool isStudent2Hacker = isStudentHacker(student2_AUX);
+    bool isStudent1Hacker = isPersonHacker(student1_AUX);
+    bool isStudent2Hacker = isPersonHacker(student2_AUX);
     if (isStudent1Hacker)
     {
-        char **tmp = getStudentsFriends(student1_AUX);
+        Friends *tmp = getFriendsArray(student1_AUX);
         while (tmp != NULL)
         {
-            if (strcmp(*tmp, getStudentID(student2_AUX)) == 0)
+            if (strcmp(*tmp, personGetID(student2_AUX)) == 0)
             {
                 return FRIENDS;
             }
             tmp++;
         }
-        tmp = getStudentsRivals(student1_AUX);
+        tmp = getFoesArray(student1_AUX);
         while (tmp != NULL)
         {
-            if (strcmp(*tmp, getStudentID(student2_AUX)) == 0)
+            if (strcmp(*tmp, personGetID(student2_AUX)) == 0)
             {
                 return FOES;
             }
@@ -68,19 +68,19 @@ int byHackerFile(void* student1, void* student2)
     }
     if (isStudent2Hacker)
     {
-        char **tmp = getStudentsFriends(student2_AUX);
+        char **tmp = getFriendsArray(student2_AUX);
         while (tmp != NULL)
         {
-            if (strcmp(*tmp, getStudentID(student1_AUX)) == 0)
+            if (strcmp(*tmp, personGetID(student1_AUX)) == 0)
             {
                 return FRIENDS;
             }
             tmp++;
         }
-        tmp = getStudentsRivals(student2_AUX);
+        tmp = getFoesArray(student2_AUX);
         while (tmp != NULL)
         {
-            if (strcmp(*tmp, getStudentID(student1_AUX)) == 0)
+            if (strcmp(*tmp, personGetID(student1_AUX)) == 0)
             {
                 return FOES;
             }

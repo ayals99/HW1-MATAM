@@ -32,7 +32,7 @@ Person personCreate()
 {
     Person newPerson = malloc(sizeof(*newPerson));
     for(int i = 0; i < ID_MAX_LENGTH; i++){
-        newPerson->ID[i] = 0;
+        newPerson->m_ID[i] = 0;
     }
 
     if(newPerson == NULL)
@@ -58,11 +58,11 @@ void freePersonFields(Person toDestroy)
     {
         return;
     }
-    free(toDestroy->ID);
-    free(toDestroy->Name);
-    free(toDestroy->SurName);
-    free(toDestroy->City);
-    free(toDestroy->Department);
+    free(toDestroy->m_ID);
+    free(toDestroy->m_Name);
+    free(toDestroy->m_SurName);
+    free(toDestroy->m_City);
+    free(toDestroy->m_Department);
 }
 
 Person copyPerson(Person toBeCopied)
@@ -85,37 +85,37 @@ PersonError copyPersonFields(Person src , Person dest)
     {
         return PERSON_ERROR_BAD_PARAM;
     }
-    strcpy(dest->ID, src->ID);
-    dest->TotalCredits = src->TotalCredits;
-    dest->GPA = src->GPA;
-    int len = strlen(src->Name);
-    dest->Name = malloc(sizeof(char) * (len + 1));
-    if(dest->Name == NULL)
+    strcpy(dest->m_ID, src->m_ID);
+    dest->m_TotalCredits = src->m_TotalCredits;
+    dest->m_GPA = src->m_GPA;
+    int len = strlen(src->m_Name);
+    dest->m_Name = malloc(sizeof(char) * (len + 1));
+    if(dest->m_Name == NULL)
     {
         return PERSON_ERROR_ALLOC_FAILED;
     }
-    strcpy(dest->Name, src->Name);
-    len = strlen(src->SurName);
-    dest->SurName = malloc(sizeof(char) * (len + 1));
-    if(dest->SurName == NULL)
+    strcpy(dest->m_Name, src->m_Name);
+    len = strlen(src->m_SurName);
+    dest->m_SurName = malloc(sizeof(char) * (len + 1));
+    if(dest->m_SurName == NULL)
     {
         return PERSON_ERROR_ALLOC_FAILED;
     }
-    strcpy(dest->SurName, src->SurName);
-    len = strlen(src->City);
-    dest->City = malloc(sizeof(char) * (len + 1));
-    if(dest->City == NULL)
+    strcpy(dest->m_SurName, src->m_SurName);
+    len = strlen(src->m_City);
+    dest->m_City = malloc(sizeof(char) * (len + 1));
+    if(dest->m_City == NULL)
     {
         return PERSON_ERROR_ALLOC_FAILED;
     }
-    strcpy(dest->City, src->City);
-    len = strlen(src->Department);
-    dest->City = malloc(sizeof(char) * (len + 1));
-    if(dest->City == NULL)
+    strcpy(dest->m_City, src->m_City);
+    len = strlen(src->m_Department);
+    dest->m_City = malloc(sizeof(char) * (len + 1));
+    if(dest->m_City == NULL)
     {
         return PERSON_ERROR_ALLOC_FAILED;
     }
-    strcpy(dest->Department, src->Department);
+    strcpy(dest->m_Department, src->m_Department);
     return PERSON_ERROR_SUCCESS;
 }
 
@@ -127,7 +127,7 @@ char* personGetID(Person currPerson)
     {
         return NULL;
     }
-    return currPerson->ID;
+    return currPerson->m_ID;
 }
 
 int personGetTotalCredits(Person currPerson)
@@ -137,7 +137,7 @@ int personGetTotalCredits(Person currPerson)
         //Needs to check return values for this function.
         return -1;
     }
-    return currPerson->TotalCredits;
+    return currPerson->m_TotalCredits;
 }
 
 int personGetGPA(Person currPerson)
@@ -147,7 +147,7 @@ int personGetGPA(Person currPerson)
         //Needs to check return values for this function.
         return -1;
     }
-    return currPerson->GPA;
+    return currPerson->m_GPA;
 }
 
 char* personGetName(Person currPerson)
@@ -156,7 +156,7 @@ char* personGetName(Person currPerson)
     {
         return NULL;
     }
-    return currPerson->Name;
+    return currPerson->m_Name;
 }
 
 char* personGetSurName(Person currPerson)
@@ -165,7 +165,7 @@ char* personGetSurName(Person currPerson)
     {
         return NULL;
     }
-    return currPerson->Name;
+    return currPerson->m_SurName;
 }
 
 char* personGetCity(Person currPerson)
@@ -174,7 +174,7 @@ char* personGetCity(Person currPerson)
     {
         return NULL;
     }
-    return currPerson->City;
+    return currPerson->m_City;
 }
 
 char* personGetDepartment(Person currPerson)
@@ -183,7 +183,7 @@ char* personGetDepartment(Person currPerson)
     {
         return NULL;
     }
-    return currPerson->Department;
+    return currPerson->m_Department;
 }
 
 /** Setter Functions Implementation */
@@ -191,49 +191,49 @@ char* personGetDepartment(Person currPerson)
 PersonError personSetID(Person currPerson, char* idString)
 {
     assert(!currPerson && !idString);
-    strcpy(currPerson->ID, idString);
+    strcpy(currPerson->m_ID, idString);
     return PERSON_ERROR_SUCCESS;
 }
 
 PersonError personSetTotalCredits(Person currPerson, int creditsToSet)
 {
     assert(!currPerson && creditsToSet >= MIN_TOTAl_CREDITS);
-    currPerson->TotalCredits = creditsToSet;
+    currPerson->m_TotalCredits = creditsToSet;
     return PERSON_ERROR_SUCCESS;
 }
 
 PersonError personSetGPA(Person currPerson, int toSetGPA)
 {
     assert(!currPerson && (toSetGPA >= MIN_GPA && toSetGPA <= MAX_GPA));
-    currPerson->GPA = toSetGPA;
+    currPerson->m_GPA = toSetGPA;
     return PERSON_ERROR_SUCCESS;
 }
 
 PersonError personSetName(Person currPerson, char* nameToSet)
 {
     assert(!currPerson && !nameToSet);
-    strcpy(currPerson->Name, nameToSet);
+    strcpy(currPerson->m_Name, nameToSet);
     return PERSON_ERROR_SUCCESS;
 }
 
 PersonError personSetSurName(Person currPerson, char* surNameToSet)
 {
     assert(!currPerson && !surNameToSet);
-    strcpy(currPerson->SurName, surNameToSet);
+    strcpy(currPerson->m_SurName, surNameToSet);
     return PERSON_ERROR_SUCCESS;
 }
 
 PersonError personSetCity(Person currPerson, char* cityToSet)
 {
     assert(!currPerson && !cityToSet);
-    strcpy(currPerson->City, cityToSet);
+    strcpy(currPerson->m_City, cityToSet);
     return PERSON_ERROR_SUCCESS;
 }
 
 PersonError personSetDepartment(Person currPerson, char* depToSet)
 {
     assert(!currPerson && !depToSet);
-    strcpy(currPerson->Department, depToSet);
+    strcpy(currPerson->m_Department, depToSet);
     return PERSON_ERROR_SUCCESS;
 }
 

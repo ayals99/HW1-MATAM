@@ -203,15 +203,20 @@ Course findCourseByNumber(int courseNumber, EnrollmentSystem system, Course* cou
     return NULL;
 }
 
+void writeCourseQueueToFile(Course* CourseArray, FILE* out){
+
+}
+
+
 void hackEnrollment(EnrollmentSystem system, FILE* out){
     int numberOfHackers = system->m_numberOfHackers;
     Course* CourseArray = system->m_courses;
     HackerArray listOfHackers = system->m_hackerPointerArray;
 
-    for (int index = 0; index < numberOfHackers; index++){
+    for (int hackerIndex = 0; hackerIndex < numberOfHackers; hackerIndex++){
 
-        Hacker hackerStructPointer = getHackerPointerFromList(listOfHackers, index);
-
+        Hacker hackerStructPointer = getHackerPointerFromList(listOfHackers, hackerIndex);
+        char* studentID = personGetID(listOfHackers[hackerIndex]);
         int numberOfDesiredCourses = getCoursesCount(hackerStructPointer);
 
         int* desiredCoursesArray = getCourseArray(hackerStructPointer);
@@ -221,12 +226,23 @@ void hackEnrollment(EnrollmentSystem system, FILE* out){
             Course currentCourse = findCourseByNumber(currentCourseNumber, system, CourseArray);
             IsraeliQueue currentQueue = getCourseQueue(currentCourse);
             IsraeliQueueEnqueue(currentQueue, hackerStructPointer);
+            if(RequestedOnlyOneCourse(hackerStructPointer) && notEnrolled(studentID ,hackerStructPointer, currentCourse)){
+                terminate();
+                return;
+            }
+            // TODO: write function that checks if has only one requested course and then
+            // TODO: write function that checks if the placement of the hacker is after "SIZE" in the queue
+            // TODO: write a function that terminates the void and writes "Cannot satisfy constraints for <Student ID>"
         }
-    }
-
-    // TODO: code a funciton that writes the Israeli queue into "out.txt":
-    for(int i = 0; i < system->m_numberOfCourses; i++){
-        writeCourseQueueToFile(CourseArray);
+        // Check if hacker got two of his choices
+        bool gotChoices = checkChoiceResults(hackerStructPointer, numberOfHackers, CourseArray, );
+        if () {
+            for (int i = 0; i < system->m_numberOfCourses; i++) {
+                writeCourseQueueToFile(CourseArray, out);
+            }
+        } else {
+            // terminate(out, studentID);
+        }
     }
 }
 

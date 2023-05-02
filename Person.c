@@ -21,6 +21,9 @@ struct Person_t{
     char* SurName;
     char* City;
     char* Department;
+    int DesiredCourses[2];
+    char** Friends;
+    char** Rivals;
 };
 
 /** Function Implementation */

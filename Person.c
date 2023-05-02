@@ -21,8 +21,6 @@ struct Person_t{
     char* SurName;
     char* City;
     char* Department;
-
-
     Hacker* Hacker;
 
 };

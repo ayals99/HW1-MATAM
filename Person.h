@@ -7,19 +7,29 @@
 /** Type for defining the Person */
 typedef struct Person_t Person;
 
+typedef enum {PERSON_ERROR_BAD_PARAM, PERSON_ERROR_ALLOC_FAILED, PERSON_ERROR_SUCCESS} PersonError;
+
 /**
  * personCreate: Creates a Person struct pointer with the following fields:
- * student ID
- * Total Credits
+ * that should be initialized to the following values -
+ * student ID = NULL
+ * Total Credits = 0
  * GPA
  * Name
  * Surname
  * City
  * Department
+ * Hacker
  *
  * return - a ptr to the new person Or NULL in case of failure;
  */
-Person* personCreate();
+Person* personCreate(char* studentID,
+                     int totalCredits
+                     ,int GPA
+                     ,char* name
+                     ,char* surName,
+                     ,char* department
+                     ,Hacker* hacker);
 
 /**
  * freePerson: frees the person sent to the function.
@@ -72,6 +82,9 @@ char* personGetCity(Person* currPerson);
 //personGetDepartment: returns a ptr to a str that holds the department of a given person
 char* personGetDepartment(Person* currPerson);
 
+//personGetHacker: returns a ptr to a Hacker struct held by person.
+Hacker* personGetHacker(Person* currPerson);
+
 /** Setter Functions */
 
 //personSetID: Sets the selected persons ID with the ID provided
@@ -102,4 +115,9 @@ IsraeliQueueError personSetCity(Person* currPerson, char* cityToSet);
 //provided, returns SUCCESS or FAILURE according to the enum FAILURE chart.
 IsraeliQueueError personSetDepartment(Person* currPerson, char* depToSet);
 
+//personSetHacker: sets a ptr to a Hacker struct held by person.
+Hacker* personGetHacker(Person* currPerson, Hacker* hackerToSet);
+
 #endif
+
+//TODO change IsraeliQueueError to PersonError just in this file.

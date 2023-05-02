@@ -15,7 +15,7 @@
 
 /** Typedef */
 
-typedef struct hacker_t* Hacker;
+typedef struct hacker_t Hacker;
 
 /** Functions */
 

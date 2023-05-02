@@ -30,6 +30,12 @@ struct enrollmentSystem_t{
     Person* students;
 };
 
+/** Function Signatures */
+Node* createListOfStudents(FILE* students);
+Node* readHackerFile(FILE* hackers, Node* studentList);
+EnrollmentSystemError configureHackers(FILE* hackers, Node* studentList);
+Node* createHackerList(Node* studentList, int hackerCount);
+
 /** Friendship functions */
 
 int byHackerFile(void* student1, void* student2)
@@ -148,6 +154,8 @@ int byIdDelta(void* student1, void* student2)
     }
     return abs(firstNumericalID - secondNumericalID);
 }
+
+/** Functions Implementation */
 
 EnrollmentSystem createEnrollment(FILE* students, FILE* courses, FILE* hackers)
 {

@@ -3,3 +3,11 @@
 //
 
 #include "Hacker.h"
+
+struct hacker_t {
+    int desiredCoursesCount;
+    int* DesiredCoursesArray;
+    char** Friends;
+    char** Rivals;
+};
+

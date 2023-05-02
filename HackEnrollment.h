@@ -19,6 +19,7 @@
 
 /** Typedef */
 
+typedef enum {ENROLLMENT_SYSTEM_SUCCESS, ENROLLMENT_SYSTEM_BAD_PARAM, ENROLLMENT_SYSTEM_ALLOC_FAILED} EnrollmentSystemError;
 typedef struct enrollmentSystem_t EnrollmentSystem;
 
 
@@ -40,6 +41,7 @@ int byIdDelta(void*, void*);
  * @return EnrollmentSystem, or NULL in case of failure
  */
 EnrollmentSystem createEnrollment(FILE*, FILE*, FILE*);
+
 
 
 /**

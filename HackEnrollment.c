@@ -216,7 +216,7 @@ void hackEnrollment(EnrollmentSystem system, FILE* out){
     for (int hackerIndex = 0; hackerIndex < numberOfHackers; hackerIndex++){
 
         Hacker hackerStructPointer = getHackerPointerFromList(listOfHackers, hackerIndex);
-        char* studentID = personGetID(listOfHackers[hackerIndex]);
+        char* studentID = personGetID(nodeGetItem(listOfHackers[hackerIndex]));
         int numberOfDesiredCourses = getCoursesCount(hackerStructPointer);
 
         int* desiredCoursesArray = getCourseArray(hackerStructPointer);

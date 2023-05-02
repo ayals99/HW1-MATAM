@@ -23,10 +23,11 @@
 
 /** Struct declaration */
 typedef Node** HackerArray;
+typedef Course* courseStructPointerArray;
 
 struct enrollmentSystem_t{
-    IsraeliQueue* queueArray;
-    int* courses;
+    courseStructPointerArray Courses;
+    int numberOfCourses;
     HackerArray hackerPointerArray;
     int numberOfHackers;
     Person* students;
@@ -174,10 +175,47 @@ EnrollmentSystem createEnrollment(FILE* students, FILE* courses, FILE* hackers)
  *
  * gets: an Enrollment system and Out FILE*.
  */
- // loops through all hackers and tries to enqueue them into the qeueue.
- //
-void hackEnrollment(EnrollmentSystem, FILE*){
+ // loops through all hackers and tries to enqueue them into the queue.
 
+Hacker* getHackerPointerFromList(HackerArray listOfHackers, int index){
+    Node* pointerToHackerNode = listOfHackers[index];
+    Person* originalHacker = nodeGetItem(pointerToHackerNode);
+    Person* currentHacker = copyPerson(originalHacker);
+    return personGetHacker(currentHacker);
+}
+
+Course findCourseByNumber(int courseNumber, EnrollmentSystem system, Course* courseArrayPointer){
+    int numberOfCourses = system->numberOfCourses;
+    for(int i = 0; i< numberOfCourses; i++){
+        Course current = courseArrayPointer[i];
+        if(courseNumber == getCourseNumber(current)){
+            return current;
+        }
+    }
+    return NULL;
+}
+
+void hackEnrollment(EnrollmentSystem system, FILE* out){
+    int numberOfHackers = system->numberOfHackers;
+
+    Course* firstCoursePointer = system->Courses;
+    HackerArray listOfHackers = system->hackerPointerArray;
+
+    for (int index = 0; index < numberOfHackers; index++){
+
+        Hacker* hackerStructPointer = getHackerPointerFromList(listOfHackers, index);
+
+        int numberOfDesiredCourses = getCoursesCount(hackerStructPointer);
+
+        int* desiredCoursesArray = getCourseArray(hackerStructPointer);
+
+        for(int i = 0; i < numberOfDesiredCourses; i++){
+            int currentCourseNumber = desiredCoursesArray[i];
+            Course currentCourse = findCourseByNumber(currentCourseNumber, system, firstCoursePointer);
+            IsraeliQueue currentQueue = getCourseQueue(currentCourse);
+            IsraeliQueueEnqueue(currentQueue, hackerStructPointer);
+        }
+    }
 }
 
 

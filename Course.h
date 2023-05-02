@@ -6,7 +6,7 @@
 
 #include "IsraeliQueue.h"
 
-typedef struct course_t Course;
+typedef struct course_t* Course;
 typedef enum {COURSE_ERROR_BAD_PARAM, COURSE_ERROR_ALLOC_FAILED, COURSE_ERROR_SUCCESS} CourseError;
 
 /** Functions */
@@ -17,25 +17,25 @@ typedef enum {COURSE_ERROR_BAD_PARAM, COURSE_ERROR_ALLOC_FAILED, COURSE_ERROR_SU
  * @param courses - FILE.
  * @return a pointer to a course strut, or NULL in case of failure.
  */
-Course* courseCreate(FILE* courses);
+Course courseCreate(FILE* courses);
 
 /**
  * courseDestroy:Destroy a course struct and free all the fields inside,.
  *
  * @param Course* - Course to destroy..
  */
-void courseDestroy(Course* toDestroy);
+void courseDestroy(Course toDestroy);
 
 /** Getter Functions */
 
-int getCourseNumber(Course* course);
+int getCourseNumber(Course course);
 
-int getCourseSize(Course* course);
+int getCourseSize(Course course);
 
-IsraeliQueue getCourseQueue(Course* course);
+IsraeliQueue getCourseQueue(Course course);
 
 /** Setter Functions */
 
-CourseError setCourseQueue(Course* currentCourse, IsraeliQueue queueToSet);
+CourseError setCourseQueue(Course currentCourse, IsraeliQueue queueToSet);
 
 #endif

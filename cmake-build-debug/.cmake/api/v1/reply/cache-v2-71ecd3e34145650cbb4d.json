@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "c:/Users/Shani Sazbon/CLionProjects/CLionProjects/ex1---Berko-and-Ayal/cmake-build-debug"
+			"value" : "c:/Users/ayals/OneDrive/Documents/GitHub/ex1---Berko-and-Ayal/cmake-build-debug"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -431,7 +431,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/Shani Sazbon/CLionProjects/CLionProjects/ex1---Berko-and-Ayal/cmake-build-debug/CMakeFiles/pkgRedirects"
+			"value" : "C:/Users/ayals/OneDrive/Documents/GitHub/ex1---Berko-and-Ayal/cmake-build-debug/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -503,7 +503,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Users/Shani Sazbon/CLionProjects/CLionProjects/ex1---Berko-and-Ayal"
+			"value" : "C:/Users/ayals/OneDrive/Documents/GitHub/ex1---Berko-and-Ayal"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",
@@ -1131,7 +1131,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/Shani Sazbon/CLionProjects/CLionProjects/ex1---Berko-and-Ayal/cmake-build-debug"
+			"value" : "C:/Users/ayals/OneDrive/Documents/GitHub/ex1---Berko-and-Ayal/cmake-build-debug"
 		},
 		{
 			"name" : "ex1___Berko_and_Ayal_IS_TOP_LEVEL",
@@ -1155,7 +1155,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/Shani Sazbon/CLionProjects/CLionProjects/ex1---Berko-and-Ayal"
+			"value" : "C:/Users/ayals/OneDrive/Documents/GitHub/ex1---Berko-and-Ayal"
 		}
 	],
 	"kind" : "cache",

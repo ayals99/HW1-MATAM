@@ -22,11 +22,13 @@
 #define PUSHING_FORWARD 10
 
 /** Struct declaration */
+typedef Node** HackerArray;
 
 struct enrollmentSystem_t{
     IsraeliQueue* queueArray;
     int* courses;
-    Hacker* hackers;
+    HackerArray hackerPointerArray;
+    int numberOfHackers;
     Person* students;
 };
 
@@ -34,7 +36,8 @@ struct enrollmentSystem_t{
 Node* createListOfStudents(FILE* students);
 Node* readHackerFile(FILE* hackers, Node* studentList);
 EnrollmentSystemError configureHackers(FILE* hackers, Node* studentList);
-Node* createHackerList(Node* studentList, int hackerCount);
+int countHackers(FILE* hackers);
+HackerArray createHackerList(Node* studentList, int hackerCount);
 
 /** Friendship functions */
 
@@ -160,6 +163,21 @@ int byIdDelta(void* student1, void* student2)
 EnrollmentSystem createEnrollment(FILE* students, FILE* courses, FILE* hackers)
 {
     
+}
+
+
+/**
+ * hackEnrollment: writes to Out new course queue where the hackers are inserted .
+ * to two courses that they wished for, or one if they wished for one.
+ * In case that one of the hackers didnt get what He/She wished for then the
+ * output is an error message.
+ *
+ * gets: an Enrollment system and Out FILE*.
+ */
+ // loops through all hackers and tries to enqueue them into the qeueue.
+ //
+void hackEnrollment(EnrollmentSystem, FILE*){
+
 }
 
 

@@ -1,11 +1,10 @@
 #ifndef NODE_H
 #define NODE_H
 
-#include "IsraeliQueue.h"
 
 /** Type for defining the Node */
 typedef struct Node_t Node;
-
+typedef enum {NODE_ERROR_BAD_PARAM, NODE_ERROR_SUCCESS} NodeError;
 
 /**
  * nodeCreate: Allocates a new node with an Item pointer and a pointer to the
@@ -30,7 +29,7 @@ void nodeDestroy(Node*);
  *
  * return - BAD_PARAM if any of the parameters are NULL Or SUCCESS otherwise
  */
-IsraeliQueueError addNodeAfter(Node*, Node*);
+NodeError addNodeAfter(Node*, Node*);
 
 /**
  * addNodeBefore: Puts a new node between the current and previous Nodes.
@@ -38,7 +37,7 @@ IsraeliQueueError addNodeAfter(Node*, Node*);
  *
  * return - BAD_PARAM if any of the parameters are NULL Or SUCCESS otherwise
  */
-IsraeliQueueError addNodeBefore(Node*, Node*);
+NodeError addNodeBefore(Node*, Node*);
 
 /**
  * addPassCount: add +1 to the passCount of the given node.
@@ -46,7 +45,7 @@ IsraeliQueueError addNodeBefore(Node*, Node*);
  *
  * @return - BAD_PARAM if the node is NULL or SUCCESS otherwise.
  */
-IsraeliQueueError addPassCount(Node*);
+NodeError addPassCount(Node*);
 
 /**
  * addBlockCount: add +1 to the blockCount of the given node.
@@ -54,7 +53,7 @@ IsraeliQueueError addPassCount(Node*);
  *
  * @return - BAD_PARAM if the node is NULL or SUCCESS otherwise.
  */
-IsraeliQueueError addBlockCount(Node*);
+NodeError addBlockCount(Node*);
 
 /**
  * resetCount: resets the counts on a given node.
@@ -62,7 +61,7 @@ IsraeliQueueError addBlockCount(Node*);
  *
  * @return - BAD_PARAM if the node is NULL or SUCCESS otherwise.
  */
-IsraeliQueueError resetCount(Node*);
+NodeError resetCount(Node*);
 
 /**
  * cloneNode: clones a node with the exact same parameters. but the cloned item
@@ -125,7 +124,7 @@ int nodeGetBlockCount(Node*);
  *
  * return - BAD_PARAM if any of the parameters are NULL Or SUCCESS otherwise
  */
-IsraeliQueueError nodeSetItem(Node*, void*);
+NodeError nodeSetItem(Node*, void*);
 
 /**
  * nodeSetNext: sets the Next node to the given one in the function.
@@ -134,7 +133,7 @@ IsraeliQueueError nodeSetItem(Node*, void*);
  *
  * return - BAD_PARAM if any of the parameters are NULL Or SUCCESS otherwise
  */
-IsraeliQueueError nodeSetNext(Node*, Node*);
+NodeError nodeSetNext(Node*, Node*);
 
 /**
  * nodeSetPrevious: sets the Previous node to the given one in the function.
@@ -143,7 +142,7 @@ IsraeliQueueError nodeSetNext(Node*, Node*);
  *
  * return - BAD_PARAM if any of the parameters are NULL Or SUCCESS otherwise
  */
-IsraeliQueueError nodeSetPrevious(Node*, Node*);
+NodeError nodeSetPrevious(Node*, Node*);
 
 
 

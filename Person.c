@@ -4,6 +4,7 @@
 
 #include "Node.h"
 #include "Person.h"
+#include "Hacker.h"
 
 /** DEFINES */
 

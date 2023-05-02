@@ -1,6 +1,8 @@
 #ifndef PROVIDED_ISRAELIQUEUE_H
 #define PROVIDED_ISRAELIQUEUE_H
 
+#include "Node.h"
+
 #include <stdbool.h>
 
 #define FRIEND_QUOTA 5

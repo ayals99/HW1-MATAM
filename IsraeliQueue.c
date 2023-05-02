@@ -5,7 +5,6 @@
 #include <assert.h>
 
 #include "IsraeliQueue.h"
-#include "Node.h"
 
 #define EMPTY_QUEUE 0
 

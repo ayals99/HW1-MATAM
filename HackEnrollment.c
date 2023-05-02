@@ -205,8 +205,7 @@ Course findCourseByNumber(int courseNumber, EnrollmentSystem system, Course* cou
 
 void hackEnrollment(EnrollmentSystem system, FILE* out){
     int numberOfHackers = system->m_numberOfHackers;
-
-    Course* firstCoursePointer = system->m_courses;
+    Course* CourseArray = system->m_courses;
     HackerArray listOfHackers = system->m_hackerPointerArray;
 
     for (int index = 0; index < numberOfHackers; index++){
@@ -219,10 +218,15 @@ void hackEnrollment(EnrollmentSystem system, FILE* out){
 
         for(int i = 0; i < numberOfDesiredCourses; i++){
             int currentCourseNumber = desiredCoursesArray[i];
-            Course currentCourse = findCourseByNumber(currentCourseNumber, system, firstCoursePointer);
+            Course currentCourse = findCourseByNumber(currentCourseNumber, system, CourseArray);
             IsraeliQueue currentQueue = getCourseQueue(currentCourse);
             IsraeliQueueEnqueue(currentQueue, hackerStructPointer);
         }
+    }
+
+    // TODO: code a funciton that writes the Israeli queue into "out.txt":
+    for(int i = 0; i < system->m_numberOfCourses; i++){
+        writeCourseQueueToFile(CourseArray);
     }
 }
 

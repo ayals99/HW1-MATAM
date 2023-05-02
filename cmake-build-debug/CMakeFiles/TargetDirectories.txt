@@ -1,0 +1,3 @@
+C:/Users/Shani Sazbon/Desktop/לימודים/סמסטר ב/מת''מ/HW/ex1---Berko-and-Ayal/cmake-build-debug/CMakeFiles/ex1___Berko_and_Ayal.dir
+C:/Users/Shani Sazbon/Desktop/לימודים/סמסטר ב/מת''מ/HW/ex1---Berko-and-Ayal/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Shani Sazbon/Desktop/לימודים/סמסטר ב/מת''מ/HW/ex1---Berko-and-Ayal/cmake-build-debug/CMakeFiles/rebuild_cache.dir

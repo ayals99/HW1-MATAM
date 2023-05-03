@@ -11,7 +11,7 @@
         Person.h includes Hacker.h and Node.h
         Courses.h includes IsraeliQueue.h
             IsraeliQueue.h includes Node.h
-  */
+*/
 
 #include <stdlib.h>
 #include <stdio.h>

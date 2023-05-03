@@ -20,7 +20,7 @@
 #define NEUTRAL 0
 #define THE_VALUE_OF_CHAR_ZERO '0'
 #define PUSHING_FORWARD 10
-#define IDENTICAL 0
+#define IDENTICAL 1
 
 /** Struct declaration */
 typedef Node** HackerArray;
@@ -41,12 +41,16 @@ EnrollmentSystemError configureHackers(FILE* hackers, Node* studentList);
 int countHackers(FILE* hackers);
 HackerArray createHackerList(Node* studentList, int hackerCount);
 
-bool enrolledInTwoChoices(char* studentID, Hacker currentHackerStruct, Course* courseArray, int numberOfHackers,
+bool enrolledInTwoChoices(Person currentPerson, Hacker currentHackerStruct, Course* courseArray, int numberOfHackers,
                           int totalNumberOfCourses);
 void terminate(char* studentID, FILE* out);
 bool requestedOnlyOneCourse (Hacker hacker);
 
 /** Friendship functions */
+
+int comparisonFunction(void* student1, void* student2){
+        //TODO: write comparison function
+}
 
 int byHackerFile(void* student1, void* student2)
 {
@@ -236,16 +240,15 @@ void terminate(char* studentID, FILE* out){
     // TODO: free all memory that was used
 }
 
-bool enrolledInCourse(char* studentID, Course currentCourse){
+bool enrolledInCourse(Person currentPerson, Course currentCourse){
     IsraeliQueue list = getCourseQueue(currentCourse);
-    Node currentNode = list; //TODO: need a function that gets head of list from an IsraeliQueue
-    while(currentNode != NULL){
-        Person currentPerson = nodeGetItem(currentNode);
+    Person currentPersonInList = (Person) IsraeliQueueDequeue(list); //TODO: need a function that gets head of list from an IsraeliQueue
+    while(currentPerson != NULL){
         char* currentID = personGetID(currentPerson);
-        if(strcmp(studentID, currentID) == IDENTICAL){
+        if(comparisonFunction(currentPerson, currentPersonInList) == IDENTICAL){
             return true;
         }
-        currentNode = nodeGetNext(currentNode);
+        currentPersonInList = (Person) IsraeliQueueDequeue(list);
     }
     return false;
 }
@@ -260,14 +263,14 @@ Course findCourseByNumber(int courseNumber, int totalNumberOfCourses, Course *co
     return NULL;
 }
 
-bool enrolledInTwoChoices(char* studentID, Hacker currentHackerStruct, Course* courseArray, int numberOfHackers,
+bool enrolledInTwoChoices(Person currentPerson, Hacker currentHackerStruct, Course* courseArray, int numberOfHackers,
                           int totalNumberOfCourses){
     int enrollmentCounter = 0;
     int* desiredCoursesArray = getCourseArray(currentHackerStruct);
     int numberOfDesiredCourses = getCoursesCount(currentHackerStruct);
     for(int i = 0; i < numberOfDesiredCourses; i++){
         Course currentCourse = findCourseByNumber(desiredCoursesArray[i], totalNumberOfCourses , courseArray);
-        if( enrolledInCourse(studentID, currentCourse) ){
+        if( enrolledInCourse(currentPerson, currentCourse) ){
             enrollmentCounter += 1;
         }
     }
@@ -279,7 +282,6 @@ bool enrolledInTwoChoices(char* studentID, Hacker currentHackerStruct, Course* c
     }
 }
 
-
 void hackEnrollment(EnrollmentSystem system, FILE* out){
     int totalNumberOfCourses = system->m_numberOfCourses;
     int numberOfHackers = system->m_numberOfHackers;
@@ -290,7 +292,8 @@ void hackEnrollment(EnrollmentSystem system, FILE* out){
     for (int hackerIndex = 0; hackerIndex < numberOfHackers; hackerIndex++){
         int enrollmentCounter = 0;
         Hacker currentHackerStruct = getHackerPointerFromList(listOfHackers, hackerIndex);
-        char* studentID = personGetID(nodeGetItem(listOfHackers[hackerIndex]));
+        Person currentPerson = nodeGetItem(listOfHackers[hackerIndex]);
+        char* studentID = personGetID(currentPerson);
         int numberOfDesiredCourses = getCoursesCount(currentHackerStruct);
         int* desiredCoursesArray = getCourseArray(currentHackerStruct);
 
@@ -301,7 +304,7 @@ void hackEnrollment(EnrollmentSystem system, FILE* out){
             Course currentCourse = findCourseByNumber(currentCourseNumber,  totalNumberOfCourses, courseArray);
             IsraeliQueue currentQueue = getCourseQueue(currentCourse);
             IsraeliQueueEnqueue(currentQueue, currentHackerStruct);
-            bool gotTheCourse = enrolledInCourse(studentID, currentCourse);
+            bool gotTheCourse = enrolledInCourse(currentPerson, currentCourse);
             if(requestedOnlyOneCourse(currentHackerStruct) && !gotTheCourse){
                 terminate(studentID, out);
                 return;

@@ -202,9 +202,34 @@ Hacker getHackerPointerFromList(HackerArray listOfHackers, int index){
     return personGetHacker(currentHacker);
 }
 
-// TODO: implement this function "intToString"
-char* intToString(int courseNumber){
+int countDigits(int number){
+    int counter = 0;
+    while(number > 0){
+        counter++;
+        number /= 10;
+    }
+    return counter;
+}
 
+// TODO: implement this function "intToString"
+/**
+ * intToString() takes an integer and turns it into a string
+ * uses malloc, so needs to be freed later by user of function
+ */
+char* intToString(int number){
+    int digitAmount = 0;
+    int tempNumber = number;
+    digitAmount = countDigits(number);
+    char* string = malloc(sizeof(*string)*digitAmount);
+    int index = 0;
+
+    while (digitAmount > 0){
+        int currentDigit =  tempNumber / (int)pow(10,digitAmount - 1);
+        string[index] = currentDigit + '0';
+        tempNumber /= 10;
+        digitAmount--;
+    }
+    return string;
 }
 
 void writeCourseQueueToFile(Course* CourseArray, int totalNumberOfCourses, FILE* out){
@@ -212,13 +237,24 @@ void writeCourseQueueToFile(Course* CourseArray, int totalNumberOfCourses, FILE*
     for(int courseIndex = 0; courseIndex < totalNumberOfCourses; courseIndex++){
         Course currentCourse = CourseArray[courseIndex];
         IsraeliQueue queue = getCourseQueue(currentCourse);
-        Person head = IsraeliQueueDequeue(queue);
+        Person head;
         int courseNumber = getCourseNumber(currentCourse);
+
         char* courseNumberStr = intToString(courseNumber);
         fputs(courseNumberStr, out);
         free (courseNumberStr);
+
         fputs(" ", out);
         //TODO: finish wiriting to file "out.txt"
+        int courseCapacity = getCourseSize(currentCourse);
+        for(int i = 0; i < courseCapacity; i++){
+            head = IsraeliQueueDequeue(queue);
+            fputs(personGetID(head), out);
+            if(i != courseCapacity - 1){
+                fputs(" ",out);
+            }
+        }
+        fputs("\n", out);
     }
 }
 
@@ -242,14 +278,16 @@ void terminate(char* studentID, FILE* out){
 
 bool enrolledInCourse(Person currentPerson, Course currentCourse){
     IsraeliQueue list = getCourseQueue(currentCourse);
-    Person currentPersonInList = (Person) IsraeliQueueDequeue(list);
+    IsraeliQueue clonedList = IsraeliQueueClone(list);
+    Person currentPersonInList = (Person) IsraeliQueueDequeue(clonedList);
     int courseSize = getCourseSize(currentCourse);
     for(int i = 0; i < courseSize && currentPerson != NULL; i++){
         if(comparisonFunction(currentPerson, currentPersonInList) == IDENTICAL){
             return true;
         }
-        currentPersonInList = (Person) IsraeliQueueDequeue(list);
+        currentPersonInList = (Person) IsraeliQueueDequeue(clonedList);
     }
+    IsraeliQueueDestroy(clonedList);
     return false;
 }
 

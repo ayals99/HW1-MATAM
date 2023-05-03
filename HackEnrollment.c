@@ -22,8 +22,10 @@
 #define PUSHING_FORWARD 10
 #define IDENTICAL 1
 #define INVALID_FILE (-1)
+#define INVALID_STR (-1)
 #define ROW_DROP '\n'
 #define SPACE_BAR ' '
+#define LINES_PER_HACKER 4
 
 /** Struct declaration */
 typedef Node** HackerArray;
@@ -35,6 +37,7 @@ struct enrollmentSystem_t{
     HackerArray m_hackerPointerArray;
     int m_numberOfHackers;
     Person* m_students;
+    int m_numberOfStudents;
 };
 
 /** Function Signatures */
@@ -45,8 +48,12 @@ int countHackers(FILE* hackers);
 HackerArray createHackerList(Node* studentList, int hackerCount);
 int getLongestLineLength(FILE* file);
 EnrollmentSystemError initializeSystem(EnrollmentSystem sys);
-courseStructPointerArray makeCoursesArray(FILE* courses);
-int getNumberOfCourses(FILE* file);
+courseStructPointerArray makeCoursesArray(FILE* courses, int numberOfCourses);
+int getLinesOfFile(FILE* file);
+Person* makeAllStudentsArray(FILE* students,int numberOfStudents);
+int getNumberOfElementsInLine(char* string);
+
+
 
 bool enrolledInTwoChoices(Person currentPerson,
                           Hacker currentHackerStruct,
@@ -216,7 +223,7 @@ int getLongestLineLength(FILE* file)
     return maxLength;
 }
 
-int getNumberOfCourses(FILE* file)
+int getLinesOfFile(FILE* file)
 {
     if (file == NULL)
     {
@@ -252,13 +259,8 @@ EnrollmentSystemError initializeSystem(EnrollmentSystem sys)
     return ENROLLMENT_SYSTEM_SUCCESS;
 }
 
-courseStructPointerArray makeCoursesArray(FILE* courses)
+courseStructPointerArray makeCoursesArray(FILE* courses, int numberOfCourses)
 {
-    int numberOfCourses = getNumberOfCourses(courses);
-    if(numberOfCourses == EOF)
-    {
-        return NULL;
-    }
     courseStructPointerArray coursesArray = (courseStructPointerArray) malloc(
             sizeof(Course) * numberOfCourses);
     if(coursesArray == NULL)
@@ -266,34 +268,156 @@ courseStructPointerArray makeCoursesArray(FILE* courses)
         return NULL;
     }
     int longestLineLength = getLongestLineLength(courses);
-    char* buffer = malloc(sizeof(char) * longestLineLength);
+    char* buffer = malloc(sizeof(char) * (longestLineLength + 1));
     if(buffer == NULL)
     {
         free(coursesArray);
         return NULL;
     }
     const char delimiter[] = {SPACE_BAR};
-    for(int i = 0; i < numberOfCourses; i++)
+    for(int i = 0; fgets(buffer, longestLineLength, courses) != NULL; i++)
     {
-        while(fgets(buffer, longestLineLength, courses) != NULL)
+        char* token = strtok(buffer, delimiter);
+        assert(token != NULL);
+        int courseNumber = atoi(token);
+        token = strtok(NULL, delimiter);
+        assert(token != NULL);
+        int courseCapacity = atoi(token);
+
+        Course currentCourse = courseCreate(courseNumber, courseCapacity);
+        if(currentCourse == NULL)
         {
-            char* currentElement = strtok(buffer, delimiter);
-            int courseNumber = atoi(currentElement);
-            currentElement = strtok(buffer, delimiter);
-            int courseCapacity = atoi(currentElement);
-            Course currentCourse = courseCreate(courseNumber, courseCapacity);
-            if(currentCourse == NULL)
-            {
-                free(coursesArray);
-                free(buffer);
-                return NULL;
-            }
-            coursesArray[i] = currentCourse;
+            free(coursesArray);
+            free(buffer);
+            return NULL;
         }
+        coursesArray[i] = currentCourse;
     }
+    free(buffer);
     return coursesArray;
 }
 
+Person* makeAllStudentsArray(FILE* students,int numberOfStudents)
+{
+    if(students == NULL || numberOfStudents == 0)
+    {
+        return NULL;
+    }
+    Person* allStudentsArray = malloc(sizeof(allStudentsArray) * (numberOfStudents + 1));
+    if(allStudentsArray == NULL)
+    {
+        return NULL;
+    }
+    int longestLineLength = getLongestLineLength(students);
+    char* buffer = malloc(sizeof(char) * longestLineLength);
+    if(buffer == NULL)
+    {
+        free(allStudentsArray);
+        return NULL;
+    }
+    const char delimiter[] = {SPACE_BAR};
+    for(int i = 0; fgets(buffer, longestLineLength, students) != NULL; i++)
+    {
+        char* token = strtok(buffer, delimiter);
+        assert(token != NULL);
+        char* id = strdup(token);
+        token = strtok(NULL, delimiter);
+        assert(token != NULL);
+        int totalCredits = atoi(token);
+        token = strtok(NULL, delimiter);
+        assert(token != NULL);
+        int gpa = atoi(token);
+        token = strtok(NULL, delimiter);
+        assert(token != NULL);
+        char* name = strdup(token);
+        token = strtok(NULL, delimiter);
+        assert(token != NULL);
+        char* surname = strdup(token);
+        token = strtok(NULL, delimiter);
+        assert(token != NULL);
+        char* city = strdup(token);
+        token = strtok(NULL, delimiter);
+        assert(token != NULL);
+        char* department = strdup(token);
+
+        Person newPerson = personCreate(id, totalCredits, gpa, name, surname, department, NULL);
+        if(newPerson == NULL)
+        {
+            free(allStudentsArray);
+            free(buffer);
+            return NULL;
+        }
+        allStudentsArray[i] = newPerson;
+    }
+    free(buffer);
+    return allStudentsArray;
+}
+
+int getNumberOfElementsInLine(char* string)
+{
+    if (string == NULL)
+    {
+        return INVALID_STR;
+    }
+    int count = 0;
+    while((*string != ROW_DROP ))
+    {
+        if(*string == SPACE_BAR)
+        {
+            count++;
+        }
+        string++;
+    }
+    return count + 1;
+}
+
+HackerArray makeHackerArray(FILE* hackers,int numberOfHackers)
+{
+    if(hackers == NULL || numberOfHackers == 0)
+    {
+        return NULL;
+    }
+    HackerArray newHackerArray = malloc(sizeof(newHackerArray) * numberOfHackers);
+    if(newHackerArray == NULL)
+    {
+        return NULL;
+    }
+    int longestLineLength = getLongestLineLength(hackers);
+    char* buffer = malloc(sizeof(char) * longestLineLength);
+    if(buffer == NULL)
+    {
+        free(newHackerArray);
+        return NULL;
+    }
+    int* desiredCourses;
+    const char delimiter[] = {SPACE_BAR};
+    while(fgets(buffer, longestLineLength, hackers) != NULL)
+    {
+        char* token = strtok(buffer, delimiter);
+        assert(token != NULL);
+        char* hackerId = strdup(token);
+    }
+    fgets(buffer, longestLineLength, hackers);
+    int numberOfElementsInLine = getNumberOfElementsInLine(buffer);
+    desiredCourses = malloc(sizeof(int) * numberOfElementsInLine);
+    if(desiredCourses == NULL)
+    {
+        free(newHackerArray);
+        free(buffer);
+        return NULL;
+    }
+    char* token = strtok(buffer, delimiter);
+    while(token != NULL)
+    {
+        *desiredCourses = atoi(token);
+        token = strtok(NULL, delimiter);
+    }
+
+
+
+
+
+}
 
 
 /**
@@ -320,7 +444,51 @@ EnrollmentSystem createEnrollment(FILE* students, FILE* courses, FILE* hackers)
         enrollmentDestroy(sys);
         return NULL;
     }
-    courseStructPointerArray coursesArray = makeCoursesArray(courses);
+    //Making and assimilating the courses array in the
+    //system struct and the  number of courses
+    int numberOfCourses = getLinesOfFile(courses);
+    if(numberOfCourses == EOF)
+    {
+        return NULL;
+    }
+    courseStructPointerArray coursesArray = makeCoursesArray(courses, numberOfCourses);
+    if(coursesArray == NULL)
+    {
+        enrollmentDestroy(sys);
+        return NULL;
+    }
+    sys->m_courses = coursesArray;
+    sys->m_numberOfCourses = numberOfCourses;
+
+    //Making and assimilating the students array
+    int numberOfStudents = getLinesOfFile(students);
+    if(numberOfStudents == EOF)
+    {
+        enrollmentDestroy(sys);
+        return NULL;
+    }
+    Person* allStudentsArray = makeAllStudentsArray(students, numberOfStudents);
+    if(allStudentsArray == NULL)
+    {
+        enrollmentDestroy(sys);
+        return NULL;
+    }
+    sys->m_students = allStudentsArray;
+    sys->m_numberOfStudents= numberOfStudents;
+    //Making and assimilating the hackers array
+    // and updating the hackers in the students array.
+    int numberOfHackers = getLinesOfFile(hackers) / LINES_PER_HACKER;
+    if(numberOfHackers == EOF)
+    {
+        enrollmentDestroy(sys);
+        return NULL;
+    }
+    HackerArray newHackerArray = makeHackerArray(hackers, numberOfHackers);
+
+
+
+
+
 
 
 

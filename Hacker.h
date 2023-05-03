@@ -16,7 +16,7 @@ typedef enum {HACKER_ERROR_ALLOC_FAILED, HACKER_ERROR_BAD_PARA, HACKER_ERROR_SUC
 
 /** Functions */
 
-Hacker hackerCreate(FILE* hackers);
+Hacker hackerCreate(char* Id, int* desiredCourses, Friends* friendsArray, Foes* foesArray);
 
 void hackerDestroy(Hacker toDestroy);
 

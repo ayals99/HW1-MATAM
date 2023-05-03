@@ -28,7 +28,7 @@
 #define LINES_PER_HACKER 4
 
 /** Struct declaration */
-typedef Node** HackerArray;
+typedef Hacker* HackerArray;
 typedef Course* courseStructPointerArray;
 
 struct enrollmentSystem_t{
@@ -377,46 +377,93 @@ HackerArray makeHackerArray(FILE* hackers,int numberOfHackers)
     {
         return NULL;
     }
-    HackerArray newHackerArray = malloc(sizeof(newHackerArray) * numberOfHackers);
+    HackerArray newHackerArray = malloc(sizeof(Hacker) * numberOfHackers);
     if(newHackerArray == NULL)
     {
         return NULL;
     }
     int longestLineLength = getLongestLineLength(hackers);
-    char* buffer = malloc(sizeof(char) * longestLineLength);
+    char* buffer = malloc(sizeof(char) * longestLineLength + 1);
     if(buffer == NULL)
     {
         free(newHackerArray);
         return NULL;
     }
-    int* desiredCourses;
     const char delimiter[] = {SPACE_BAR};
-    while(fgets(buffer, longestLineLength, hackers) != NULL)
+    for(int i = 0; i < numberOfHackers; i++)
     {
+        fgets(buffer, longestLineLength, hackers);
         char* token = strtok(buffer, delimiter);
-        assert(token != NULL);
         char* hackerId = strdup(token);
+        fgets(buffer, longestLineLength, hackers);
+        int numberOfElementsInLine = getNumberOfElementsInLine(buffer);
+        int* desiredCourses = malloc(sizeof(int) * numberOfElementsInLine);
+        if(desiredCourses == NULL)
+        {
+            free(newHackerArray);
+            free(buffer);
+            return NULL;
+        }
+        int *tmp = desiredCourses;
+        token = strtok(buffer, delimiter);
+        while(token != NULL)
+        {
+            *tmp = atoi(token);
+            token = strtok(NULL, delimiter);
+            tmp++;
+        }
+        fgets(buffer, longestLineLength, hackers);
+        numberOfElementsInLine = getNumberOfElementsInLine(buffer);
+        Friends* friendsArray = malloc(sizeof(Friends) * (numberOfElementsInLine + 2));
+        if(friendsArray == NULL)
+        {
+            free(desiredCourses);
+            free(newHackerArray);
+            free(buffer);
+            return NULL;
+        }
+        Friends* tmpFriendsArray = friendsArray;
+        token = strtok(buffer, delimiter);
+        while(token != NULL)
+        {
+            *tmpFriendsArray = strdup(token);
+            token = strtok(NULL, delimiter);
+            tmpFriendsArray++;
+        }
+        *tmpFriendsArray = NULL;
+        fgets(buffer, longestLineLength, hackers);
+        numberOfElementsInLine = getNumberOfElementsInLine(buffer);
+        Foes* foesArray = malloc(sizeof(Foes) * (numberOfElementsInLine + 2));
+        if(foesArray == NULL)
+        {
+            free(friendsArray);
+            free(desiredCourses);
+            free(newHackerArray);
+            free(buffer);
+            return NULL;
+        }
+        Foes* tmpFoesArray = foesArray;
+        token = strtok(buffer, delimiter);
+        while(token != NULL)
+        {
+            *tmpFoesArray = strdup(token);
+            token = strtok(NULL, delimiter);
+            tmpFoesArray++;
+        }
+        *tmpFoesArray = NULL;
+        Hacker newHacker = hackerCreate(hackerId, desiredCourses, friendsArray, foesArray);
+        if(newHacker == NULL)
+        {
+            free(foesArray);
+            free(friendsArray);
+            free(desiredCourses);
+            free(newHackerArray);
+            free(buffer);
+            return NULL;
+        }
+        newHackerArray[i] = newHacker;
     }
-    fgets(buffer, longestLineLength, hackers);
-    int numberOfElementsInLine = getNumberOfElementsInLine(buffer);
-    desiredCourses = malloc(sizeof(int) * numberOfElementsInLine);
-    if(desiredCourses == NULL)
-    {
-        free(newHackerArray);
-        free(buffer);
-        return NULL;
-    }
-    char* token = strtok(buffer, delimiter);
-    while(token != NULL)
-    {
-        *desiredCourses = atoi(token);
-        token = strtok(NULL, delimiter);
-    }
-
-
-
-
-
+    return newHackerArray;
 }
 
 
@@ -459,7 +506,6 @@ EnrollmentSystem createEnrollment(FILE* students, FILE* courses, FILE* hackers)
     }
     sys->m_courses = coursesArray;
     sys->m_numberOfCourses = numberOfCourses;
-
     //Making and assimilating the students array
     int numberOfStudents = getLinesOfFile(students);
     if(numberOfStudents == EOF)
@@ -483,15 +529,15 @@ EnrollmentSystem createEnrollment(FILE* students, FILE* courses, FILE* hackers)
         enrollmentDestroy(sys);
         return NULL;
     }
+    sys->m_numberOfHackers = numberOfHackers;
     HackerArray newHackerArray = makeHackerArray(hackers, numberOfHackers);
-
-
-
-
-
-
-
-
+    if(newHackerArray == NULL)
+    {
+        enrollmentDestroy(sys);
+        return NULL;
+    }
+    sys->m_hackerPointerArray = newHackerArray;
+    return sys;
 }
 
 

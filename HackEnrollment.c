@@ -202,7 +202,7 @@ Hacker getHackerPointerFromList(HackerArray listOfHackers, int index){
     return personGetHacker(currentHacker);
 }
 
-    // TODO: implement this function "intToString"
+// TODO: implement this function "intToString"
 char* intToString(int courseNumber){
 
 }
@@ -212,13 +212,13 @@ void writeCourseQueueToFile(Course* CourseArray, int totalNumberOfCourses, FILE*
     for(int courseIndex = 0; courseIndex < totalNumberOfCourses; courseIndex++){
         Course currentCourse = CourseArray[courseIndex];
         IsraeliQueue queue = getCourseQueue(currentCourse);
-        Node head = getCourseHead(currentCourse);
+        Person head = IsraeliQueueDequeue(queue);
         int courseNumber = getCourseNumber(currentCourse);
         char* courseNumberStr = intToString(courseNumber);
         fputs(courseNumberStr, out);
         free (courseNumberStr);
         fputs(" ", out);
-
+        //TODO: finish wiriting to file "out.txt"
     }
 }
 
@@ -242,9 +242,9 @@ void terminate(char* studentID, FILE* out){
 
 bool enrolledInCourse(Person currentPerson, Course currentCourse){
     IsraeliQueue list = getCourseQueue(currentCourse);
-    Person currentPersonInList = (Person) IsraeliQueueDequeue(list); //TODO: need a function that gets head of list from an IsraeliQueue
-    while(currentPerson != NULL){
-        char* currentID = personGetID(currentPerson);
+    Person currentPersonInList = (Person) IsraeliQueueDequeue(list);
+    int courseSize = getCourseSize(currentCourse);
+    for(int i = 0; i < courseSize && currentPerson != NULL; i++){
         if(comparisonFunction(currentPerson, currentPersonInList) == IDENTICAL){
             return true;
         }
@@ -312,9 +312,6 @@ void hackEnrollment(EnrollmentSystem system, FILE* out){
             if(gotTheCourse){
                 enrollmentCounter++;
             }
-            // TODO: write function that checks if has only one requested course
-            // TODO: write function that checks if the placement of the hacker is after "SIZE" in the queue
-            // TODO: write a function that terminates the void and writes "Cannot satisfy constraints for <Student ID>"
         }
         // Check if hacker got two of his choices:
         if(enrollmentCounter < 2){

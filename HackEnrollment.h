@@ -1,12 +1,12 @@
-#ifndef HACKENROLLMENT_H
-#define HACKENROLLMENT_H
+#ifndef PROVIDED_HACKENROLLMENT_H
+#define PROVIDED_HACKENROLLMENT_H
 
 /** Included files */
 
 #include "Person.h"
 #include "Course.h"
 /*
-    Include tree:
+    #Include tree:
     HackEnrollment.h includes Person.h and Courses.h
         Person.h includes Hacker.h and Node.h
         Courses.h includes IsraeliQueue.h

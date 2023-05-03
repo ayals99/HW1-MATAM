@@ -15,7 +15,7 @@
 /** Struct Declaration */
 
 struct Person_t{
-    char m_ID[ID_MAX_LENGTH];
+    char* m_ID;
     int m_TotalCredits;
     int m_GPA;
     char* m_Name;
@@ -23,22 +23,30 @@ struct Person_t{
     char* m_City;
     char* m_Department;
     Hacker m_Hacker;
-
 };
 
 /** Function Implementation */
 
-Person personCreate()
+Person personCreate(char* studentID,
+                    int totalCredits,
+                    int GPA,
+                    char* name,
+                    char* surName,
+                    char* department,
+                    Hacker hacker)
 {
-    Person newPerson = malloc(sizeof(*newPerson));
-    for(int i = 0; i < ID_MAX_LENGTH; i++){
-        newPerson->m_ID[i] = 0;
-    }
-
+    Person newPerson = (Person)malloc(sizeof(*newPerson) );
     if(newPerson == NULL)
     {
         return NULL;
     }
+    newPerson->m_ID = studentID;
+    newPerson->m_GPA = GPA;
+    newPerson->m_TotalCredits = totalCredits;
+    newPerson->m_Name = name;
+    newPerson->m_SurName = surName;
+    newPerson->m_Department = department;
+    newPerson->m_Hacker = hacker;
     return newPerson;
 }
 
@@ -63,6 +71,7 @@ void freePersonFields(Person toDestroy)
     free(toDestroy->m_SurName);
     free(toDestroy->m_City);
     free(toDestroy->m_Department);
+    hackerDestroy(toDestroy->m_Hacker);
 }
 
 Person copyPerson(Person toBeCopied)
@@ -71,12 +80,19 @@ Person copyPerson(Person toBeCopied)
     {
         return NULL;
     }
-    Person newPerson = personCreate(); // TODO: this function needs to get parameters
-    if(copyPersonFields(toBeCopied, newPerson) == PERSON_ERROR_SUCCESS) // Maybe we should use new success enums?
-    {
-        return newPerson;
+    // What do you think, will this work? that way we have queues of pointers to structs and don't need to actually copy the structs themselves?
+    Person newPerson = toBeCopied; // Person is a pointer to a struct person_t
+    if(newPerson == NULL){
+        return NULL;
     }
-    return NULL;
+
+//            toBeCopied; // TODO: this function needs to get parameters
+//    if(copyPersonFields(toBeCopied, newPerson) == PERSON_ERROR_SUCCESS) // Maybe we should use new success enums?
+//    {
+//        return newPerson;
+//    }
+
+    return newPerson;
 }
 
 PersonError copyPersonFields(Person src , Person dest)

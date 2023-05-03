@@ -25,12 +25,12 @@ typedef enum {PERSON_ERROR_BAD_PARAM, PERSON_ERROR_ALLOC_FAILED, PERSON_ERROR_SU
  * return - a ptr to the new person Or NULL in case of failure;
  */
 Person personCreate(char* studentID,
-                     int totalCredits
-                     ,int GPA
-                     ,char* name
-                     ,char* surName
-                     ,char* department
-                     ,Hacker hacker);
+                     int totalCredits,
+                     int GPA,
+                     char* name,
+                     char* surName,
+                     char* department,
+                     Hacker hacker);
 
 /**
  * freePerson: frees the person sent to the function.

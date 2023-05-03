@@ -3,11 +3,11 @@
 #include <string.h>
 #include "IsraeliQueue.h"
 
-typedef struct Person_t {
-    char* name;
-    int age;
-    int height;
-} Person;
+//typedef struct Person_t {
+//    char* name;
+//    int age;
+//    int height;
+//} Person;
 
 int comparePersons(void* person1, void* person2) {
     Person* p1 = (Person*) person1;

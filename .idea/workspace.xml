@@ -23,7 +23,7 @@
     <list default="true" id="e8d68ddf-8fb1-4d4e-a26e-c48ee2153ca4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HackEnrollment.c" beforeDir="false" afterPath="$PROJECT_DIR$/HackEnrollment.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HackEnrollment.h" beforeDir="false" afterPath="$PROJECT_DIR$/HackEnrollment.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +80,6 @@
     </configuration>
     <list>
       <item itemvalue="CMake Application.ex1___Berko_and_Ayal" />
-      <item itemvalue="CMake Debug.cmakelists" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -105,7 +104,9 @@
       <workItem from="1683040501986" duration="99000" />
       <workItem from="1683042786251" duration="2598000" />
       <workItem from="1683046478930" duration="1298000" />
-      <workItem from="1683092946324" duration="10348000" />
+      <workItem from="1683092946324" duration="9318000" />
+      <workItem from="1683102475702" duration="1013000" />
+      <workItem from="1683103503537" duration="6827000" />
     </task>
     <servers />
   </component>

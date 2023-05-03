@@ -21,6 +21,9 @@
 #define THE_VALUE_OF_CHAR_ZERO '0'
 #define PUSHING_FORWARD 10
 #define IDENTICAL 1
+#define INVALID_FILE (-1)
+#define ROW_DROP '\n'
+#define SPACE_BAR ' '
 
 /** Struct declaration */
 typedef Node** HackerArray;
@@ -40,8 +43,12 @@ Node* readHackerFile(FILE* hackers, Node* studentList);
 EnrollmentSystemError configureHackers(FILE* hackers, Node* studentList);
 int countHackers(FILE* hackers);
 HackerArray createHackerList(Node* studentList, int hackerCount);
+int getLongestLineLength(FILE* file);
 
-bool enrolledInTwoChoices(Person currentPerson, Hacker currentHackerStruct, Course* courseArray, int numberOfHackers,
+bool enrolledInTwoChoices(Person currentPerson,
+                          Hacker currentHackerStruct,
+                          Course* courseArray,
+                          int numberOfHackers,
                           int totalNumberOfCourses);
 void terminate(char* studentID, FILE* out);
 bool requestedOnlyOneCourse (Hacker hacker);
@@ -179,9 +186,78 @@ int byIdDelta(void* student1, void* student2)
 
 /** Functions Implementation */
 
-EnrollmentSystem createEnrollment(FILE* students, FILE* courses, FILE* hackers)
+int getLongestLineLength(FILE* file)
+{
+    if (file == NULL)
+    {
+        return INVALID_FILE;
+    }
+    int maxLength = 0;
+    int currentLength = 0;
+    int c;
+    while((c = fgetc(file)) != EOF)
+    {
+        if(c == ROW_DROP)
+        {
+            if (currentLength > maxLength)
+            {
+                maxLength = currentLength;
+            }
+            currentLength = 0;
+        }
+        else
+        {
+              currentLength++;
+        }
+    }
+    return maxLength;
+}
+
+EnrollmentSystemError initializeSystem(EnrollmentSystem sys)
 {
     
+}
+/**
+ * createEnrollment: Creates an Enrollment System struct that includes the
+ * students and courses in the files
+ *
+ * gets: students FILE*, courses FILE* and hackers FILE*
+ *
+ * @return EnrollmentSystem, or NULL in case of failure
+ */
+EnrollmentSystem createEnrollment(FILE* students, FILE* courses, FILE* hackers)
+{
+    if(students == NULL || courses == NULL || hackers == NULL)
+    {
+        return NULL;
+    }
+    EnrollmentSystem sys = malloc(sizeof(*sys));
+    if(sys == NULL)
+    {
+        return NULL;
+    }
+    if(intializeSystem(sys) != ENROLLMENT_SYSTEM_SUCCESS)
+    {
+        enrollmentDestroy(sys);
+        return NULL;
+    }
+    Course course = courseCreate(courses);
+    if(course == NULL)
+    {
+        enrollmentDestroy(sys);
+        return NULL;
+    }
+    int longestLineLength = getLongestLineLength(courses);
+    char* buffer = malloc(sizeof(char) * longestLineLength);
+    while(fgets(buffer, longestLineLength, courses) != NULL)
+    {
+        const char delimiter[] = {SPACE_BAR};
+        char* currentElement = strtok(buffer, delimiter);
+
+
+
+    }
+
 }
 
 

@@ -44,6 +44,9 @@ EnrollmentSystemError configureHackers(FILE* hackers, Node* studentList);
 int countHackers(FILE* hackers);
 HackerArray createHackerList(Node* studentList, int hackerCount);
 int getLongestLineLength(FILE* file);
+EnrollmentSystemError initializeSystem(EnrollmentSystem sys);
+courseStructPointerArray makeCoursesArray(FILE* courses);
+int getNumberOfCourses(FILE* file);
 
 bool enrolledInTwoChoices(Person currentPerson,
                           Hacker currentHackerStruct,
@@ -213,10 +216,86 @@ int getLongestLineLength(FILE* file)
     return maxLength;
 }
 
+int getNumberOfCourses(FILE* file)
+{
+    if (file == NULL)
+    {
+        return INVALID_FILE;
+    }
+    int count = 0;
+    int c;
+    while((c = fgetc(file)) != EOF)
+    {
+        if(c == ROW_DROP)
+        {
+            count++;
+        }
+    }
+    if(c != ROW_DROP && count > 0)
+    {
+        count++;
+    }
+    return count;
+}
+
 EnrollmentSystemError initializeSystem(EnrollmentSystem sys)
 {
-    
+    if(sys == NULL)
+    {
+        return ENROLLMENT_SYSTEM_BAD_PARAM;
+    }
+    sys->m_courses = NULL;
+    sys->m_hackerPointerArray = NULL;
+    sys->m_students = NULL;
+    sys->m_numberOfCourses = 0;
+    sys->m_numberOfHackers = 0;
+    return ENROLLMENT_SYSTEM_SUCCESS;
 }
+
+courseStructPointerArray makeCoursesArray(FILE* courses)
+{
+    int numberOfCourses = getNumberOfCourses(courses);
+    if(numberOfCourses == EOF)
+    {
+        return NULL;
+    }
+    courseStructPointerArray coursesArray = (courseStructPointerArray) malloc(
+            sizeof(Course) * numberOfCourses);
+    if(coursesArray == NULL)
+    {
+        return NULL;
+    }
+    int longestLineLength = getLongestLineLength(courses);
+    char* buffer = malloc(sizeof(char) * longestLineLength);
+    if(buffer == NULL)
+    {
+        free(coursesArray);
+        return NULL;
+    }
+    const char delimiter[] = {SPACE_BAR};
+    for(int i = 0; i < numberOfCourses; i++)
+    {
+        while(fgets(buffer, longestLineLength, courses) != NULL)
+        {
+            char* currentElement = strtok(buffer, delimiter);
+            int courseNumber = atoi(currentElement);
+            currentElement = strtok(buffer, delimiter);
+            int courseCapacity = atoi(currentElement);
+            Course currentCourse = courseCreate(courseNumber, courseCapacity);
+            if(currentCourse == NULL)
+            {
+                free(coursesArray);
+                free(buffer);
+                return NULL;
+            }
+            coursesArray[i] = currentCourse;
+        }
+    }
+    return coursesArray;
+}
+
+
+
 /**
  * createEnrollment: Creates an Enrollment System struct that includes the
  * students and courses in the files
@@ -236,27 +315,14 @@ EnrollmentSystem createEnrollment(FILE* students, FILE* courses, FILE* hackers)
     {
         return NULL;
     }
-    if(intializeSystem(sys) != ENROLLMENT_SYSTEM_SUCCESS)
+    if(initializeSystem(sys) != ENROLLMENT_SYSTEM_SUCCESS)
     {
         enrollmentDestroy(sys);
         return NULL;
     }
-    Course course = courseCreate(courses);
-    if(course == NULL)
-    {
-        enrollmentDestroy(sys);
-        return NULL;
-    }
-    int longestLineLength = getLongestLineLength(courses);
-    char* buffer = malloc(sizeof(char) * longestLineLength);
-    while(fgets(buffer, longestLineLength, courses) != NULL)
-    {
-        const char delimiter[] = {SPACE_BAR};
-        char* currentElement = strtok(buffer, delimiter);
+    courseStructPointerArray coursesArray = makeCoursesArray(courses);
 
 
-
-    }
 
 }
 

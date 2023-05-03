@@ -7,11 +7,12 @@ struct course_t{
     IsraeliQueue m_courseQueue;
 };
 
-Course courseCreate(FILE* course){
+Course courseCreate(int courseNumber, int courseCapacity)
+{
     // read file
     // create comparison function
     // create functions array
     Course newCourse = malloc(sizeof(*newCourse));
-    IsraeliQueue newQueue = IsraeliQueueCreate();
+    IsraeliQueue newQueue = NULL;
     newCourse->m_courseQueue = newQueue;
 }

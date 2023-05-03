@@ -1,0 +1,25 @@
+# ninja log v5
+7	93	7048414894218756	CMakeFiles/ex1___Berko_and_Ayal.dir/Node.c.obj	2f234c9c342289a0
+19	104	7048414894333839	CMakeFiles/ex1___Berko_and_Ayal.dir/Hacker.c.obj	266a65ab420bead2
+1	105	7048414894333839	CMakeFiles/ex1___Berko_and_Ayal.dir/Person.c.obj	2035dd8bc606568b
+24	114	7048414894429097	CMakeFiles/ex1___Berko_and_Ayal.dir/main.c.obj	fe0d96d0373777f2
+13	137	7048414894664395	CMakeFiles/ex1___Berko_and_Ayal.dir/HackEnrollment.c.obj	fa719c5e556714f6
+30	142	7048414894714416	CMakeFiles/ex1___Berko_and_Ayal.dir/IsraeliQueue.c.obj	9bea58d77eb54f57
+2	58	7048416225226737	CMakeFiles/ex1___Berko_and_Ayal.dir/Course.c.obj	4b25252e186f2af8
+1	61	7048417451265558	CMakeFiles/ex1___Berko_and_Ayal.dir/Hacker.c.obj	266a65ab420bead2
+2	62	7048419077214094	CMakeFiles/ex1___Berko_and_Ayal.dir/Hacker.c.obj	266a65ab420bead2
+5	87	7048419077458729	CMakeFiles/ex1___Berko_and_Ayal.dir/HackEnrollment.c.obj	fa719c5e556714f6
+2	86	7048419480590252	CMakeFiles/ex1___Berko_and_Ayal.dir/HackEnrollment.c.obj	fa719c5e556714f6
+2	79	7048420350351267	CMakeFiles/ex1___Berko_and_Ayal.dir/HackEnrollment.c.obj	fa719c5e556714f6
+2	86	7048422579432908	CMakeFiles/ex1___Berko_and_Ayal.dir/HackEnrollment.c.obj	fa719c5e556714f6
+2	77	7048423037040924	CMakeFiles/ex1___Berko_and_Ayal.dir/HackEnrollment.c.obj	fa719c5e556714f6
+2	76	7048423182074003	CMakeFiles/ex1___Berko_and_Ayal.dir/HackEnrollment.c.obj	fa719c5e556714f6
+76	158	7048423182860399	ex1___Berko_and_Ayal.exe	2acaedfc6694e68
+2	62	7048426048833393	CMakeFiles/ex1___Berko_and_Ayal.dir/main.c.obj	fe0d96d0373777f2
+63	144	7048426049602793	ex1___Berko_and_Ayal.exe	2acaedfc6694e68
+2	68	7048427214160227	CMakeFiles/ex1___Berko_and_Ayal.dir/main.c.obj	fe0d96d0373777f2
+69	154	7048427214968564	ex1___Berko_and_Ayal.exe	2acaedfc6694e68
+2	61	7048427714136862	CMakeFiles/ex1___Berko_and_Ayal.dir/main.c.obj	fe0d96d0373777f2
+61	141	7048427714897009	ex1___Berko_and_Ayal.exe	2acaedfc6694e68
+1	76	7048430505438210	CMakeFiles/ex1___Berko_and_Ayal.dir/HackEnrollment.c.obj	fa719c5e556714f6
+76	158	7048430506218366	ex1___Berko_and_Ayal.exe	2acaedfc6694e68

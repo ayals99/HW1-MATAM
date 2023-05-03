@@ -1,58 +1,49 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include "IsraeliQueue.h"
-
-//typedef struct Person_t {
-//    char* name;
-//    int age;
-//    int height;
-//} Person;
-
-int comparePersons(void* person1, void* person2) {
-    Person* p1 = (Person*) person1;
-    Person* p2 = (Person*) person2;
-    if (strcmp(p1->name, p2->name) == 0 && p1->age == p2->age) {
-        return 1;
-    } else {
-        return 0;
-    }
-}
-
-int areFriends1(void* person1, void* person2) {
-    return ((Person*)person1)->height && ((Person*)person2)->height;
-}
-
-int areFriends2(void* person1, void* person2) {
-    return ((Person*)person1)->age % 2 == 0 && ((Person*)person2)->age % 2 == 0;
-}
+#include "HackEnrollment.h" // Assuming the enrollment-related structures and functions are defined in this header file
 
 int main() {
-    FriendshipFunction friendshipFunctions[] = {areFriends1, areFriends2, NULL};
-    ComparisonFunction comparisonFunction = comparePersons;
-    IsraeliQueue queue = IsraeliQueueCreate(friendshipFunctions, comparisonFunction, 3, 2);
+    const char *students_filename = "./ExampleTest/students.txt";
+    const char *courses_filename = "./ExampleTest/courses.txt";
+    const char *hackers_filename = "./ExampleTest/hackers.txt";
 
-    Person* person1 = malloc(sizeof(*person1));
-    person1->name = "John";
-    person1->age = 30;
-    person1->height = 175;
+    FILE *students_file = fopen(students_filename, "r");
+    if (students_file == NULL) {
+        printf("Error opening students file.\n");
+        return 1;
+    }
 
-    Person* person2 = malloc(sizeof(*person2));
-    person2->name = "Jane";
-    person2->age = 25;
-    person2->height = 165;
+    FILE *courses_file = fopen(courses_filename, "r");
+    if (courses_file == NULL) {
+        printf("Error opening courses file.\n");
+        fclose(students_file);
+        return 1;
+    }
 
-    Person* person3 = malloc(sizeof(*person3));
-    person3->name = "Bob";
-    person3->age = 40;
-    person3->height = 180;
+    FILE *hackers_file = fopen(hackers_filename, "r");
+    if (hackers_file == NULL) {
+        printf("Error opening hackers file.\n");
+        fclose(students_file);
+        fclose(courses_file);
+        return 1;
+    }
 
-    IsraeliQueueEnqueue(queue, person1);
-    IsraeliQueueEnqueue(queue, person2);
-    IsraeliQueueEnqueue(queue, person3);
+    EnrollmentSystem enrollment_system = createEnrollment(students_file, courses_file, hackers_file);
+    if (enrollment_system == NULL) {
+        printf("Error creating enrollment system.\n");
+        fclose(students_file);
+        fclose(courses_file);
+        fclose(hackers_file);
+        return 1;
+    }
 
-     IsraeliQueueImprovePositions(queue);
+    // You can perform operations on the enrollment_system here, e.g., enrolling students, adding courses, etc.
 
-    IsraeliQueueDestroy(queue);
+    // Clean up and close the files
+    enrollmentDestroy(enrollment_system);
+    fclose(students_file);
+    fclose(courses_file);
+    fclose(hackers_file);
+
     return 0;
 }

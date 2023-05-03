@@ -568,7 +568,7 @@ void writeCourseQueueToFile(Course* CourseArray, int totalNumberOfCourses, FILE*
     for(int courseIndex = 0; courseIndex < totalNumberOfCourses; courseIndex++){
         Course currentCourse = CourseArray[courseIndex];
         IsraeliQueue queue = getCourseQueue(currentCourse);
-        Node head = getCourseHead(currentCourse);
+        //Node head = getCourseHead(currentCourse);
         int courseNumber = getCourseNumber(currentCourse);
         char* courseNumberStr = intToString(courseNumber);
         fputs(courseNumberStr, out);

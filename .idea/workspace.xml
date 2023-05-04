@@ -25,8 +25,17 @@
       <change beforePath="$PROJECT_DIR$/Course.c" beforeDir="false" afterPath="$PROJECT_DIR$/Course.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HackEnrollment.c" beforeDir="false" afterPath="$PROJECT_DIR$/HackEnrollment.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Hacker.c" beforeDir="false" afterPath="$PROJECT_DIR$/Hacker.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hacker.h" beforeDir="false" afterPath="$PROJECT_DIR$/Hacker.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Person.c" beforeDir="false" afterPath="$PROJECT_DIR$/Person.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Person.h" beforeDir="false" afterPath="$PROJECT_DIR$/Person.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ex1___Berko_and_Ayal.dir/Course.c.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ex1___Berko_and_Ayal.dir/Course.c.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ex1___Berko_and_Ayal.dir/HackEnrollment.c.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ex1___Berko_and_Ayal.dir/HackEnrollment.c.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ex1___Berko_and_Ayal.dir/Hacker.c.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ex1___Berko_and_Ayal.dir/Hacker.c.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ex1___Berko_and_Ayal.dir/Person.c.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ex1___Berko_and_Ayal.dir/Person.c.obj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/ex1___Berko_and_Ayal.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/ex1___Berko_and_Ayal.exe" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,7 +125,7 @@
       <workItem from="1683102475702" duration="1013000" />
       <workItem from="1683103503537" duration="6827000" />
       <workItem from="1683115753823" duration="19084000" />
-      <workItem from="1683138203336" duration="1864000" />
+      <workItem from="1683138203336" duration="18008000" />
     </task>
     <servers />
   </component>
@@ -144,14 +153,9 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/main.c</url>
-          <line>5</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/HackEnrollment.c</url>
-          <line>272</line>
-          <option name="timeStamp" value="3" />
+          <line>394</line>
+          <option name="timeStamp" value="13" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

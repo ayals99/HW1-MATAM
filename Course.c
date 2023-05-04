@@ -15,4 +15,6 @@ Course courseCreate(int courseNumber, int courseCapacity)
     Course newCourse = malloc(sizeof(*newCourse));
     IsraeliQueue newQueue = NULL;
     newCourse->m_courseQueue = newQueue;
+    newCourse->m_courseCapacity = 0;
+    newCourse->m_courseNumber= 0;
 }

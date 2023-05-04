@@ -1,19 +1,34 @@
 #include "Hacker.h"
 
 struct hacker_t {
+    char* m_hackerId;
     int m_desiredCoursesCount;
     int* m_desiredCoursesArray;
     Friends* m_friends;
     Foes* m_rivals;
 };
 
-Hacker hackerCreate(char* Id, int* desiredCourses, Friends* friendsArray, Foes* foesArray)
+Hacker hackerCreate(char* hackerId, int desiredCourseCount, int* desiredCourses, Friends* friendsArray, Foes* foesArray)
 {
-
+    Hacker newHacker = (Hacker)malloc(sizeof(*newHacker));
+    if (newHacker == NULL) {
+        return NULL;
+    }
+    newHacker->m_hackerId = hackerId;
+    newHacker->m_desiredCoursesCount = desiredCourseCount;
+    newHacker->m_desiredCoursesArray = desiredCourses;
+    newHacker->m_friends = friendsArray;
+    newHacker->m_rivals = foesArray;
+    return newHacker;
 }
 
 
 void hackerDestroy(Hacker toDestroy)
+{
+
+}
+
+char* getHackerId(Hacker currHacker)
 {
 
 }

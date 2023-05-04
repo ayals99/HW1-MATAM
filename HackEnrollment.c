@@ -495,32 +495,22 @@ void freeAndDestroyHackerArray(HackerArray hackerArray, int count, char* buffer,
 
 bool checkAndFreeIfNull(char* hackerId, int* desiredCourses, Friends* friendsArray, Foes* foesArray)
 {
+    bool nullCheck[4] = {hackerId == NULL, desiredCourses == NULL, friendsArray == NULL, foesArray == NULL};
     bool anyNull = false;
-
-    if (hackerId == NULL)
+    for (int i = 0; i < 4; i++)
     {
-        anyNull = true;
+        if (nullCheck[i])
+        {
+            anyNull = true;
+            break;
+        }
     }
-    if (desiredCourses == NULL)
-    {
-        free(hackerId);
-        anyNull = true;
-    }
-    if (friendsArray == NULL)
-    {
-        free(hackerId);
-        free(desiredCourses);
-        anyNull = true;
-    }
-    if (foesArray == NULL)
+    if (anyNull)
     {
         free(hackerId);
         free(desiredCourses);
         free(friendsArray);
-        anyNull = true;
-    }
-    if (anyNull)
-    {
+        free(foesArray);
         return false;
     }
     return true;

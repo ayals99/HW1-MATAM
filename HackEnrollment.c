@@ -28,6 +28,7 @@
 #define LINES_PER_HACKER 4
 #define CARRIAGE_RETURN '\r'
 #define IDENTICAL_STRING 0
+#define SIZE_OF_ID 9
 
 /** Struct declaration */
 typedef Hacker* HackerArray;
@@ -351,7 +352,6 @@ Person* makeAllStudentsArray(FILE* students,int numberOfStudents)
         free(allStudentsArray);
         return NULL;
     }
-    const char delimiter[] = {SPACE_BAR};
     for(int i = 0; fgets(buffer, longestLineLength + 1, students) != NULL;)
     {
         char *newline = strchr(buffer, ROW_DROP);
@@ -363,7 +363,7 @@ Person* makeAllStudentsArray(FILE* students,int numberOfStudents)
         {
             continue;
         }
-        char studentID[9];
+        char studentID[SIZE_OF_ID];
         int totalCredits;
         double GPA;
 
@@ -374,7 +374,7 @@ Person* makeAllStudentsArray(FILE* students,int numberOfStudents)
 
         int result = sscanf(buffer, "%s %d %lf %ms %ms %ms %ms", studentID, &totalCredits, &GPA, &name, &surName, &city, &department);
         if (result != 7) {
-            // Error in parsing the line, you may want to handle it
+            //TODO: Error in parsing the line, you may want to handle it
             continue;
         }
 
@@ -727,9 +727,7 @@ EnrollmentSystem createEnrollment(FILE *students, FILE *courses, FILE *hackers)
         enrollmentDestroy(sys);
         return NULL;
     }
-
-    return sys;
-}
+    return sys;}
 
 /**
  * readEnrollment: reads a file that describes the courses queues.
@@ -741,6 +739,17 @@ EnrollmentSystem createEnrollment(FILE *students, FILE *courses, FILE *hackers)
  */
 EnrollmentSystem readEnrollment(EnrollmentSystem sys, FILE* queues)
 {
+    if(sys == NULL || queues == NULL)
+    {
+        return NULL;
+    }
+    int longestLineInFile = getLongestLineLength(queues);
+    char* buffer = malloc((sizeof(char) * (longestLineInFile + 1));
+    if (buffer == NULL)
+    {
+        return NULL;
+    }
+
 
 }
 

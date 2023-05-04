@@ -254,6 +254,12 @@ PersonError personSetDepartment(Person currPerson, char* depToSet)
     return PERSON_ERROR_SUCCESS;
 }
 
+Hacker personSetHacker(Person currPerson, Hacker hackerToSet)
+{
+
+}
+
+
 
 
 

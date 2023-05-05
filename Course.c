@@ -12,6 +12,7 @@ Course courseCreate(int courseNumber, int courseCapacity){
     newCourse->m_courseNumber = courseNumber;
     newCourse->m_courseCapacity = courseCapacity;
     newCourse->m_courseQueue = NULL;
+    return newCourse;
 }
 
 void courseDestroy(Course toDestroy){

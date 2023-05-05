@@ -21,10 +21,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e8d68ddf-8fb1-4d4e-a26e-c48ee2153ca4" name="Changes" comment="implementing course.c">
-      <change afterPath="$PROJECT_DIR$/.idea/git_toolbox_prj.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Hacker.c" beforeDir="false" afterPath="$PROJECT_DIR$/Hacker.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Hacker.h" beforeDir="false" afterPath="$PROJECT_DIR$/Hacker.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -120,6 +118,7 @@
       <workItem from="1683276968449" duration="361000" />
       <workItem from="1683277552669" duration="4902000" />
       <workItem from="1683287408670" duration="212000" />
+      <workItem from="1683287913673" duration="448000" />
     </task>
     <task id="LOCAL-00001" summary="enrollementDestroy first draft">
       <created>1683276424602</created>

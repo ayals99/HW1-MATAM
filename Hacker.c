@@ -1,9 +1,6 @@
 #include "Hacker.h"
 
 #define END_OF_LINE '\n'
-#define END_OF_STRING '0'
-#define ID_LENGTH 10
-#define INT_LENGTH 10
 #define SPACE ' '
 
 struct hacker_t {
@@ -13,20 +10,6 @@ struct hacker_t {
     Friends* m_friends;
     Foes* m_rivals;
 };
-
-int countDesiredCourses(char* secondLine){
-    if(*secondLine == END_OF_LINE){
-        return 0;
-    }
-    int spaceCounter = 0;
-    while(*secondLine != END_OF_LINE){
-        if(*secondLine == SPACE){
-            spaceCounter++;
-        }
-        secondLine++;
-    }
-    return spaceCounter + 1;
-}
 
 Hacker hackerCreate(char* hackerId, int numberOfCourses, int* desiredCourses, Friends* friendsArray, Foes* foesArray){
     Hacker newHacker = malloc(sizeof(*newHacker));

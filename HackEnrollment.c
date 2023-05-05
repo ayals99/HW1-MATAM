@@ -364,22 +364,3 @@ Course findCourseByNumber(int courseNumber, int totalNumberOfCourses, Course *co
     }
     return NULL;
 }
-
-//bool enrolledInTwoChoices(Person currentPerson, Hacker currentHackerStruct, Course* courseArray, int numberOfHackers,
-//                          int totalNumberOfCourses){
-//    int enrollmentCounter = 0;
-//    int* desiredCoursesArray = getCourseArray(currentHackerStruct);
-//    int numberOfDesiredCourses = getCoursesCount(currentHackerStruct);
-//    for(int i = 0; i < numberOfDesiredCourses; i++){
-//        Course currentCourse = findCourseByNumber(desiredCoursesArray[i], totalNumberOfCourses , courseArray);
-//        if( enrolledInCourse(currentPerson, currentCourse) ){
-//            enrollmentCounter += 1;
-//        }
-//    }
-//    if(enrollmentCounter >= 2){
-//        return true;
-//    }
-//    else{
-//        return false;
-//    }
-//}

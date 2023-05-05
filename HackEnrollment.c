@@ -736,17 +736,13 @@ EnrollmentSystem createEnrollment(FILE *students, FILE *courses, FILE *hackers)
 
 EnrollmentSystemError insertStudentToCourseQueue(Course* course,Person studentToInsert)
 {
-    if ((course == NULL || studentToInsert ==NULL))
+    if (course == NULL || studentToInsert ==NULL)
     {
         return ENROLLMENT_SYSTEM_BAD_PARAM;
     }
     IsraeliQueue courseQueue = getCourseQueue(*course);
     IsraeliQueueError enqueueStatus = IsraeliQueueEnqueue(courseQueue, studentToInsert);
-    if(enqueueStatus != ISRAELIQUEUE_SUCCESS)
-    {
-        return ENROLLMENT_SYSTEM_ERROR;
-    }
-    return ENROLLMENT_SYSTEM_SUCCESS;
+    return enqueueStatus == ISRAELIQUEUE_SUCCESS ? ENROLLMENT_SYSTEM_SUCCESS : ENROLLMENT_SYSTEM_ERROR;
 }
 
 EnrollmentSystemError enrollStudents(Person* allStudentsList, int numberOfStudents, Course* currentCourse, char* studentsIdList)
@@ -782,9 +778,17 @@ EnrollmentSystemError makeCourseQueue(EnrollmentSystem sys, char* buffer)
     {
         return ENROLLMENT_SYSTEM_BAD_PARAM;
     }
-    char *token = strtok(buffer, " ");
+    char* token = strtok(buffer, " ");
+    if (token == NULL)
+    {
+        return ENROLLMENT_SYSTEM_ERROR;
+    }
     int courseNumber = atoi(token);
     token = strtok(NULL, " ");
+    if (token == NULL)
+    {
+        return ENROLLMENT_SYSTEM_ERROR;
+    }
     int numberOfStudents = sys->m_numberOfStudents;
     Person* allStudentsList = sys->m_students;
     Course* currentCourse = sys->m_courses;
@@ -813,22 +817,29 @@ EnrollmentSystem readEnrollment(EnrollmentSystem sys, FILE* queues)
     {
         return NULL;
     }
+
     int longestLineInFile = getLongestLineLength(queues);
     char* buffer = malloc((sizeof(char) * (longestLineInFile + 1)));
+
     if (buffer == NULL)
     {
         return NULL;
     }
+
     buffer = readAndTrimLine(queues, buffer, longestLineInFile + 1 );
+
     while (buffer != NULL)
     {
-        if(makeCourseQueue(sys, buffer) != ENROLLMENT_SYSTEM_SUCCESS)
+        EnrollmentSystemError makeQueueStatus = makeCourseQueue(sys, buffer);
+        if(makeQueueStatus != ENROLLMENT_SYSTEM_SUCCESS)
         {
             free(buffer);
             return NULL;
         }
         buffer = readAndTrimLine(queues, buffer, longestLineInFile + 1 );
     }
+
+    free(buffer);
     return sys;
 }
 

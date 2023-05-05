@@ -76,6 +76,8 @@ bool findAndAssignHackerToStudent(Person *studentsArray, int numberOfStudents, H
 EnrollmentSystemError makeCourseQueue(EnrollmentSystem sys, char* buffer);
 EnrollmentSystemError enrollStudents(Person* allStudentsList,int numberOfStudents, Course currentCourse, char* studentsIdList);
 EnrollmentSystemError insertStudentToCourseQueue(Course course,Person studentToInsert);
+EnrollmentSystemError addFriendshipFunctionsAndThresholds(IsraeliQueue queue);
+
 
 
 
@@ -101,7 +103,7 @@ int comparisonFunction(void* student1, void* student2)
 }
 
 /** Friendship functions */
-
+//TODO need to implement theses functions in the end of readEnrollment
 int byHackerFile(void* student1, void* student2)
 {
     assert(student1 != NULL && student2 != NULL);
@@ -633,7 +635,6 @@ bool findAndAssignHackerToStudent(Person *studentsArray, int numberOfStudents, H
     return false;
 }
 
-
 Person* configureStudentsWithHackers(EnrollmentSystem sys)
 {
     if(sys == NULL)
@@ -725,6 +726,39 @@ EnrollmentSystemError insertStudentToCourseQueue(Course course,Person studentToI
     return enqueueStatus == ISRAELIQUEUE_SUCCESS ? ENROLLMENT_SYSTEM_SUCCESS : ENROLLMENT_SYSTEM_ERROR;
 }
 
+EnrollmentSystemError addFriendshipFunctionsAndThresholds(IsraeliQueue queue)
+{
+    if (queue == NULL)
+    {
+        return ENROLLMENT_SYSTEM_BAD_PARAM;
+    }
+    FriendshipFunction function = byHackerFile;
+    if (IsraeliQueueAddFriendshipMeasure(queue, function) != ISRAELIQUEUE_SUCCESS)
+    {
+        return ENROLLMENT_SYSTEM_ERROR;
+    }
+    function = byNameDelta;
+    if (IsraeliQueueAddFriendshipMeasure(queue, function) != ISRAELIQUEUE_SUCCESS)
+    {
+        return ENROLLMENT_SYSTEM_ERROR;
+    }
+    function = byIdDelta;
+    if (IsraeliQueueAddFriendshipMeasure(queue, function) != ISRAELIQUEUE_SUCCESS)
+    {
+        return ENROLLMENT_SYSTEM_ERROR;
+    }
+    if (IsraeliQueueUpdateFriendshipThreshold(queue, FRIENDSHIP_THRESHOLD) !=ISRAELIQUEUE_SUCCESS)
+    {
+        return ENROLLMENT_SYSTEM_ERROR;
+    }
+    if (IsraeliQueueUpdateRivalryThreshold(queue, RIVALRY_THRESHOLD) !=ISRAELIQUEUE_SUCCESS)
+    {
+        return ENROLLMENT_SYSTEM_ERROR;
+    }
+    return ENROLLMENT_SYSTEM_SUCCESS;
+}
+
+
 EnrollmentSystemError enrollStudents(Person* allStudentsList, int numberOfStudents, Course currentCourse, char* studentsIdList)
 {
     if (currentCourse == NULL || studentsIdList == NULL)
@@ -748,7 +782,7 @@ EnrollmentSystemError enrollStudents(Person* allStudentsList, int numberOfStuden
         }
         token = strtok(NULL, " ");
     }
-    return ENROLLMENT_SYSTEM_SUCCESS;
+    return addFriendshipFunctionsAndThresholds(getCourseQueue(currentCourse));
 }
 
 EnrollmentSystemError makeCourseQueue(EnrollmentSystem sys, char* buffer)

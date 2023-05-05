@@ -23,3 +23,32 @@ void courseDestroy(Course toDestroy){
     IsraeliQueueDestroy(toDestroy->m_courseQueue);
     free(toDestroy);
 }
+
+/** Getter Functions */
+
+int getCourseNumber(Course course){
+    if (course == NULL){
+        return COURSE_NULL;
+    }
+    return course->m_courseNumber;
+}
+
+int getCourseSize(Course course){
+    if (course == NULL){
+        return COURSE_NULL;
+    }
+    return course->m_courseCapacity;
+}
+
+IsraeliQueue getCourseQueue(Course course){
+    if (course == NULL){
+        return NULL;
+    }
+    return course->m_courseQueue;
+}
+
+/** Setter Functions */
+
+CourseError setCourseQueue(Course currentCourse, IsraeliQueue queueToSet){
+    currentCourse->m_courseQueue = queueToSet;
+}

@@ -73,6 +73,7 @@ Person* createStudentsArray(FILE* students, EnrollmentSystem sys);
 courseStructPointerArray createCoursesArray(FILE* courses, EnrollmentSystem sys);
 Person* configureStudentsWithHackers(EnrollmentSystem sys);
 bool findAndAssignHackerToStudent(Person *studentsArray, int numberOfStudents, Hacker hacker);
+EnrollmentSystemError makeCourseQueue(EnrollmentSystem sys, char* buffer);
 
 
 bool enrolledInTwoChoices(Person currentPerson,
@@ -727,7 +728,35 @@ EnrollmentSystem createEnrollment(FILE *students, FILE *courses, FILE *hackers)
         enrollmentDestroy(sys);
         return NULL;
     }
-    return sys;}
+    return sys;
+}
+
+EnrollmentSystemError enrollStudents(Course* currentCourse, char* studentsIdList)
+{
+
+}
+
+
+EnrollmentSystemError makeCourseQueue(EnrollmentSystem sys, char* buffer)
+{
+    if (sys == NULL || buffer == NULL)
+    {
+        return ENROLLMENT_SYSTEM_BAD_PARAM;
+    }
+    char *token = strtok(buffer, " ");
+    int courseNumber = atoi(token);
+    token = strtok(NULL, " ");
+    Course* currentCourse = sys->m_courses;
+    int numberOfCourses = sys->m_numberOfCourses;
+    for(int i = 0; i < numberOfCourses; i++)
+    {
+        if(courseNumber == getCourseNumber(currentCourse[i]))
+        {
+            return enrollStudents(currentCourse, token);
+        }
+    }
+    return ENROLLMENT_SYSTEM_ERROR;
+}
 
 /**
  * readEnrollment: reads a file that describes the courses queues.
@@ -744,11 +773,28 @@ EnrollmentSystem readEnrollment(EnrollmentSystem sys, FILE* queues)
         return NULL;
     }
     int longestLineInFile = getLongestLineLength(queues);
-    char* buffer = malloc((sizeof(char) * (longestLineInFile + 1));
+    char* buffer = malloc((sizeof(char) * (longestLineInFile + 1)));
     if (buffer == NULL)
     {
         return NULL;
     }
+    buffer = readAndTrimLine(queues, buffer, longestLineInFile + 1 );
+    while (buffer != NULL)
+    {
+        if(makeCourseQueue(sys, buffer) != ENROLLMENT_SYSTEM_SUCCESS)
+        {
+            free(buffer);
+            return NULL;
+        }
+
+    }
+//    if (buffer == NULL)
+//    {
+//        //TODO: Should consider the return value of this.
+//        return NULL;
+//    }
+
+
 
 
 }

@@ -20,10 +20,11 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e8d68ddf-8fb1-4d4e-a26e-c48ee2153ca4" name="Changes" comment="enrollementDestroy first draft">
+    <list default="true" id="e8d68ddf-8fb1-4d4e-a26e-c48ee2153ca4" name="Changes" comment="implementing course.c">
+      <change afterPath="$PROJECT_DIR$/.idea/git_toolbox_prj.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Course.c" beforeDir="false" afterPath="$PROJECT_DIR$/Course.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Course.h" beforeDir="false" afterPath="$PROJECT_DIR$/Course.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hacker.c" beforeDir="false" afterPath="$PROJECT_DIR$/Hacker.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hacker.h" beforeDir="false" afterPath="$PROJECT_DIR$/Hacker.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -116,7 +117,9 @@
       <workItem from="1683275508606" duration="317000" />
       <workItem from="1683276058940" duration="196000" />
       <workItem from="1683276357768" duration="261000" />
-      <workItem from="1683276968449" duration="202000" />
+      <workItem from="1683276968449" duration="361000" />
+      <workItem from="1683277552669" duration="4902000" />
+      <workItem from="1683287408670" duration="212000" />
     </task>
     <task id="LOCAL-00001" summary="enrollementDestroy first draft">
       <created>1683276424602</created>
@@ -125,7 +128,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683276424602</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="implementing course.c">
+      <created>1683277190820</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1683277190820</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -139,7 +149,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="enrollementDestroy first draft" />
-    <option name="LAST_COMMIT_MESSAGE" value="enrollementDestroy first draft" />
+    <MESSAGE value="implementing course.c" />
+    <option name="LAST_COMMIT_MESSAGE" value="implementing course.c" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

@@ -15,3 +15,11 @@ Course courseCreate(FILE* course){
     IsraeliQueue newQueue = IsraeliQueueCreate();
     newCourse->m_courseQueue = newQueue;
 }
+
+void courseDestroy(Course toDestroy){
+    if(toDestroy == NULL){
+        return;
+    }
+    IsraeliQueueDestroy(toDestroy->m_courseQueue);
+    free(toDestroy);
+}

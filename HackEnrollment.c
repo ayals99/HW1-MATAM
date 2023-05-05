@@ -32,6 +32,7 @@ struct enrollmentSystem_t{
     HackerArray m_hackerPointerArray;
     int m_numberOfHackers;
     Person* m_students;
+    int m_numberOfStudents;
 };
 
 /** Function Signatures */
@@ -248,11 +249,12 @@ void enrollmentDestroy(EnrollmentSystem system){
     system->m_numberOfCourses = 0;
     Person current = *(system->m_students);
     Person next = NULL;
-    while(current != NULL){
-        next = pers
-        freePerson(current);
+    Person* allStudentsArray =system->m_students;
+    int numberOfStudents = system->m_numberOfStudents;
+    for(int i = 0; i < numberOfStudents; i++){
+        freePerson(allStudentsArray[i]);
     }
-    free(allStudentsArray);
+    free(system->m_students);
     freeAndDestroyHackerArray(system->m_hackerPointerArray, count, buffer, desiredCourses, friendsArray, foesArray);
     free(system);
 }

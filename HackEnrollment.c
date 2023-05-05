@@ -89,15 +89,21 @@ bool enrolledInTwoChoices(Person currentPerson,
 void terminate(char* studentID, FILE* out);
 bool requestedOnlyOneCourse (Hacker hacker);
 
-/** Friendship functions */
+/** Comparison functions */
 
-int comparisonFunction(void* student1, void* student2){
-        //TODO: write comparison function
+int comparisonFunction(void* student1, void* student2)
+{
+    if (student1 == student2)
+    {
+        return 1;
+    }
+    return 0;
 }
+
+/** Friendship functions */
 
 int byHackerFile(void* student1, void* student2)
 {
-    /*
     assert(student1 != NULL && student2 != NULL);
     Person student1_AUX = (Person) student1;
     Person student2_AUX = (Person) student2;
@@ -116,7 +122,7 @@ int byHackerFile(void* student1, void* student2)
         Friends *tmp = getFriendsArray(student1_AUX); //This function is supposed to receive a Hacker but is given a person.
         while (tmp != NULL)
         {
-            if (strcmp(*tmp, personGetID(student2_AUX)) == 0)
+            if (strcmp(*tmp, personGetID(student2_AUX)) == IDENTICAL_STRING)
             {
                 return FRIENDS;
             }
@@ -154,11 +160,11 @@ int byHackerFile(void* student1, void* student2)
         }
     }
     return NEUTRAL;
-     */
 }
 
-int byIdDelta(void* student1, void* student2)
+int byNameDelta(void* student1, void* student2)
 {
+    assert(student1 != NULL && student2 != NULL);
     Person p1 = (Person) student1;
     Person p2 = (Person) student2;
 
@@ -175,47 +181,45 @@ int byIdDelta(void* student1, void* student2)
         if (name1[i] != '\0' && name2[i] != '\0')
         {
             nameDelta += abs(name1[i] - name2[i]);
-        } else if (name1[i] != '\0')
+        }
+        else if (name1[i] != '\0')
         {
             nameDelta += abs(name1[i]);
-        } else {
+        }
+        else
+        {
             nameDelta += abs(name2[i]);
         }
     }
 
-    for (int i = 0; surname1[i] != '\0' || surname2[i] != '\0'; i++) {
-        if (surname1[i] != '\0' && surname2[i] != '\0') {
+    for (int i = 0; surname1[i] != '\0' || surname2[i] != '\0'; i++)
+    {
+        if (surname1[i] != '\0' && surname2[i] != '\0')
+        {
             surnameDelta += abs(surname1[i] - surname2[i]);
-        } else if (surname1[i] != '\0') {
+        }
+        else if (surname1[i] != '\0')
+        {
             surnameDelta += abs(surname1[i]);
-        } else {
+        }
+        else
+        {
             surnameDelta += abs(surname2[i]);
         }
     }
-
     return nameDelta + surnameDelta;
 }
 
 int byIdDelta(void* student1, void* student2)
 {
-    /*
     assert(student1 != NULL && student2 != NULL);
-    Person student1_AUX = (Person) student1;
-    Person student2_AUX = (Person) student2;
-    char* student1ID = personGetID(student1_AUX);
-    char* student2ID = personGetID(student2_AUX);
-    int firstNumericalID = 0;
-    for(int i = 0; i < strlen(student1ID); i++)
-    {
-        firstNumericalID = firstNumericalID * PUSHING_FORWARD + (student1ID[i] - THE_VALUE_OF_CHAR_ZERO);
-    }
-    int secondNumericalID = 0;
-    for(int i = 0; i < strlen(student1ID); i++)
-    {
-        secondNumericalID = secondNumericalID * PUSHING_FORWARD + (student2ID[i] - THE_VALUE_OF_CHAR_ZERO);
-    }
-    return abs(firstNumericalID - secondNumericalID);
-     */
+    Person p1 = (Person) student1;
+    Person p2 = (Person) student2;
+
+    int id1 = atoi(personGetID(p1));
+    int id2 = atoi(personGetID(p2));
+
+    return abs(id1 - id2);
 }
 
 /** Functions Implementation */

@@ -9,20 +9,23 @@ int main() {
     const char *queues_filename = "C:\\Users\\user\\Documents\\GitHub\\ex1---Berko-and-Ayal\\ExampleTest\\queues.txt";
 
     FILE *students_file = fopen(students_filename, "r");
-    if (students_file == NULL) {
+    if (students_file == NULL)
+    {
         printf("Error opening students file.\n");
         return 1;
     }
 
     FILE *courses_file = fopen(courses_filename, "r");
-    if (courses_file == NULL) {
+    if (courses_file == NULL)
+    {
         printf("Error opening courses file.\n");
         fclose(students_file);
         return 1;
     }
 
     FILE *hackers_file = fopen(hackers_filename, "r");
-    if (hackers_file == NULL) {
+    if (hackers_file == NULL)
+    {
         printf("Error opening hackers file.\n");
         fclose(students_file);
         fclose(courses_file);
@@ -30,7 +33,8 @@ int main() {
     }
 
     FILE *queues_file = fopen(queues_filename, "r");
-    if (queues_file == NULL) {
+    if (queues_file == NULL)
+    {
         printf("Error opening queues file.\n");
         fclose(students_file);
         fclose(courses_file);
@@ -39,7 +43,8 @@ int main() {
     }
 
     EnrollmentSystem enrollment_system = createEnrollment(students_file, courses_file, hackers_file);
-    if (enrollment_system == NULL) {
+    if (enrollment_system == NULL)
+    {
         printf("Error creating enrollment system.\n");
         fclose(students_file);
         fclose(courses_file);
@@ -48,8 +53,10 @@ int main() {
         return 1;
     }
 
+
     EnrollmentSystem updated_system = readEnrollment(enrollment_system, queues_file);
-    if (updated_system == NULL) {
+    if (updated_system == NULL)
+    {
         printf("Error reading enrollment data from queues file.\n");
         fclose(students_file);
         fclose(courses_file);

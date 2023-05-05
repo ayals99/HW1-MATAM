@@ -14,6 +14,16 @@ Course courseCreate(int courseNumber, int courseCapacity)
     {
         return NULL;
     }
+    FriendshipFunction* friendshipFunction = malloc(sizeof(FriendshipFunction));
+    if(friendshipFunction == NULL)
+    {
+        courseDestroy(newCourse);
+        return NULL;
+    }
+    *friendshipFunction = NULL;
+
+    //TODO:needs to add the comparison function somehow.
+
     IsraeliQueue newQueue = IsraeliQueueCreate(NULL, NULL, THRESHOLD_RESET, THRESHOLD_RESET);
     newCourse->m_courseQueue = newQueue;
     newCourse->m_courseNumber = courseNumber;

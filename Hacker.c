@@ -1,8 +1,5 @@
 #include "Hacker.h"
 
-#define END_OF_LINE '\n'
-#define SPACE ' '
-
 struct hacker_t {
     char* m_hackerId;
     int m_desiredCoursesCount;
@@ -10,6 +7,8 @@ struct hacker_t {
     Friends* m_friends;
     Foes* m_rivals;
 };
+
+void freeArrayOfStrings(char** array);
 
 Hacker hackerCreate(char* hackerId, int numberOfCourses, int* desiredCourses, Friends* friendsArray, Foes* foesArray){
     Hacker newHacker = malloc(sizeof(*newHacker));

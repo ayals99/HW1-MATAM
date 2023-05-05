@@ -5,7 +5,9 @@
 #include <stdio.h>
 
 #include "IsraeliQueue.h"
+
 #define COURSE_NULL 0
+
 typedef struct course_t* Course;
 typedef enum {COURSE_ERROR_BAD_PARAM, COURSE_ERROR_ALLOC_FAILED, COURSE_ERROR_SUCCESS} CourseError;
 
@@ -17,7 +19,7 @@ typedef enum {COURSE_ERROR_BAD_PARAM, COURSE_ERROR_ALLOC_FAILED, COURSE_ERROR_SU
  * @param courses - FILE.
  * @return a pointer to a course strut, or NULL in case of failure.
  */
-Course courseCreate(FILE* courses);
+Course courseCreate(int courseNumber, int courseCapacity);
 
 /**
  * courseDestroy:Destroy a course struct and free all the fields inside,.

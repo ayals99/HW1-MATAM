@@ -30,7 +30,11 @@ void hackerDestroy(Hacker toDestroy)
 
 char* getHackerId(Hacker currHacker)
 {
-
+    if(currHacker == NULL)
+    {
+        return NULL;
+    }
+    return currHacker->m_hackerId;
 }
 
 int getCoursesCount(Hacker currHacker)

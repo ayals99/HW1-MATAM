@@ -84,20 +84,20 @@ IsraeliQueue IsraeliQueueCreate(FriendshipFunction* friendshipFunctions,
                                 int friendship_th,
                                 int rivalry_th)
 {
-    if(friendshipFunctions == NULL)
-    {
-        return NULL;
-    }
     IsraeliQueue newQueue = (IsraeliQueue)malloc(sizeof(*newQueue));
     if (newQueue == NULL)
     {
         return NULL;
     }
-    FriendshipFunction* newFunctionsArray = createFriendshipFunction(friendshipFunctions);
-    if (newFunctionsArray == NULL)
+    FriendshipFunction* newFunctionsArray = NULL;
+    if(friendshipFunctions != NULL)
     {
-        IsraeliQueueDestroy(newQueue);
-        return NULL;
+        newFunctionsArray = createFriendshipFunction(friendshipFunctions);
+        if (newFunctionsArray == NULL)
+        {
+            IsraeliQueueDestroy(newQueue);
+            return NULL;
+        }
     }
     newQueue -> friendshipFunctions = newFunctionsArray;
     newQueue -> comparisonFunction = comparisonFunction;
@@ -181,7 +181,11 @@ IsraeliQueueError addToEnd(IsraeliQueue queue, Node* toAdd)
         addFirstNode(queue, toAdd);
         return ISRAELIQUEUE_SUCCESS;
     }
-    return addNodeAfter(lastNode, toAdd);
+    if(addNodeAfter(lastNode, toAdd) != NODE_ERROR_SUCCESS)
+    {
+        return ISRAELI_QUEUE_ERROR;
+    }
+    return ISRAELIQUEUE_SUCCESS;
 }
 
 

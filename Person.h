@@ -124,6 +124,6 @@ PersonError personSetCity(Person currPerson, char* cityToSet);
 PersonError personSetDepartment(Person currPerson, char* depToSet);
 
 //personSetHacker: sets a ptr to a Hacker struct held by person.
-Hacker personSetHacker(Person currPerson, Hacker hackerToSet);
+void personSetHacker(Person currPerson, Hacker hackerToSet);
 
 #endif

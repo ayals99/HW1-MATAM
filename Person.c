@@ -254,9 +254,10 @@ PersonError personSetDepartment(Person currPerson, char* depToSet)
     return PERSON_ERROR_SUCCESS;
 }
 
-Hacker personSetHacker(Person currPerson, Hacker hackerToSet)
+void personSetHacker(Person currPerson, Hacker hackerToSet)
 {
-
+    assert(currPerson != NULL && hackerToSet != NULL);
+    currPerson->m_Hacker = hackerToSet;
 }
 
 

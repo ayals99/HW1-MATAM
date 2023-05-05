@@ -9,12 +9,51 @@ struct course_t{
 
 Course courseCreate(int courseNumber, int courseCapacity)
 {
-    // read file
-    // create comparison function
-    // create functions array
     Course newCourse = malloc(sizeof(*newCourse));
-    IsraeliQueue newQueue = NULL;
+    if(newCourse == NULL)
+    {
+        return NULL;
+    }
+    IsraeliQueue newQueue = IsraeliQueueCreate(NULL, NULL, THRESHOLD_RESET, THRESHOLD_RESET);
     newCourse->m_courseQueue = newQueue;
-    newCourse->m_courseCapacity = 0;
-    newCourse->m_courseNumber= 0;
+    newCourse->m_courseNumber = courseNumber;
+    newCourse->m_courseCapacity - courseCapacity;
+    return newCourse;
+}
+
+void courseDestroy(Course toDestroy){
+    if(toDestroy == NULL){
+        return;
+    }
+    IsraeliQueueDestroy(toDestroy->m_courseQueue);
+    free(toDestroy);
+}
+
+/** Getter Functions */
+
+int getCourseNumber(Course course){
+    if (course == NULL){
+        return COURSE_NULL;
+    }
+    return course->m_courseNumber;
+}
+
+int getCourseSize(Course course){
+    if (course == NULL){
+        return COURSE_NULL;
+    }
+    return course->m_courseCapacity;
+}
+
+IsraeliQueue getCourseQueue(Course course){
+    if (course == NULL){
+        return NULL;
+    }
+    return course->m_courseQueue;
+}
+
+/** Setter Functions */
+
+CourseError setCourseQueue(Course currentCourse, IsraeliQueue queueToSet){
+    currentCourse->m_courseQueue = queueToSet;
 }

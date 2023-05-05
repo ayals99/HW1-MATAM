@@ -74,7 +74,9 @@ courseStructPointerArray createCoursesArray(FILE* courses, EnrollmentSystem sys)
 Person* configureStudentsWithHackers(EnrollmentSystem sys);
 bool findAndAssignHackerToStudent(Person *studentsArray, int numberOfStudents, Hacker hacker);
 EnrollmentSystemError makeCourseQueue(EnrollmentSystem sys, char* buffer);
-EnrollmentSystemError enrollStudents(Person* allStudentsList,int numberOfStudents, Course* currentCourse, char* studentsIdList);
+EnrollmentSystemError enrollStudents(Person* allStudentsList,int numberOfStudents, Course currentCourse, char* studentsIdList);
+EnrollmentSystemError insertStudentToCourseQueue(Course course,Person studentToInsert);
+
 
 
 
@@ -155,51 +157,43 @@ int byHackerFile(void* student1, void* student2)
      */
 }
 
-int byNameDelta(void* student1, void* student2)
+int byIdDelta(void* student1, void* student2)
 {
-    /*
-    assert(student1 != NULL && student2 != NULL);
-    Person student1_AUX = (Person) student1;
-    Person student2_AUX = (Person) student2;
-    unsigned int studentsFullNameLength = strlen(personGetName(student1_AUX)) +
-            strlen(personGetSurName(student1_AUX));
-    char* student1name = malloc(sizeof(char) * (studentsFullNameLength + 1));
-    if(student1name == NULL)
+    Person p1 = (Person) student1;
+    Person p2 = (Person) student2;
+
+    char* name1 = personGetName(p1);
+    char* name2 = personGetName(p2);
+    char* surname1 = personGetSurName(p1);
+    char* surname2 = personGetSurName(p2);
+
+    int nameDelta = 0;
+    int surnameDelta = 0;
+
+    for (int i = 0; name1[i] != '\0' || name2[i] != '\0'; i++)
     {
-        abort() ;
-    }
-    strcpy(student1name, personGetName(student1_AUX));
-    strcat(student1name, personGetSurName(student1_AUX));
-    studentsFullNameLength = strlen(personGetName(student2_AUX)) + strlen(
-            personGetSurName(student2_AUX));
-    char* student2name = malloc(sizeof(char) * (studentsFullNameLength + 1));
-    if(student2name == NULL)
-    {
-        abort() ;
-    }
-    strcpy(student2name, personGetName(student2_AUX));
-    strcat(student2name, personGetSurName(student2_AUX));
-    unsigned int student1name_len = strlen(student1name);
-    unsigned int student2name_len = strlen(student2name);
-    int delta = 0;
-    int i = 0;
-    for (i = 0; i < student1name_len && i < student2name_len; ++i)
-    {
-        delta += abs(student1name[i] - student2name[i]);
-    }
-    while (i < student1name_len) {
-        delta += abs(student1name[i] - '\0');
-        i++;
+        if (name1[i] != '\0' && name2[i] != '\0')
+        {
+            nameDelta += abs(name1[i] - name2[i]);
+        } else if (name1[i] != '\0')
+        {
+            nameDelta += abs(name1[i]);
+        } else {
+            nameDelta += abs(name2[i]);
+        }
     }
 
-    while (i < student2name_len) {
-        delta += abs(student2name[i] - '\0');
-        i++;
+    for (int i = 0; surname1[i] != '\0' || surname2[i] != '\0'; i++) {
+        if (surname1[i] != '\0' && surname2[i] != '\0') {
+            surnameDelta += abs(surname1[i] - surname2[i]);
+        } else if (surname1[i] != '\0') {
+            surnameDelta += abs(surname1[i]);
+        } else {
+            surnameDelta += abs(surname2[i]);
+        }
     }
-    free(student1name);
-    free(student2name);
-    return delta;
-     */
+
+    return nameDelta + surnameDelta;
 }
 
 int byIdDelta(void* student1, void* student2)
@@ -303,20 +297,9 @@ courseStructPointerArray makeCoursesArray(FILE* courses, int numberOfCourses)
         return NULL;
     }
     const char delimiter[] = {SPACE_BAR};
-    for(int i = 0; fgets(buffer, longestLineLength + 1, courses) != NULL;)
-    {
-        if (buffer[0] == '\n')
-        {
-            continue;
-        }
-        printf("%s\n", buffer);
-        //test
-        size_t len = strlen(buffer);
-        if (len > 0 && (buffer[len - 1] == '\n' || buffer[len - 1] == '\r')) {
-            buffer[len - 1] = '\0';
-        }
-        printf("Stripped buffer content: %s\n", buffer);
 
+    for(int i = 0; readAndTrimLine(courses, buffer, longestLineLength + 1 ) != NULL;)
+    {
         char* token = strtok(buffer, delimiter);
         //assert(token != NULL);
         int courseNumber = atoi(token);
@@ -356,17 +339,8 @@ Person* makeAllStudentsArray(FILE* students,int numberOfStudents)
         free(allStudentsArray);
         return NULL;
     }
-    for(int i = 0; fgets(buffer, longestLineLength + 1, students) != NULL;)
+    for(int i = 0; readAndTrimLine(students, buffer, longestLineLength + 1) != NULL;)
     {
-        char *newline = strchr(buffer, ROW_DROP);
-        if (newline)
-        {
-            *newline = '\0';
-        }
-        if(strlen(buffer) == 0)
-        {
-            continue;
-        }
         char studentID[SIZE_OF_ID];
         int totalCredits;
         double GPA;
@@ -734,18 +708,18 @@ EnrollmentSystem createEnrollment(FILE *students, FILE *courses, FILE *hackers)
     return sys;
 }
 
-EnrollmentSystemError insertStudentToCourseQueue(Course* course,Person studentToInsert)
+EnrollmentSystemError insertStudentToCourseQueue(Course course,Person studentToInsert)
 {
     if (course == NULL || studentToInsert ==NULL)
     {
         return ENROLLMENT_SYSTEM_BAD_PARAM;
     }
-    IsraeliQueue courseQueue = getCourseQueue(*course);
+    IsraeliQueue courseQueue = getCourseQueue(course);
     IsraeliQueueError enqueueStatus = IsraeliQueueEnqueue(courseQueue, studentToInsert);
     return enqueueStatus == ISRAELIQUEUE_SUCCESS ? ENROLLMENT_SYSTEM_SUCCESS : ENROLLMENT_SYSTEM_ERROR;
 }
 
-EnrollmentSystemError enrollStudents(Person* allStudentsList, int numberOfStudents, Course* currentCourse, char* studentsIdList)
+EnrollmentSystemError enrollStudents(Person* allStudentsList, int numberOfStudents, Course currentCourse, char* studentsIdList)
 {
     if (currentCourse == NULL || studentsIdList == NULL)
     {
@@ -778,17 +752,13 @@ EnrollmentSystemError makeCourseQueue(EnrollmentSystem sys, char* buffer)
     {
         return ENROLLMENT_SYSTEM_BAD_PARAM;
     }
-    char* token = strtok(buffer, " ");
-    if (token == NULL)
+    char* spacePosition = strchr(buffer, ' ');
+    if (spacePosition == NULL)
     {
         return ENROLLMENT_SYSTEM_ERROR;
     }
-    int courseNumber = atoi(token);
-    token = strtok(NULL, " ");
-    if (token == NULL)
-    {
-        return ENROLLMENT_SYSTEM_ERROR;
-    }
+    int courseNumber = atoi(buffer);
+    char* studentsIdString = spacePosition + 1;
     int numberOfStudents = sys->m_numberOfStudents;
     Person* allStudentsList = sys->m_students;
     Course* currentCourse = sys->m_courses;
@@ -797,7 +767,7 @@ EnrollmentSystemError makeCourseQueue(EnrollmentSystem sys, char* buffer)
     {
         if(courseNumber == getCourseNumber(currentCourse[i]))
         {
-            return enrollStudents(allStudentsList, numberOfStudents, currentCourse, token);
+            return enrollStudents(allStudentsList, numberOfStudents, currentCourse[i], studentsIdString);
         }
     }
     return ENROLLMENT_SYSTEM_ERROR;
@@ -830,8 +800,8 @@ EnrollmentSystem readEnrollment(EnrollmentSystem sys, FILE* queues)
 
     while (buffer != NULL)
     {
-        EnrollmentSystemError makeQueueStatus = makeCourseQueue(sys, buffer);
-        if(makeQueueStatus != ENROLLMENT_SYSTEM_SUCCESS)
+        EnrollmentSystemError QueueStatus = makeCourseQueue(sys, buffer);
+        if(QueueStatus != ENROLLMENT_SYSTEM_SUCCESS)
         {
             free(buffer);
             return NULL;

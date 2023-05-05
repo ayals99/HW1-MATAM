@@ -74,6 +74,9 @@ courseStructPointerArray createCoursesArray(FILE* courses, EnrollmentSystem sys)
 Person* configureStudentsWithHackers(EnrollmentSystem sys);
 bool findAndAssignHackerToStudent(Person *studentsArray, int numberOfStudents, Hacker hacker);
 EnrollmentSystemError makeCourseQueue(EnrollmentSystem sys, char* buffer);
+EnrollmentSystemError enrollStudents(Person* allStudentsList,int numberOfStudents, Course* currentCourse, char* studentsIdList);
+
+
 
 
 bool enrolledInTwoChoices(Person currentPerson,
@@ -731,9 +734,45 @@ EnrollmentSystem createEnrollment(FILE *students, FILE *courses, FILE *hackers)
     return sys;
 }
 
-EnrollmentSystemError enrollStudents(Course* currentCourse, char* studentsIdList)
+EnrollmentSystemError insertStudentToCourseQueue(Course* course,Person studentToInsert)
 {
+    if ((course == NULL || studentToInsert ==NULL))
+    {
+        return ENROLLMENT_SYSTEM_BAD_PARAM;
+    }
+    IsraeliQueue courseQueue = getCourseQueue(*course);
+    IsraeliQueueError enqueueStatus = IsraeliQueueEnqueue(courseQueue, studentToInsert);
+    if(enqueueStatus != ISRAELIQUEUE_SUCCESS)
+    {
+        return ENROLLMENT_SYSTEM_ERROR;
+    }
+    return ENROLLMENT_SYSTEM_SUCCESS;
+}
 
+EnrollmentSystemError enrollStudents(Person* allStudentsList, int numberOfStudents, Course* currentCourse, char* studentsIdList)
+{
+    if (currentCourse == NULL || studentsIdList == NULL)
+    {
+        return ENROLLMENT_SYSTEM_BAD_PARAM;
+    }
+    char* token = strtok(studentsIdList, " ");
+    while(token != NULL)
+    {
+        for(int i = 0; i < numberOfStudents; i++)
+        {
+            if (strcmp(token, personGetID(allStudentsList[i])) == IDENTICAL_STRING)
+            {
+                EnrollmentSystemError insertionStatus = insertStudentToCourseQueue(currentCourse, allStudentsList[i]);
+                if(insertionStatus != ENROLLMENT_SYSTEM_SUCCESS)
+                {
+                    return insertionStatus;
+                }
+                break;
+            }
+        }
+        token = strtok(NULL, " ");
+    }
+    return ENROLLMENT_SYSTEM_SUCCESS;
 }
 
 
@@ -746,13 +785,15 @@ EnrollmentSystemError makeCourseQueue(EnrollmentSystem sys, char* buffer)
     char *token = strtok(buffer, " ");
     int courseNumber = atoi(token);
     token = strtok(NULL, " ");
+    int numberOfStudents = sys->m_numberOfStudents;
+    Person* allStudentsList = sys->m_students;
     Course* currentCourse = sys->m_courses;
     int numberOfCourses = sys->m_numberOfCourses;
     for(int i = 0; i < numberOfCourses; i++)
     {
         if(courseNumber == getCourseNumber(currentCourse[i]))
         {
-            return enrollStudents(currentCourse, token);
+            return enrollStudents(allStudentsList, numberOfStudents, currentCourse, token);
         }
     }
     return ENROLLMENT_SYSTEM_ERROR;
@@ -786,17 +827,9 @@ EnrollmentSystem readEnrollment(EnrollmentSystem sys, FILE* queues)
             free(buffer);
             return NULL;
         }
-
+        buffer = readAndTrimLine(queues, buffer, longestLineInFile + 1 );
     }
-//    if (buffer == NULL)
-//    {
-//        //TODO: Should consider the return value of this.
-//        return NULL;
-//    }
-
-
-
-
+    return sys;
 }
 
 /**

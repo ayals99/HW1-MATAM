@@ -21,7 +21,7 @@ typedef enum {COURSE_ERROR_BAD_PARAM, COURSE_ERROR_ALLOC_FAILED, COURSE_ERROR_SU
  * @param courses - FILE.
  * @return a pointer to a course strut, or NULL in case of failure.
  */
-Course courseCreate(int courseNumber, int courseCapacity);
+Course courseCreate(int courseNumber, int courseCapacity, ComparisonFunction comparisonFunction);
 
 /**
  * courseDestroy:Destroy a course struct and free all the fields inside,.

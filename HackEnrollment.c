@@ -119,7 +119,7 @@ int byHackerFile(void* student1, void* student2)
     }
     if (isStudent1Hacker)
     {
-        Friends *tmp = getFriendsArray(student1_AUX); //This function is supposed to receive a Hacker but is given a person.
+        Friends *tmp = getFriendsArray(personGetHacker(student1_AUX)); //This function is supposed to receive a Hacker but is given a person.
         while (tmp != NULL)
         {
             if (strcmp(*tmp, personGetID(student2_AUX)) == IDENTICAL_STRING)
@@ -128,7 +128,7 @@ int byHackerFile(void* student1, void* student2)
             }
             tmp++;
         }
-        tmp = getFoesArray(student1_AUX);
+        tmp = getFoesArray(personGetHacker(student1_AUX));
         while (tmp != NULL)
         {
             if (strcmp(*tmp, personGetID(student2_AUX)) == 0)
@@ -140,7 +140,7 @@ int byHackerFile(void* student1, void* student2)
     }
     if (isStudent2Hacker)
     {
-        char **tmp = getFriendsArray(student2_AUX);
+        char **tmp = getFriendsArray(personGetHacker(student2_AUX));
         while (tmp != NULL)
         {
             if (strcmp(*tmp, personGetID(student1_AUX)) == 0)
@@ -149,7 +149,7 @@ int byHackerFile(void* student1, void* student2)
             }
             tmp++;
         }
-        tmp = getFoesArray(student2_AUX);
+        tmp = getFoesArray(personGetHacker(student2_AUX));
         while (tmp != NULL)
         {
             if (strcmp(*tmp, personGetID(student1_AUX)) == 0)
@@ -300,6 +300,7 @@ courseStructPointerArray makeCoursesArray(FILE* courses, int numberOfCourses)
         free(coursesArray);
         return NULL;
     }
+    ComparisonFunction newComparisonFunction = comparisonFunction;
     const char delimiter[] = {SPACE_BAR};
 
     for(int i = 0; readAndTrimLine(courses, buffer, longestLineLength + 1 ) != NULL;)
@@ -311,7 +312,7 @@ courseStructPointerArray makeCoursesArray(FILE* courses, int numberOfCourses)
         //assert(token != NULL);
         int courseCapacity = atoi(token);
 
-        Course currentCourse = courseCreate(courseNumber, courseCapacity);
+        Course currentCourse = courseCreate(courseNumber, courseCapacity, newComparisonFunction);
         if(currentCourse == NULL)
         {
             free(coursesArray);
@@ -394,6 +395,7 @@ int getNumberOfElementsInLine(char* string)
     }
     return count + 1;
 }
+
 int* parseIntArray(char* buffer, int numberOfElementsInLine)
 {
     int* array = malloc(sizeof(int) * numberOfElementsInLine);
@@ -748,7 +750,6 @@ EnrollmentSystemError enrollStudents(Person* allStudentsList, int numberOfStuden
     }
     return ENROLLMENT_SYSTEM_SUCCESS;
 }
-
 
 EnrollmentSystemError makeCourseQueue(EnrollmentSystem sys, char* buffer)
 {

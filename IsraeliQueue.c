@@ -84,20 +84,20 @@ IsraeliQueue IsraeliQueueCreate(FriendshipFunction* friendshipFunctions,
                                 int friendship_th,
                                 int rivalry_th)
 {
+    if (friendshipFunctions == NULL || comparisonFunction == NULL)
+    {
+     return NULL;
+    }
     IsraeliQueue newQueue = (IsraeliQueue)malloc(sizeof(*newQueue));
     if (newQueue == NULL)
     {
         return NULL;
     }
-    FriendshipFunction* newFunctionsArray = NULL;
-    if(friendshipFunctions != NULL)
+    FriendshipFunction* newFunctionsArray = createFriendshipFunction(friendshipFunctions);
+    if (newFunctionsArray == NULL)
     {
-        newFunctionsArray = createFriendshipFunction(friendshipFunctions);
-        if (newFunctionsArray == NULL)
-        {
-            IsraeliQueueDestroy(newQueue);
-            return NULL;
-        }
+        IsraeliQueueDestroy(newQueue);
+        return NULL;
     }
     newQueue -> friendshipFunctions = newFunctionsArray;
     newQueue -> comparisonFunction = comparisonFunction;

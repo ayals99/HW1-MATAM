@@ -203,6 +203,24 @@ char* personGetDepartment(Person currPerson)
     return currPerson->m_Department;
 }
 
+bool isPersonHacker(Person student)
+{
+    assert(student != NULL);
+    if(student->m_Hacker != NULL)
+    {
+        return true;
+    }
+    return false;
+}
+
+Hacker personGetHacker(Person currPerson)
+{
+    assert(currPerson != NULL);
+    return currPerson->m_Hacker;
+}
+
+
+
 /** Setter Functions Implementation */
 
 PersonError personSetID(Person currPerson, char* idString)

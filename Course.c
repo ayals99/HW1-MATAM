@@ -22,12 +22,11 @@ Course courseCreate(int courseNumber, int courseCapacity, ComparisonFunction com
     }
     *friendshipFunction = NULL;
 
-    //TODO:needs to add the comparison function somehow.
-
     IsraeliQueue newQueue = IsraeliQueueCreate(friendshipFunction,
                                                comparisonFunction,
                                                THRESHOLD_RESET,
                                                THRESHOLD_RESET);
+    free(friendshipFunction);
     newCourse->m_courseQueue = newQueue;
     newCourse->m_courseNumber = courseNumber;
     newCourse->m_courseCapacity - courseCapacity;

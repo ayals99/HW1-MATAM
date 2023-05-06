@@ -310,7 +310,7 @@ courseStructPointerArray makeCoursesArray(FILE* courses, int numberOfCourses)
     ComparisonFunction newComparisonFunction = comparisonFunction;
     const char delimiter[] = {SPACE_BAR};
 
-    for(int i = 0; readAndTrimLine(courses, buffer, longestLineLength + 1 ) != NULL;)
+    for(int i = 0; readAndTrimLine(courses, buffer, longestLineLength + 1 ) != NULL; i++)
     {
         char* token = strtok(buffer, delimiter);
         //assert(token != NULL);
@@ -327,7 +327,6 @@ courseStructPointerArray makeCoursesArray(FILE* courses, int numberOfCourses)
             return NULL;
         }
         coursesArray[i] = currentCourse;
-        i++;
     }
     free(buffer);
     return coursesArray;
@@ -335,7 +334,7 @@ courseStructPointerArray makeCoursesArray(FILE* courses, int numberOfCourses)
 
 Person* makeAllStudentsArray(FILE* students,int numberOfStudents)
 {
-    if(students == NULL || numberOfStudents == 0)
+    if(students == NULL || numberOfStudents < 0)
     {
         return NULL;
     }
@@ -351,7 +350,7 @@ Person* makeAllStudentsArray(FILE* students,int numberOfStudents)
         free(allStudentsArray);
         return NULL;
     }
-    for(int i = 0; readAndTrimLine(students, buffer, longestLineLength + 1) != NULL;)
+    for(int i = 0; readAndTrimLine(students, buffer, longestLineLength + 1) != NULL; i++)
     {
         char studentID[SIZE_OF_ID];
         int totalCredits;
@@ -365,6 +364,7 @@ Person* makeAllStudentsArray(FILE* students,int numberOfStudents)
         int result = sscanf(buffer, "%s %d %lf %ms %ms %ms %ms", studentID, &totalCredits, &GPA, &name, &surName, &city, &department);
         if (result != 7) {
             //TODO: Error in parsing the line, you may want to handle it
+            //TODO: change 7 to a DEFINE
             continue;
         }
 
@@ -379,7 +379,6 @@ Person* makeAllStudentsArray(FILE* students,int numberOfStudents)
             return NULL;
         }
         allStudentsArray[i] = newPerson;
-        i++;
     }
     free(buffer);
     return allStudentsArray;
@@ -472,6 +471,7 @@ char* copyBufferContents(char* buffer)
 }
 
 void freeAndDestroyHackerArray(HackerArray hackerArray, int count, char* buffer, int* desiredCourses, Friends* friendsArray, Foes* foesArray) {
+    // TODO check if we use this function in a function where desiredCourses/friendsArray/foesArray are not NULL
     free(foesArray);
     free(friendsArray);
     free(desiredCourses);
@@ -737,6 +737,7 @@ EnrollmentSystemError addFriendshipFunctionsAndThresholds(IsraeliQueue queue)
     {
         return ENROLLMENT_SYSTEM_BAD_PARAM;
     }
+    //TODO: check if the FriendshipFunction actually points to the functions below.
     FriendshipFunction function = byHackerFile;
     if (IsraeliQueueAddFriendshipMeasure(queue, function) != ISRAELIQUEUE_SUCCESS)
     {
@@ -782,7 +783,6 @@ EnrollmentSystemError enrollStudents(Person* allStudentsList, int numberOfStuden
                 {
                     return insertionStatus;
                 }
-                break;
             }
         }
         token = strtok(NULL, " ");

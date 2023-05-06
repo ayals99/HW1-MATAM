@@ -42,8 +42,6 @@ EnrollmentSystemError configureHackers(FILE* hackers, Node* studentList);
 int countHackers(FILE* hackers);
 HackerArray createHackerList(Node* studentList, int hackerCount);
 
-//bool enrolledInTwoChoices(Person currentPerson, Hacker currentHackerStruct, Course* courseArray, int numberOfHackers,
-//                          int totalNumberOfCourses);
 void terminate(EnrollmentSystem system, char* studentID, FILE* out);
 bool requestedOnlyOneCourse (Hacker hacker);
 bool enrolledInCourse(Person currentPerson, Course currentCourse);
@@ -54,134 +52,134 @@ Hacker getHackerPointerFromList(HackerArray listOfHackers, int index);
 
 /** Friendship functions */
 
-int comparisonFunction(void* student1, void* student2){
-        //TODO: write comparison function
-}
-
-int byHackerFile(void* student1, void* student2)
-{
-    assert(student1 != NULL && student2 != NULL);
-    Person student1_AUX = (Person) student1;
-    Person student2_AUX = (Person) student2;
-    bool isStudent1Hacker = isPersonHacker(student1_AUX);
-    Hacker student1_Hacker = NULL;
-    Hacker student2_Hacker = NULL;
-    if (isStudent1Hacker){
-        student1_Hacker = personGetHacker(student1_AUX);
-    }
-    bool isStudent2Hacker = isPersonHacker(student2_AUX);
-    if (isStudent2Hacker){
-        student2_Hacker = personGetHacker(student2_AUX);
-    }
-    if (isStudent1Hacker)
-    {
-        Friends *tmp = getFriendsArray(student1_AUX); //This function is supposed to receive a Hacker but is given a person.
-        while (tmp != NULL)
-        {
-            if (strcmp(*tmp, personGetID(student2_AUX)) == 0)
-            {
-                return FRIENDS;
-            }
-            tmp++;
-        }
-        tmp = getFoesArray(student1_AUX);
-        while (tmp != NULL)
-        {
-            if (strcmp(*tmp, personGetID(student2_AUX)) == 0)
-            {
-                return FOES;
-            }
-            tmp++;
-        }
-    }
-    if (isStudent2Hacker)
-    {
-        char **tmp = getFriendsArray(student2_AUX);
-        while (tmp != NULL)
-        {
-            if (strcmp(*tmp, personGetID(student1_AUX)) == 0)
-            {
-                return FRIENDS;
-            }
-            tmp++;
-        }
-        tmp = getFoesArray(student2_AUX);
-        while (tmp != NULL)
-        {
-            if (strcmp(*tmp, personGetID(student1_AUX)) == 0)
-            {
-                return FOES;
-            }
-            tmp++;
-        }
-    }
-    return NEUTRAL;
-}
-
-int byNameDelta(void* student1, void* student2)
-{
-    assert(student1 != NULL && student2 != NULL);
-    Person student1_AUX = (Person) student1;
-    Person student2_AUX = (Person) student2;
-    unsigned int studentsFullNameLength = strlen(personGetName(student1_AUX)) +
-            strlen(personGetSurName(student1_AUX));
-    char* student1name = malloc(sizeof(char) * (studentsFullNameLength + 1));
-    if(student1name == NULL)
-    {
-        abort() ;
-    }
-    strcpy(student1name, personGetName(student1_AUX));
-    strcat(student1name, personGetSurName(student1_AUX));
-    studentsFullNameLength = strlen(personGetName(student2_AUX)) + strlen(
-            personGetSurName(student2_AUX));
-    char* student2name = malloc(sizeof(char) * (studentsFullNameLength + 1));
-    if(student2name == NULL)
-    {
-        abort() ;
-    }
-    strcpy(student2name, personGetName(student2_AUX));
-    strcat(student2name, personGetSurName(student2_AUX));
-    unsigned int student1name_len = strlen(student1name);
-    unsigned int student2name_len = strlen(student2name);
-    int delta = 0;
-    int i = 0;
-    for (i = 0; i < student1name_len && i < student2name_len; ++i)
-    {
-        delta += abs(student1name[i] - student2name[i]);
-    }
-    while (i < student1name_len) {
-        delta += abs(student1name[i] - '\0');
-        i++;
-    }
-
-    while (i < student2name_len) {
-        delta += abs(student2name[i] - '\0');
-        i++;
-    }
-    free(student1name);
-    free(student2name);
-    return delta;
-}
-
-int byIdDelta(void* student1, void* student2)
-{
-    assert(student1 != NULL && student2 != NULL);
-    Person student1_AUX = (Person) student1;
-    Person student2_AUX = (Person) student2;
-    char* student1ID = personGetID(student1_AUX);
-    char* student2ID = personGetID(student2_AUX);
-    int firstNumericalID = 0;
-    for(int i = 0; i < strlen(student1ID); i++)
-    {
-        firstNumericalID = firstNumericalID * PUSHING_FORWARD + (student1ID[i] - THE_VALUE_OF_CHAR_ZERO);
-    }
-    int secondNumericalID = 0;
-    for(int i = 0; i < strlen(student1ID); i++)
-    {
-        secondNumericalID = secondNumericalID * PUSHING_FORWARD + (student2ID[i] - THE_VALUE_OF_CHAR_ZERO);
-    }
-    return abs(firstNumericalID - secondNumericalID);
-}
+//int comparisonFunction(void* student1, void* student2){
+//
+//}
+//
+//int byHackerFile(void* student1, void* student2)
+//{
+//    assert(student1 != NULL && student2 != NULL);
+//    Person student1_AUX = (Person) student1;
+//    Person student2_AUX = (Person) student2;
+//    bool isStudent1Hacker = isPersonHacker(student1_AUX);
+//    Hacker student1_Hacker = NULL;
+//    Hacker student2_Hacker = NULL;
+//    if (isStudent1Hacker){
+//        student1_Hacker = personGetHacker(student1_AUX);
+//    }
+//    bool isStudent2Hacker = isPersonHacker(student2_AUX);
+//    if (isStudent2Hacker){
+//        student2_Hacker = personGetHacker(student2_AUX);
+//    }
+//    if (isStudent1Hacker)
+//    {
+//        Friends *tmp = getFriendsArray(student1_AUX); //This function is supposed to receive a Hacker but is given a person.
+//        while (tmp != NULL)
+//        {
+//            if (strcmp(*tmp, personGetID(student2_AUX)) == 0)
+//            {
+//                return FRIENDS;
+//            }
+//            tmp++;
+//        }
+//        tmp = getFoesArray(student1_AUX);
+//        while (tmp != NULL)
+//        {
+//            if (strcmp(*tmp, personGetID(student2_AUX)) == 0)
+//            {
+//                return FOES;
+//            }
+//            tmp++;
+//        }
+//    }
+//    if (isStudent2Hacker)
+//    {
+//        char **tmp = getFriendsArray(student2_AUX);
+//        while (tmp != NULL)
+//        {
+//            if (strcmp(*tmp, personGetID(student1_AUX)) == 0)
+//            {
+//                return FRIENDS;
+//            }
+//            tmp++;
+//        }
+//        tmp = getFoesArray(student2_AUX);
+//        while (tmp != NULL)
+//        {
+//            if (strcmp(*tmp, personGetID(student1_AUX)) == 0)
+//            {
+//                return FOES;
+//            }
+//            tmp++;
+//        }
+//    }
+//    return NEUTRAL;
+//}
+//
+//int byNameDelta(void* student1, void* student2)
+//{
+//    assert(student1 != NULL && student2 != NULL);
+//    Person student1_AUX = (Person) student1;
+//    Person student2_AUX = (Person) student2;
+//    unsigned int studentsFullNameLength = strlen(personGetName(student1_AUX)) +
+//            strlen(personGetSurName(student1_AUX));
+//    char* student1name = malloc(sizeof(char) * (studentsFullNameLength + 1));
+//    if(student1name == NULL)
+//    {
+//        abort() ;
+//    }
+//    strcpy(student1name, personGetName(student1_AUX));
+//    strcat(student1name, personGetSurName(student1_AUX));
+//    studentsFullNameLength = strlen(personGetName(student2_AUX)) + strlen(
+//            personGetSurName(student2_AUX));
+//    char* student2name = malloc(sizeof(char) * (studentsFullNameLength + 1));
+//    if(student2name == NULL)
+//    {
+//        abort() ;
+//    }
+//    strcpy(student2name, personGetName(student2_AUX));
+//    strcat(student2name, personGetSurName(student2_AUX));
+//    unsigned int student1name_len = strlen(student1name);
+//    unsigned int student2name_len = strlen(student2name);
+//    int delta = 0;
+//    int i = 0;
+//    for (i = 0; i < student1name_len && i < student2name_len; ++i)
+//    {
+//        delta += abs(student1name[i] - student2name[i]);
+//    }
+//    while (i < student1name_len) {
+//        delta += abs(student1name[i] - '\0');
+//        i++;
+//    }
+//
+//    while (i < student2name_len) {
+//        delta += abs(student2name[i] - '\0');
+//        i++;
+//    }
+//    free(student1name);
+//    free(student2name);
+//    return delta;
+//}
+//
+//int byIdDelta(void* student1, void* student2)
+//{
+//    assert(student1 != NULL && student2 != NULL);
+//    Person student1_AUX = (Person) student1;
+//    Person student2_AUX = (Person) student2;
+//    char* student1ID = personGetID(student1_AUX);
+//    char* student2ID = personGetID(student2_AUX);
+//    int firstNumericalID = 0;
+//    for(int i = 0; i < strlen(student1ID); i++)
+//    {
+//        firstNumericalID = firstNumericalID * PUSHING_FORWARD + (student1ID[i] - THE_VALUE_OF_CHAR_ZERO);
+//    }
+//    int secondNumericalID = 0;
+//    for(int i = 0; i < strlen(student1ID); i++)
+//    {
+//        secondNumericalID = secondNumericalID * PUSHING_FORWARD + (student2ID[i] - THE_VALUE_OF_CHAR_ZERO);
+//    }
+//    return abs(firstNumericalID - secondNumericalID);
+//}
 
 /** Functions Implementation */
 
@@ -220,7 +218,7 @@ void hackEnrollment(EnrollmentSystem system, FILE* out){
             int currentCourseNumber = desiredCoursesArray[i];
             Course currentCourse = findCourseByNumber(currentCourseNumber,  totalNumberOfCourses, courseArray);
             IsraeliQueue currentQueue = getCourseQueue(currentCourse);
-            IsraeliQueueEnqueue(currentQueue, currentHackerStruct);
+            IsraeliQueueEnqueue(currentQueue, currentPerson);
             bool gotTheCourse = enrolledInCourse(currentPerson, currentCourse);
             if(requestedOnlyOneCourse(currentHackerStruct) && !gotTheCourse){
                 terminate(system, studentID, out);
@@ -275,7 +273,6 @@ int countDigits(int number){
     return counter;
 }
 
-// TODO: implement this function "intToString"
 /**
  * intToString() takes an integer and turns it into a string
  * uses malloc, so needs to be freed later by user of function
@@ -293,6 +290,7 @@ char* intToString(int number){
         tempNumber /= 10;
         digitAmount--;
     }
+    string[index] = '\0';
     return string;
 }
 
@@ -310,7 +308,7 @@ void writeCourseQueueToFile(Course* CourseArray, int totalNumberOfCourses, FILE*
         fputs(" ", out);
         int courseCapacity = getCourseSize(currentCourse);
         // prints to "out.txt" only the first students in line, until we reach courseCapacity
-        for(int i = 0; i < courseCapacity; i++){
+        for(int i = 0; i < courseCapacity; i++){ // TODO: check if need to print to "out" all of the list or only up tp SIZE
             head = IsraeliQueueDequeue(queue);
             fputs(personGetID(head), out);
             if(i != courseCapacity - 1){
@@ -319,7 +317,7 @@ void writeCourseQueueToFile(Course* CourseArray, int totalNumberOfCourses, FILE*
         }
         fputs("\n", out);
     }
-    fputs("\n",out); // TODO: check if FILE* out needs to end with a '\0'
+    fputs("\n",out); // TODO: check if FILE* out needs to end with a '\n'
 }
 
 bool requestedOnlyOneCourse (Hacker hacker){

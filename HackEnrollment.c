@@ -18,8 +18,6 @@
 #define FRIENDS 20
 #define FOES (-20)
 #define NEUTRAL 0
-#define THE_VALUE_OF_CHAR_ZERO '0'
-#define PUSHING_FORWARD 10
 #define IDENTICAL 1
 #define INVALID_FILE (-1)
 #define INVALID_STR (-1)
@@ -60,22 +58,29 @@ char** parseStringArray(char* buffer);
 char* readAndTrimLine(FILE* file, char* buffer, int bufferLength);
 HackerArray makeHackerArray(FILE* hackers,int numberOfHackers);
 void freeAndDestroyHackerArray(HackerArray hackerArray,
-                               int count,
-                               char* buffer,
+                               int count, char* buffer,
                                int* desiredCourses,
                                Friends* friendsArray,
                                Foes* foesArray);
 Hacker createHackerFromFile(FILE* hackers, char* buffer, int bufferSize);
 char* copyBufferContents(char* buffer);
-bool checkAndFreeIfNull(char* hackerId, int* desiredCourses, Friends* friendsArray, Foes* foesArray);
+bool checkAndFreeIfNull(char* hackerId, int* desiredCourses,
+                        Friends* friendsArray, Foes* foesArray);
 HackerArray createHackersArray(FILE* hackers, EnrollmentSystem sys);
 Person* createStudentsArray(FILE* students, EnrollmentSystem sys);
-courseStructPointerArray createCoursesArray(FILE* courses, EnrollmentSystem sys);
+courseStructPointerArray createCoursesArray(FILE* courses,
+                                            EnrollmentSystem sys);
 Person* configureStudentsWithHackers(EnrollmentSystem sys);
-bool findAndAssignHackerToStudent(Person *studentsArray, int numberOfStudents, Hacker hacker);
+bool findAndAssignHackerToStudent(Person *studentsArray,
+                                  int numberOfStudents,
+                                  Hacker hacker);
 EnrollmentSystemError makeCourseQueue(EnrollmentSystem sys, char* buffer);
-EnrollmentSystemError enrollStudents(Person* allStudentsList,int numberOfStudents, Course currentCourse, char* studentsIdList);
-EnrollmentSystemError insertStudentToCourseQueue(Course course,Person studentToInsert);
+EnrollmentSystemError enrollStudents(Person* allStudentsList,
+                                     int numberOfStudents,
+                                     Course currentCourse,
+                                     char* studentsIdList);
+EnrollmentSystemError insertStudentToCourseQueue(Course course,
+                                                 Person studentToInsert);
 EnrollmentSystemError addFriendshipFunctionsAndThresholds(IsraeliQueue queue);
 
 

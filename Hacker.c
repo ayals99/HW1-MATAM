@@ -10,18 +10,14 @@ struct hacker_t {
 
 void freeArrayOfStrings(char** array);
 
-Hacker hackerCreate(char* hackerId, int numberOfCourses, int* desiredCourses, Friends* friendsArray, Foes* foesArray){
-    Hacker newHacker = malloc(sizeof(*newHacker));
-    if(newHacker == NULL){
+Hacker hackerCreate(char* hackerId, int desiredCourseCount, int* desiredCourses, Friends* friendsArray, Foes* foesArray)
+{
+    Hacker newHacker = (Hacker)malloc(sizeof(*newHacker));
+    if (newHacker == NULL) {
         return NULL;
     }
     newHacker->m_hackerId = hackerId;
-    newHacker->m_desiredCoursesCount = numberOfCourses;
-    newHacker->m_desiredCoursesArray = desiredCourses;
-    newHacker->m_friends = friendsArray;
-    newHacker->m_rivals = foesArray;
-    return newHacker;
-}
+    newHacker->m_desiredCoursesCount = desiredCourseCount;
 
 //frees a NULL terminated array of pointers to strings
 void freeArrayOfStrings(char** array){

@@ -84,9 +84,9 @@ IsraeliQueue IsraeliQueueCreate(FriendshipFunction* friendshipFunctions,
                                 int friendship_th,
                                 int rivalry_th)
 {
-    if(friendshipFunctions == NULL)
+    if (friendshipFunctions == NULL || comparisonFunction == NULL)
     {
-        return NULL;
+     return NULL;
     }
     IsraeliQueue newQueue = (IsraeliQueue)malloc(sizeof(*newQueue));
     if (newQueue == NULL)
@@ -181,7 +181,11 @@ IsraeliQueueError addToEnd(IsraeliQueue queue, Node* toAdd)
         addFirstNode(queue, toAdd);
         return ISRAELIQUEUE_SUCCESS;
     }
-    return addNodeAfter(lastNode, toAdd);
+    if(addNodeAfter(lastNode, toAdd) != NODE_ERROR_SUCCESS)
+    {
+        return ISRAELI_QUEUE_ERROR;
+    }
+    return ISRAELIQUEUE_SUCCESS;
 }
 
 
@@ -246,23 +250,23 @@ IsraeliQueueError IsraeliQueueEnqueue(IsraeliQueue queue, void* item)
  * going forward.
  *
  * Makes the IsraeliQueue provided recognize the FriendshipFunction provided.*/
-IsraeliQueueError IsraeliQueueAddFriendshipMeasure(IsraeliQueue queue,
-                                                   FriendshipFunction friendships_function)
+IsraeliQueueError IsraeliQueueAddFriendshipMeasure(IsraeliQueue queue, FriendshipFunction friendships_function)
 {
     if (queue == NULL || friendships_function == NULL)
     {
         return ISRAELIQUEUE_BAD_PARAM;
     }
     int functionsCounter = countFunction(queue->friendshipFunctions);
-    FriendshipFunction* newArray = (FriendshipFunction*) realloc(queue->friendshipFunctions,
-                                                                 sizeof(FriendshipFunction) * (functionsCounter + 2));
+    FriendshipFunction* newArray = realloc(queue->friendshipFunctions, (sizeof(FriendshipFunction) * (functionsCounter + 2)));
     // Note to self: multiplying by "functionsCounter + 2" because we didn't count the NULL at the end of the array
-    if (newArray == NULL){
+    if (newArray == NULL)
+    {
         return ISRAELIQUEUE_ALLOC_FAILED;
     }
     *(newArray + functionsCounter) = friendships_function; // The value in this place was NULL
     //Assigning new function to the one before last space of array
     *(newArray + functionsCounter + 1) = NULL; // Accessing the last value in the array so Array will end with NULL
+    queue->friendshipFunctions = newArray;
     return ISRAELIQUEUE_SUCCESS;
 }
 

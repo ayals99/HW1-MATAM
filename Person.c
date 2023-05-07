@@ -17,7 +17,7 @@
 struct Person_t{
     char* m_ID;
     int m_TotalCredits;
-    int m_GPA;
+    double m_GPA;
     char* m_Name;
     char* m_SurName;
     char* m_City;
@@ -29,13 +29,13 @@ struct Person_t{
 
 Person personCreate(char* studentID,
                     int totalCredits,
-                    int GPA,
+                    double GPA,
                     char* name,
                     char* surName,
-                    char* department,
-                    Hacker hacker)
+                    char* city,
+                    char* department)
 {
-    Person newPerson = (Person)malloc(sizeof(*newPerson) );
+    Person newPerson = (Person)malloc(sizeof(*newPerson));
     if(newPerson == NULL)
     {
         return NULL;
@@ -45,12 +45,13 @@ Person personCreate(char* studentID,
     newPerson->m_TotalCredits = totalCredits;
     newPerson->m_Name = name;
     newPerson->m_SurName = surName;
+    newPerson->m_City = city;
     newPerson->m_Department = department;
-    newPerson->m_Hacker = hacker;
+    newPerson->m_Hacker = NULL;
     return newPerson;
 }
 
-void freePerson(Person toDestroy)
+void personDestroy(Person toDestroy)
 {
     if(toDestroy == NULL)
     {
@@ -202,6 +203,24 @@ char* personGetDepartment(Person currPerson)
     return currPerson->m_Department;
 }
 
+bool isPersonHacker(Person student)
+{
+    assert(student != NULL);
+    if(student->m_Hacker != NULL)
+    {
+        return true;
+    }
+    return false;
+}
+
+Hacker personGetHacker(Person currPerson)
+{
+    assert(currPerson != NULL);
+    return currPerson->m_Hacker;
+}
+
+
+
 /** Setter Functions Implementation */
 
 PersonError personSetID(Person currPerson, char* idString)
@@ -252,6 +271,13 @@ PersonError personSetDepartment(Person currPerson, char* depToSet)
     strcpy(currPerson->m_Department, depToSet);
     return PERSON_ERROR_SUCCESS;
 }
+
+void personSetHacker(Person currPerson, Hacker hackerToSet)
+{
+    assert(currPerson != NULL && hackerToSet != NULL);
+    currPerson->m_Hacker = hackerToSet;
+}
+
 
 
 

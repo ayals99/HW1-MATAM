@@ -26,17 +26,17 @@ typedef enum {PERSON_ERROR_BAD_PARAM, PERSON_ERROR_ALLOC_FAILED, PERSON_ERROR_SU
  */
 Person personCreate(char* studentID,
                      int totalCredits,
-                     int GPA,
+                     double GPA,
                      char* name,
                      char* surName,
-                     char* department,
-                     Hacker hacker);
+                     char* city,
+                     char* department);
 
 /**
  * freePerson: frees the person sent to the function.
  * gets a person ptr
  */
-void freePerson(Person toDestroy);
+void personDestroy(Person toDestroy);
 
 /**
  * freePersonFields: Frees all the fields under a given struct.
@@ -124,6 +124,6 @@ PersonError personSetCity(Person currPerson, char* cityToSet);
 PersonError personSetDepartment(Person currPerson, char* depToSet);
 
 //personSetHacker: sets a ptr to a Hacker struct held by person.
-Hacker personSetHacker(Person currPerson, Hacker hackerToSet);
+void personSetHacker(Person currPerson, Hacker hackerToSet);
 
 #endif

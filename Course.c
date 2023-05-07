@@ -7,11 +7,30 @@ struct course_t{
     IsraeliQueue m_courseQueue;
 };
 
-Course courseCreate(int courseNumber, int courseCapacity){
+Course courseCreate(int courseNumber, int courseCapacity, ComparisonFunction comparisonFunction)
+{
     Course newCourse = malloc(sizeof(*newCourse));
+    if(newCourse == NULL)
+    {
+        return NULL;
+    }
+    FriendshipFunction* friendshipFunction = malloc(sizeof(FriendshipFunction));
+    if(friendshipFunction == NULL)
+    {
+        courseDestroy(newCourse);
+        return NULL;
+    }
+    *friendshipFunction = NULL;
+
+    IsraeliQueue newQueue = IsraeliQueueCreate(friendshipFunction,
+                                               comparisonFunction,
+                                               THRESHOLD_RESET,
+                                               THRESHOLD_RESET);
+    free(friendshipFunction);
+    newCourse->m_courseQueue = newQueue;
     newCourse->m_courseNumber = courseNumber;
-    newCourse->m_courseCapacity = courseCapacity;
-    newCourse->m_courseQueue = NULL;
+    newCourse->m_courseCapacity - courseCapacity;
+
     return newCourse;
 }
 

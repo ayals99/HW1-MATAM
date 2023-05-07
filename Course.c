@@ -30,6 +30,7 @@ Course courseCreate(int courseNumber, int courseCapacity, ComparisonFunction com
     newCourse->m_courseQueue = newQueue;
     newCourse->m_courseNumber = courseNumber;
     newCourse->m_courseCapacity - courseCapacity;
+
     return newCourse;
 }
 

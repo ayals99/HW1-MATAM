@@ -93,8 +93,16 @@ bool enrolledInTwoChoices(Person currentPerson,
                           Course* courseArray,
                           int numberOfHackers,
                           int totalNumberOfCourses);
-void terminate(char* studentID, FILE* out);
+
+
+void terminate(EnrollmentSystem system, char* studentID, FILE* out);
+
 bool requestedOnlyOneCourse (Hacker hacker);
+bool enrolledInCourse(Person currentPerson, Course currentCourse);
+Course findCourseByNumber(int courseNumber, int totalNumberOfCourses, Course *courseArrayPointer);
+void writeCourseQueueToFile(Course* CourseArray, int totalNumberOfCourses, FILE* out);
+char* intToString(int number);
+Hacker getHackerPointerFromList(HackerArray listOfHackers, int index);
 
 /** Comparison functions */
 
@@ -331,6 +339,7 @@ courseStructPointerArray makeCoursesArray(FILE* courses, int numberOfCourses)
     free(buffer);
     return coursesArray;
 }
+
 
 Person* makeAllStudentsArray(FILE* students,int numberOfStudents)
 {
@@ -865,7 +874,66 @@ EnrollmentSystem readEnrollment(EnrollmentSystem sys, FILE* queues)
  *
  * gets: an Enrollment system and Out FILE*.
  */
- // loops through all hackers and tries to enqueue them into the queue.
+// loops through all hackers and tries to enqueue them into the queue.
+void hackEnrollment(EnrollmentSystem system, FILE* out){
+    int totalNumberOfCourses = system->m_numberOfCourses;
+    int numberOfHackers = system->m_numberOfHackers;
+    Course* courseArray = system->m_courses;
+    HackerArray listOfHackers = system->m_hackerPointerArray;
+
+    // loop through all hackers and enroll them in the courses they requested
+    for (int hackerIndex = 0; hackerIndex < numberOfHackers; hackerIndex++){
+        int enrollmentCounter = 0;
+        Hacker currentHackerStruct = getHackerPointerFromList(listOfHackers, hackerIndex);
+        Person currentPerson = nodeGetItem(listOfHackers[hackerIndex]);
+        char* studentID = personGetID(currentPerson);
+        int numberOfDesiredCourses = getCoursesCount(currentHackerStruct);
+        int* desiredCoursesArray = getCourseArray(currentHackerStruct);
+
+        // loop through this Hacker's courses and assign him in the course. at the end we'll check that he got at least
+        // two courses overall (unless he asked for only one course and didn't get it):
+        for(int i = 0; i < numberOfDesiredCourses; i++){
+            int currentCourseNumber = desiredCoursesArray[i];
+            Course currentCourse = findCourseByNumber(currentCourseNumber,  totalNumberOfCourses, courseArray);
+            IsraeliQueue currentQueue = getCourseQueue(currentCourse);
+            IsraeliQueueEnqueue(currentQueue, currentPerson);
+            bool gotTheCourse = enrolledInCourse(currentPerson, currentCourse);
+            if(requestedOnlyOneCourse(currentHackerStruct) && !gotTheCourse){
+                terminate(system, studentID, out);
+                return;
+            }
+            if(gotTheCourse){
+                enrollmentCounter++;
+            }
+        }
+        // Check if hacker got two of his choices:
+        if(enrollmentCounter < 2){
+            terminate(system, studentID, out);
+        }
+    }
+    writeCourseQueueToFile(courseArray, totalNumberOfCourses, out);
+}
+
+/**
+ * enrollmentDestroy: Deallocates all memory allocated by createEnrollment
+ * for the object pointed to by the parameter.
+ *
+ * gets: an Enrollment system.
+ */
+void enrollmentDestroy(EnrollmentSystem system){
+    DestoryCoursesArray(system->m_courses, system->m_numberOfCourses);
+    system->m_numberOfCourses = 0;
+    Person current = *(system->m_students);
+    Person next = NULL;
+    Person* allStudentsArray =system->m_students;
+    int numberOfStudents = system->m_numberOfStudents;
+    for(int i = 0; i < numberOfStudents; i++){
+        freePerson(allStudentsArray[i]);
+    }
+    free(system->m_students);
+    freeAndDestroyHackerArray(system->m_hackerPointerArray, count, buffer, desiredCourses, friendsArray, foesArray);
+    free(system);
+}
 
 Hacker getHackerPointerFromList(HackerArray listOfHackers, int index){
 //    Node* pointerToHackerNode = listOfHackers[index];
@@ -874,24 +942,60 @@ Hacker getHackerPointerFromList(HackerArray listOfHackers, int index){
 //    return personGetHacker(currentHacker);
 }
 
-    // TODO: implement this function "intToString"
-char* intToString(int courseNumber){
+int countDigits(int number){
+    int counter = 0;
+    while(number > 0){
+        counter++;
+        number /= 10;
+    }
+    return counter;
+}
 
+/**
+ * intToString() takes an integer and turns it into a string
+ * uses malloc, so needs to be freed later by user of function
+ */
+char* intToString(int number){
+    int digitAmount = 0;
+    int tempNumber = number;
+    digitAmount = countDigits(number);
+    char* string = malloc(sizeof(*string)*digitAmount);
+    int index = 0;
+
+    while (digitAmount > 0){
+        int currentDigit =  tempNumber / (int)pow(10,digitAmount - 1);
+        string[index] = (char)(currentDigit + '0');
+        tempNumber /= 10;
+        digitAmount--;
+    }
+    string[index] = '\0';
+    return string;
 }
 
 void writeCourseQueueToFile(Course* CourseArray, int totalNumberOfCourses, FILE* out){
-    // loop through all courses:
-//    for(int courseIndex = 0; courseIndex < totalNumberOfCourses; courseIndex++){
-//        Course currentCourse = CourseArray[courseIndex];
-//        IsraeliQueue queue = getCourseQueue(currentCourse);
-//        //Node head = getCourseHead(currentCourse);
-//        int courseNumber = getCourseNumber(currentCourse);
-//        char* courseNumberStr = intToString(courseNumber);
-//        fputs(courseNumberStr, out);
-//        free (courseNumberStr);
-//        fputs(" ", out);
-//
-//    }
+    // loops through all courses:
+    for(int courseIndex = 0; courseIndex < totalNumberOfCourses; courseIndex++){
+        Course currentCourse = CourseArray[courseIndex];
+        IsraeliQueue queue = getCourseQueue(currentCourse);
+        Person head;
+        int courseNumber = getCourseNumber(currentCourse);
+
+        char* courseNumberStr = intToString(courseNumber);
+        fputs(courseNumberStr, out);
+        free (courseNumberStr);
+        fputs(" ", out);
+        int courseCapacity = getCourseSize(currentCourse);
+        // prints to "out.txt" only the first students in line, until we reach courseCapacity
+        for(int i = 0; i < courseCapacity; i++){ // TODO: check if need to print to "out" all of the list or only up tp SIZE
+            head = IsraeliQueueDequeue(queue);
+            fputs(personGetID(head), out);
+            if(i != courseCapacity - 1){
+                fputs(" ",out);
+            }
+        }
+        fputs("\n", out);
+    }
+    fputs("\n",out); // TODO: check if FILE* out needs to end with a '\n'
 }
 
 bool requestedOnlyOneCourse (Hacker hacker){
@@ -903,37 +1007,30 @@ bool requestedOnlyOneCourse (Hacker hacker){
     }
 }
 
-void terminate(char* studentID, FILE* out){
+void terminate(EnrollmentSystem system, char* studentID, FILE* out){
     char string[] = "Cannot satisfy constraints for ";
     // write "Cannot satisfy constraints for <Student ID>" into file
     fputs(string, out);
     fputs(studentID, out);
-
-    // TODO: free all memory that was used
+    enrollmentDestroy(system);
 }
 
 bool enrolledInCourse(Person currentPerson, Course currentCourse){
-//    IsraeliQueue list = getCourseQueue(currentCourse);
-//    Person currentPersonInList = (Person) IsraeliQueueDequeue(list); //TODO: need a function that gets head of list from an IsraeliQueue
-//    while(currentPerson != NULL){
-//        char* currentID = personGetID(currentPerson);
-//        if(comparisonFunction(currentPerson, currentPersonInList) == IDENTICAL){
-//            return true;
-//        }
-//        currentPersonInList = (Person) IsraeliQueueDequeue(list);
-//    }
-//    return false;
+  IsraeliQueue list = getCourseQueue(currentCourse);
+    IsraeliQueue clonedList = IsraeliQueueClone(list);
+    Person currentPersonInList = (Person) IsraeliQueueDequeue(clonedList);
+    int courseSize = getCourseSize(currentCourse);
+    // TODO: make sure that this loop needs to be until "courseSize - 1" and not "courseSize"
+    for(int i = 0; i < (courseSize - 1) && currentPerson != NULL; i++){
+        if(comparisonFunction(currentPerson, currentPersonInList) == IDENTICAL){
+            return true;
+        }
+        currentPersonInList = (Person) IsraeliQueueDequeue(clonedList);
+    }
+    IsraeliQueueDestroy(clonedList);
+    return false;
 }
 
-Course findCourseByNumber(int courseNumber, int totalNumberOfCourses, Course *courseArrayPointer) {
-//    for(int i = 0; i< totalNumberOfCourses; i++){
-//        Course current = courseArrayPointer[i];
-//        if(courseNumber == getCourseNumber(current)){
-//            return current;
-//        }
-//    }
-//    return NULL;
-}
 
 bool enrolledInTwoChoices(Person currentPerson, Hacker currentHackerStruct, Course* courseArray, int numberOfHackers,
                           int totalNumberOfCourses){
@@ -954,49 +1051,12 @@ bool enrolledInTwoChoices(Person currentPerson, Hacker currentHackerStruct, Cour
     }
 }
 
-void hackEnrollment(EnrollmentSystem system, FILE* out){
-//    int totalNumberOfCourses = system->m_numberOfCourses;
-//    int numberOfHackers = system->m_numberOfHackers;
-//    Course* courseArray = system->m_courses;
-//    HackerArray listOfHackers = system->m_hackerPointerArray;
-//
-//    // loop through all hackers and enroll them in the courses they requested
-//    for (int hackerIndex = 0; hackerIndex < numberOfHackers; hackerIndex++){
-//        int enrollmentCounter = 0;
-//        Hacker currentHackerStruct = getHackerPointerFromList(listOfHackers, hackerIndex);
-//        Person currentPerson = nodeGetItem(listOfHackers[hackerIndex]);
-//        char* studentID = personGetID(currentPerson);
-//        int numberOfDesiredCourses = getCoursesCount(currentHackerStruct);
-//        int* desiredCoursesArray = getCourseArray(currentHackerStruct);
-//
-//        // loop through this Hacker's courses and assign him in the course. at the end we'll check that he got at least
-//        // two courses overall (unless he asked for only one course and didn't get it):
-//        for(int i = 0; i < numberOfDesiredCourses; i++){
-//            int currentCourseNumber = desiredCoursesArray[i];
-//            Course currentCourse = findCourseByNumber(currentCourseNumber,  totalNumberOfCourses, courseArray);
-//            IsraeliQueue currentQueue = getCourseQueue(currentCourse);
-//            IsraeliQueueEnqueue(currentQueue, currentHackerStruct);
-//            bool gotTheCourse = enrolledInCourse(currentPerson, currentCourse);
-//            if(requestedOnlyOneCourse(currentHackerStruct) && !gotTheCourse){
-//                terminate(studentID, out);
-//                return;
-//            }
-//            if(gotTheCourse){
-//                enrollmentCounter++;
-//            }
-//            // TODO: write function that checks if has only one requested course
-//            // TODO: write function that checks if the placement of the hacker is after "SIZE" in the queue
-//            // TODO: write a function that terminates the void and writes "Cannot satisfy constraints for <Student ID>"
-//        }
-//        // Check if hacker got two of his choices:
-//        if(enrollmentCounter < 2){
-//            terminate(studentID, out);
-//        }
-//    }
-//    writeCourseQueueToFile(courseArray, totalNumberOfCourses, out);
-}
-
-void enrollmentDestroy(EnrollmentSystem system)
-{
-
+Course findCourseByNumber(int courseNumber, int totalNumberOfCourses, Course *courseArrayPointer) {
+    for(int i = 0; i< totalNumberOfCourses; i++){
+        Course current = courseArrayPointer[i];
+        if(courseNumber == getCourseNumber(current)){
+            return current;
+        }
+    }
+    return NULL;
 }

@@ -6,6 +6,7 @@
 
 #include "IsraeliQueue.h"
 
+
 /** Defines */
 #define THRESHOLD_RESET 0
 #define COURSE_NULL 0
@@ -21,6 +22,7 @@ typedef enum {COURSE_ERROR_BAD_PARAM, COURSE_ERROR_ALLOC_FAILED, COURSE_ERROR_SU
  * @param courses - FILE.
  * @return a pointer to a course strut, or NULL in case of failure.
  */
+
 Course courseCreate(int courseNumber, int courseCapacity, ComparisonFunction comparisonFunction);
 
 /**

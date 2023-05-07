@@ -8,6 +8,8 @@ struct hacker_t {
     Foes* m_rivals;
 };
 
+void freeArrayOfStrings(char** array);
+
 Hacker hackerCreate(char* hackerId, int desiredCourseCount, int* desiredCourses, Friends* friendsArray, Foes* foesArray)
 {
     Hacker newHacker = (Hacker)malloc(sizeof(*newHacker));
@@ -16,65 +18,93 @@ Hacker hackerCreate(char* hackerId, int desiredCourseCount, int* desiredCourses,
     }
     newHacker->m_hackerId = hackerId;
     newHacker->m_desiredCoursesCount = desiredCourseCount;
-    newHacker->m_desiredCoursesArray = desiredCourses;
-    newHacker->m_friends = friendsArray;
-    newHacker->m_rivals = foesArray;
-    return newHacker;
+
+//frees a NULL terminated array of pointers to strings
+void freeArrayOfStrings(char** array){
+    char* currentString = *(array);
+    int i = 1;
+    while(currentString != NULL){
+        free( currentString);
+        currentString = *(array + i);
+        i++;
+    }
+    free(array);
 }
 
-
-void hackerDestroy(Hacker toDestroy)
-{
-
+void hackerDestroy(Hacker toDestroy){
+    freeArrayOfStrings(toDestroy->m_friends);
+    freeArrayOfStrings(toDestroy->m_rivals);
+    free(toDestroy->m_desiredCoursesArray);
+    free(toDestroy->m_hackerId);
 }
 
-char* getHackerId(Hacker currHacker)
-{
-    if(currHacker == NULL)
-    {
+/** Getter Functions */
+
+char* getHackerId(Hacker currHacker){
+    if(currHacker == NULL){
         return NULL;
     }
     return currHacker->m_hackerId;
 }
 
-int getCoursesCount(Hacker currHacker)
-{
-
+int getCoursesCount(Hacker currHacker){
+    if(currHacker == NULL){
+        return NULL_HACKER;
+    }
+    return currHacker->m_desiredCoursesCount;
 }
 
-int* getCourseArray(Hacker currHacker)
-{
-
+int* getCourseArray(Hacker currHacker){
+    if(currHacker == NULL){
+        return NULL;
+    }
+    return currHacker->m_desiredCoursesArray;
 }
 
-Friends* getFriendsArray(Hacker currHacker)
-{
-
+Friends* getFriendsArray(Hacker currHacker){
+    if(currHacker == NULL){
+        return NULL;
+    }
+    return currHacker->m_friends;
 }
 
-Foes* getFoesArray(Hacker currHacker)
-{
-
+Foes* getFoesArray(Hacker currHacker){
+    if(currHacker == NULL){
+        return NULL;
+    }
+    return currHacker->m_rivals;
 }
 
 /** Setter Functions */
 
-HackerError setCoursesCount(Hacker currHacker, int courseCount)
-{
-
+HackerError setCoursesCount(Hacker currHacker, int courseCount){
+    if(currHacker == NULL){
+        return HACKER_ERROR_BAD_PARA;
+    }
+    currHacker->m_desiredCoursesCount = courseCount;
+    return HACKER_ERROR_SUCCESS;
 }
 
-HackerError setCourseArray(Hacker currHacker, int* courseArray)
-{
-
+HackerError setCourseArray(Hacker currHacker, int* courseArray){
+    if(currHacker == NULL){
+        return HACKER_ERROR_BAD_PARA;
+    }
+    currHacker->m_desiredCoursesArray = courseArray;
+    return HACKER_ERROR_SUCCESS;
 }
 
-HackerError setFriendsArray(Hacker currHacker, Friends* friendsArray)
-{
-
+HackerError setFriendsArray(Hacker currHacker, Friends* friendsArray){
+    if(currHacker == NULL){
+        return HACKER_ERROR_BAD_PARA;
+    }
+    currHacker->m_friends = friendsArray;
+    return HACKER_ERROR_SUCCESS;
 }
 
-HackerError setFoesArray(Hacker currHacker, Foes* foesArray)
-{
-
+HackerError setFoesArray(Hacker currHacker, Foes* foesArray){
+    if(currHacker == NULL){
+        return HACKER_ERROR_BAD_PARA;
+    }
+    currHacker->m_rivals = foesArray;
+    return HACKER_ERROR_SUCCESS;
 }

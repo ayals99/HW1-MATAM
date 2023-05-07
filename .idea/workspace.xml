@@ -20,10 +20,12 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e8d68ddf-8fb1-4d4e-a26e-c48ee2153ca4" name="Changes" comment="">
+    <list default="true" id="e8d68ddf-8fb1-4d4e-a26e-c48ee2153ca4" name="Changes" comment="updating Hacker.c">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Course.c" beforeDir="false" afterPath="$PROJECT_DIR$/Course.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HackEnrollment.c" beforeDir="false" afterPath="$PROJECT_DIR$/HackEnrollment.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/makefile" beforeDir="false" afterPath="$PROJECT_DIR$/makefile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,6 +38,9 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitToolBoxStore">
+    <option name="projectConfigVersion" value="5" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -105,16 +110,52 @@
       <workItem from="1683040501986" duration="99000" />
       <workItem from="1683042786251" duration="2598000" />
       <workItem from="1683046478930" duration="1298000" />
-      <workItem from="1683092946324" duration="9318000" />
-      <workItem from="1683102475702" duration="1013000" />
-      <workItem from="1683103503537" duration="6827000" />
-      <workItem from="1683115753823" duration="19084000" />
-      <workItem from="1683138203336" duration="19646000" />
-      <workItem from="1683212329101" duration="4796000" />
-      <workItem from="1683280526674" duration="5298000" />
-      <workItem from="1683287998481" duration="4224000" />
-      <workItem from="1683293859752" duration="24728000" />
+      <workItem from="1683092946324" duration="11185000" />
+      <workItem from="1683149182241" duration="2010000" />
+      <workItem from="1683271712752" duration="1023000" />
+      <workItem from="1683272931462" duration="360000" />
+      <workItem from="1683275508606" duration="317000" />
+      <workItem from="1683276058940" duration="196000" />
+      <workItem from="1683276357768" duration="261000" />
+      <workItem from="1683276968449" duration="361000" />
+      <workItem from="1683277552669" duration="4902000" />
+      <workItem from="1683287408670" duration="212000" />
+      <workItem from="1683287913673" duration="976000" />
+      <workItem from="1683289012102" duration="302000" />
+      <workItem from="1683290591783" duration="61000" />
+      <workItem from="1683290816164" duration="1113000" />
+      <workItem from="1683408084148" duration="859000" />
+      <workItem from="1683408985042" duration="52000" />
     </task>
+    <task id="LOCAL-00001" summary="enrollementDestroy first draft">
+      <created>1683276424602</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1683276424602</updated>
+    </task>
+    <task id="LOCAL-00002" summary="implementing course.c">
+      <created>1683277190820</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1683277190820</updated>
+    </task>
+    <task id="LOCAL-00003" summary="finishing course.c">
+      <created>1683288380598</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1683288380598</updated>
+    </task>
+    <task id="LOCAL-00004" summary="updating Hacker.c">
+      <created>1683288734386</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1683288734386</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -126,16 +167,12 @@
     <isAutomaticFoundErrors value="true" />
     <isAutomaticFoundErrors value="true" />
   </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="enrollementDestroy first draft" />
+    <MESSAGE value="implementing course.c" />
+    <MESSAGE value="finishing course.c" />
+    <MESSAGE value="updating Hacker.c" />
+    <option name="LAST_COMMIT_MESSAGE" value="updating Hacker.c" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

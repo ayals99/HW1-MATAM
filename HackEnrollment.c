@@ -887,7 +887,7 @@ void hackEnrollment(EnrollmentSystem system, FILE* out){
     for (int hackerIndex = 0; hackerIndex < numberOfHackers; hackerIndex++){
         int enrollmentCounter = 0;
         Hacker currentHackerStruct = getHackerPointerFromList(listOfHackers, hackerIndex);
-        Person currentPerson = nodeGetItem(listOfHackers[hackerIndex]);
+        Person currentPerson = nodeGetItem(listOfHackers[hackerIndex]); // TODO: check if this is the right way to get the person
         char* studentID = personGetID(currentPerson);
         int numberOfDesiredCourses = getCoursesCount(currentHackerStruct);
         int* desiredCoursesArray = getCourseArray(currentHackerStruct);

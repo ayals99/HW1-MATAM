@@ -102,7 +102,7 @@ int comparisonFunction(void* student1, void* student2)
 //TODO need to implement theses functions in the end of readEnrollment
 int byHackerFile(void* student1, void* student2)
 {
-    assert(student1 != NULL && student2 != NULL);
+//    assert(student1 != NULL && student2 != NULL);
     Person student1_AUX = (Person) student1;
     Person student2_AUX = (Person) student2;
     bool isStudent1Hacker = isPersonHacker(student1_AUX);
@@ -120,7 +120,7 @@ int byHackerFile(void* student1, void* student2)
         Friends *tmp = getFriendsArray(personGetHacker(student1_AUX)); //This function is supposed to receive a Hacker but is given a person.
         while (tmp != NULL)
         {
-            if (strcmp(*tmp, personGetID(student2_AUX)) == IDENTICAL_STRINGS)
+            if (strcmp(*tmp, personGetID(student1_AUX)) == IDENTICAL_STRINGS)
             {
                 return FRIENDS;
             }
@@ -129,7 +129,7 @@ int byHackerFile(void* student1, void* student2)
         tmp = getFoesArray(personGetHacker(student1_AUX));
         while (tmp != NULL)
         {
-            if (strcmp(*tmp, personGetID(student2_AUX)) == IDENTICAL_STRINGS)
+            if (strcmp(*tmp, personGetID(student1_AUX)) == IDENTICAL_STRINGS)
             {
                 return FOES;
             }
@@ -138,10 +138,10 @@ int byHackerFile(void* student1, void* student2)
     }
     if (isStudent2Hacker)
     {
-        char **tmp = getFriendsArray(personGetHacker(student2_AUX));
-        while (tmp != NULL)
+        Friends* tmp = getFriendsArray(personGetHacker(student2_AUX));
+        while (*tmp != NULL)
         {
-            if (strcmp(*tmp, personGetID(student1_AUX)) == IDENTICAL_STRINGS)
+            if (strcmp(*tmp, personGetID(student2_AUX)) == IDENTICAL_STRINGS)
             {
                 return FRIENDS;
             }
@@ -150,7 +150,7 @@ int byHackerFile(void* student1, void* student2)
         tmp = getFoesArray(personGetHacker(student2_AUX));
         while (tmp != NULL)
         {
-            if (strcmp(*tmp, personGetID(student1_AUX)) == IDENTICAL_STRINGS)
+            if (strcmp(*tmp, personGetID(student2_AUX)) == IDENTICAL_STRINGS)
             {
                 return FOES;
             }
@@ -325,13 +325,14 @@ int getLinesOfFile(FILE* file)
         return INVALID_FILE;
     }
     int count = 0;
-    int c;
-    while((c = fgetc(file)) != EOF)
+    int c = fgetc(file);
+    while( c != EOF)
     {
-        if(c == ROW_DROP)
+        if (c == ROW_DROP)
         {
             count++;
         }
+        c = fgetc(file);
     }
     fseek(file, 0, SEEK_SET);
     return count;
@@ -348,6 +349,7 @@ EnrollmentSystemError initializeSystem(EnrollmentSystem sys)
     sys->m_students = NULL;
     sys->m_numberOfCourses = 0;
     sys->m_numberOfHackers = 0;
+    sys->m_numberOfStudents = 0;
     return ENROLLMENT_SYSTEM_SUCCESS;
 }
 
@@ -477,7 +479,7 @@ int* parseIntArray(char* buffer, int numberOfElementsInLine)
     return array;
 }
 
-char** parseStringArray(char* buffer)
+char** parseStringArray(char* buffer) // TODO: check if it works
 {
     int numberOfElementsInLine = getNumberOfElementsInLine(buffer);
     char** array = malloc(sizeof(char*) * (numberOfElementsInLine + 1));

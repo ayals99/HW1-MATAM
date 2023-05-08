@@ -20,29 +20,24 @@ EXEC = program
 # Source files
 SRCS = main.c HackEnrollment.c Person.c Courses.c Hacker.c Node.c IsraeliQueue.c
 
-    $(TARGET): $(OBJS)
-	    	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $(TARGET)
-
+    $(EXEC): $(OBJS)
+		$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $@
     main.o: main.c HackEnrollment.h
-	    	$(CC) $(CFLAGS) -c $< -o $@
-
+		$(CC) $(CFLAGS) -c $< -o $*.c
     HackEnrollemnt.o: HackEnrollment.c Person.h Course.h
-			    	$(CC) $(CFLAGS) $(LDLIBS) -c $@
-
+		$(CC) $(CFLAGS) $(LDLIBS) -c $*.c
     Person.o: Person.c Hacker.h Node.h
-			    $(CC) $(CFLAGS) $(LDLIBS) -c $@
-
+		$(CC) $(CFLAGS) $(LDLIBS) -c $*.c
     Hacker.o: Hacker.c
-			    $(CC) $(CFLAGS) $(LDLIBS) -c $@
-
+		$(CC) $(CFLAGS) $(LDLIBS) -c $*.c
 	Course.o : Course.c
-			    $(CC) $(CFLAGS) $(LDLIBS) -c $@
-
+		$(CC) $(CFLAGS) $(LDLIBS) -c $*.c
     IsraeliQueue.o : IsraeliQueue.c Node.h
-			    $(CC) $(CFLAGS) $(LDLIBS) -c $@
-
+		$(CC) $(CFLAGS) $(LDLIBS) -c $*.c
 	Node.o : Node.c
-			    $(CC) $(CFLAGS) $(LDLIBS) -c $@
+		$(CC) $(CFLAGS) $(LDLIBS) -c $*.c
+	clean:
+		rm -f $(OBJS) $(EXEC)
 
 # include tree:
 #			HackEnrollment.h includes Person.h and Courses.h

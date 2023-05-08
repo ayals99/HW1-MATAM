@@ -64,13 +64,3 @@ IsraeliQueue getCourseQueue(Course course){
     }
     return course->m_courseQueue;
 }
-
-/** Setter Functions */
-
-CourseError setCourseQueue(Course currentCourse, IsraeliQueue queueToSet){
-    if(currentCourse == NULL){
-        return COURSE_ERROR_BAD_PARAM;
-    }
-    currentCourse->m_courseQueue = queueToSet;
-    return COURSE_ERROR_SUCCESS;
-}

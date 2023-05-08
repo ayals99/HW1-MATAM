@@ -40,13 +40,13 @@ int getCourseSize(Course course);
 
 IsraeliQueue getCourseQueue(Course course);
 
-/** Setter Functions */
-
-CourseError setCourseQueue(Course currentCourse, IsraeliQueue queueToSet);
-
-CourseError setCourseNumber(Course currentCourse, int courseNumber);
-
-CourseError setCourseCapacity(Course currentCourse, int courseCapacity);
+///** Setter Functions */
+//
+//CourseError setCourseQueue(Course currentCourse, IsraeliQueue queueToSet);
+//
+//CourseError setCourseNumber(Course currentCourse, int courseNumber);
+//
+//CourseError setCourseCapacity(Course currentCourse, int courseCapacity);
 
 
 

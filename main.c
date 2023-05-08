@@ -69,13 +69,24 @@ int main(int argc, char** argv){
     if(argc > 7 || argc < 6){
         assert(argc > 7 || argc < 6);
     }
-    int IsFlagOn = checkForFlag(argc - 1, argv);
-    FILE* students = fopen(argv[2 - IsFlagOn], "r");
-    FILE* courses = fopen(argv[3 - IsFlagOn], "r");
-    FILE* hackers = fopen(argv[4 - IsFlagOn], "r");
-    FILE* queues = fopen(argv[5 - IsFlagOn], "r");
-    FILE* target = fopen(argv[6 - IsFlagOn], "w");
+    char* studentPath = "C:\\Users\\ayals\\OneDrive\\Documents\\GitHub\\ex1---Berko-and-Ayal\\Tests\\Test1 - 1 hacker\\students.txt";
+    char* hackersPath = "C:\\Users\\ayals\\OneDrive\\Documents\\GitHub\\ex1---Berko-and-Ayal\\Tests\\Test1 - 1 hacker\\hackers.txt";
+    char* coursesPath = "C:\\Users\\ayals\\OneDrive\\Documents\\GitHub\\ex1---Berko-and-Ayal\\Tests\\Test1 - 1 hacker\\courses.txt";
+    char* queuesPath = "C:\\Users\\ayals\\OneDrive\\Documents\\GitHub\\ex1---Berko-and-Ayal\\Tests\\Test1 - 1 hacker\\queues.txt";
 
+    int IsFlagOn = checkForFlag(argc - 1, argv);
+//    FILE* students = fopen(argv[2 - IsFlagOn], "r");
+    FILE* students = fopen("C:\\Users\\ayals\\OneDrive\\Documents\\GitHub\\ex1---Berko-and-Ayal\\Tests\\Test1 - 1 hacker\\students.txt", "r");
+    FILE* courses = fopen("C:\\Users\\ayals\\OneDrive\\Documents\\GitHub\\ex1---Berko-and-Ayal\\Tests\\Test1 - 1 hacker\\courses.txt", "r");
+    FILE* hackers = fopen("C:\\Users\\ayals\\OneDrive\\Documents\\GitHub\\ex1---Berko-and-Ayal\\Tests\\Test1 - 1 hacker\\hackers.txt", "r");
+    FILE* queues = fopen("C:\\Users\\ayals\\OneDrive\\Documents\\GitHub\\ex1---Berko-and-Ayal\\Tests\\Test1 - 1 hacker\\queues.txt", "r");
+
+//    FILE* courses = fopen(argv[3 - IsFlagOn], "r");
+//    FILE* hackers = fopen(argv[4 - IsFlagOn], "r");
+//    FILE* queues = fopen(argv[5 - IsFlagOn], "r");
+//    FILE* target = fopen(argv[6 - IsFlagOn], "w+");
+
+    FILE* target = fopen("C:\\Users\\ayals\\OneDrive\\Documents\\GitHub\\ex1---Berko-and-Ayal\\Tests\\Test1 - 1 hacker\\target.txt", "w+");
     EnrollmentSystem system = createEnrollment(students, courses, hackers);
     if(system == NULL){
         assert(system == NULL);

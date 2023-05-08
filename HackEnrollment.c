@@ -6,7 +6,6 @@
 #include <string.h>
 
 #include "IsraeliQueue.h"
-#include "Node.h"
 #include "Person.h"
 #include "Hacker.h"
 #include "HackEnrollment.h"
@@ -45,11 +44,6 @@ struct enrollmentSystem_t{
 };
 
 /** Function Signatures */
-Node* createListOfStudents(FILE* students);
-Node* readHackerFile(FILE* hackers, Node* studentList);
-EnrollmentSystemError configureHackers(FILE* hackers, Node* studentList);
-int countHackers(FILE* hackers);
-HackerArray createHackerList(Node* studentList, int hackerCount);
 int getLongestLineLength(FILE* file);
 EnrollmentSystemError initializeSystem(EnrollmentSystem sys);
 courseStructPointerArray makeCoursesArray(FILE* courses, int numberOfCourses);
@@ -83,13 +77,8 @@ EnrollmentSystemError insertStudentToCourseQueue(Course course,
                                                  Person studentToInsert);
 EnrollmentSystemError addFriendshipFunctionsAndThresholds(IsraeliQueue queue);
 void DestroyCoursesArray(Course* array, int numberOfCourses);
-//bool enrolledInTwoChoices(Person currentPerson,
-//                          Hacker currentHackerStruct,
-//                          Course* courseArray,
-//                          int numberOfHackers,
-//                          int totalNumberOfCourses);
 Person getPersonByHacker(char* hackerID, Person* students, int numberOfStudents);
-void terminate(EnrollmentSystem system, char* studentID, FILE* out);
+void terminate(char* studentID, FILE* out);
 bool requestedOnlyOneCourse (Hacker hacker);
 bool enrolledInCourse(Person currentPerson, Course currentCourse);
 Course findCourseByNumber(int courseNumber, int totalNumberOfCourses, Course *courseArrayPointer);
@@ -915,12 +904,12 @@ void hackEnrollment(EnrollmentSystem system, FILE* out){
             Course currentCourse = findCourseByNumber(currentCourseNumber,  totalNumberOfCourses, courseArray);
             IsraeliQueue currentQueue = getCourseQueue(currentCourse);
             if( ISRAELIQUEUE_SUCCESS != IsraeliQueueEnqueue(currentQueue, currentPerson)) {
-                terminate(system, studentID, out);
+                terminate(studentID, out);
                 return;
             }
             bool gotTheCourse = enrolledInCourse(currentPerson, currentCourse);
             if(requestedOnlyOneCourse(currentHackerStruct) && !gotTheCourse){
-                terminate(system, studentID, out);
+                terminate(studentID, out);
                 return;
             }
             if(gotTheCourse){
@@ -929,7 +918,7 @@ void hackEnrollment(EnrollmentSystem system, FILE* out){
         }
         // Check if hacker got two of his choices:
         if(enrollmentCounter < 2){
-            terminate(system, studentID, out);
+            terminate(studentID, out);
         }
     }
     writeCourseQueueToFile(courseArray, totalNumberOfCourses, out);
@@ -984,9 +973,8 @@ int countDigits(int number){
  * uses malloc, so needs to be freed later by user of function
  */
 char* intToString(int number){
-    int digitAmount = 0;
     int tempNumber = number;
-    digitAmount = countDigits(number);
+    int digitAmount = countDigits(number);
     char* string = malloc(sizeof(*string)*digitAmount);
     int index = 0;
 
@@ -1038,7 +1026,7 @@ bool requestedOnlyOneCourse (Hacker hacker){
     }
 }
 
-void terminate(EnrollmentSystem system, char* studentID, FILE* out){
+void terminate(char* studentID, FILE* out){
     char string[] = "Cannot satisfy constraints for ";
     // write "Cannot satisfy constraints for <Student ID>" into file
     fputs(string, out);

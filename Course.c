@@ -29,7 +29,7 @@ Course courseCreate(int courseNumber, int courseCapacity, ComparisonFunction com
     free(friendshipFunction);
     newCourse->m_courseQueue = newQueue;
     newCourse->m_courseNumber = courseNumber;
-    newCourse->m_courseCapacity - courseCapacity;
+    newCourse->m_courseCapacity = courseCapacity;
 
     return newCourse;
 }
@@ -68,5 +68,9 @@ IsraeliQueue getCourseQueue(Course course){
 /** Setter Functions */
 
 CourseError setCourseQueue(Course currentCourse, IsraeliQueue queueToSet){
+    if(currentCourse == NULL){
+        return COURSE_ERROR_BAD_PARAM;
+    }
     currentCourse->m_courseQueue = queueToSet;
+    return COURSE_ERROR_SUCCESS;
 }

@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <assert.h>
 
 #define OFF 0
@@ -37,7 +36,7 @@ int main(int argc, char** argv){
     FILE* students = fopen(argv[2 - IsFlagOn], "r");
     FILE* courses = fopen(argv[3 - IsFlagOn], "r");
     FILE* hackers = fopen(argv[4 - IsFlagOn], "r");
-    FILE* queues = fopen(argv[5 - IsFlagOn], "r");;
+    FILE* queues = fopen(argv[5 - IsFlagOn], "r");
     FILE* target = fopen(argv[6 - IsFlagOn], "w");
 
     EnrollmentSystem system = createEnrollment(students, courses, hackers);

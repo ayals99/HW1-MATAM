@@ -4,7 +4,6 @@
 #include <math.h>
 #include <assert.h>
 #include <string.h>
-#include <assert.h>
 
 #include "IsraeliQueue.h"
 #include "Node.h"

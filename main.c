@@ -98,7 +98,7 @@ int main(int argc, char** argv){
         closeFiles(students, courses, hackers, queues, target);
         return 1;
     }
-    system = readEnrollment(system, courses);
+    system = readEnrollment(system, queues);
     if(system == NULL){
         assert(system == NULL);
         closeFiles(students, courses, hackers, queues, target);

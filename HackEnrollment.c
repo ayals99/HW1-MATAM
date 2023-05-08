@@ -72,10 +72,10 @@ EnrollmentSystemError makeCourseQueue(EnrollmentSystem sys, char* buffer);
 EnrollmentSystemError enrollStudents(Person* allStudentsList,
                                      int numberOfStudents,
                                      Course currentCourse,
-                                     char* studentsIdList);
+                                     char* studentsIdList, bool isFlagOn);
 EnrollmentSystemError insertStudentToCourseQueue(Course course,
                                                  Person studentToInsert);
-EnrollmentSystemError addFriendshipFunctionsAndThresholds(IsraeliQueue queue);
+EnrollmentSystemError addFriendshipFunctionsAndThresholds(IsraeliQueue queue, bool isFlagOn);
 void DestroyCoursesArray(Course* array, int numberOfCourses);
 Person getPersonByHacker(char* hackerID, Person* students, int numberOfStudents);
 void terminate(char* studentID, FILE* out);
@@ -158,6 +158,66 @@ int byHackerFile(void* student1, void* student2)
         }
     }
     return NEUTRAL;
+}
+
+void toLowerCase(char* originalString){
+    while(*originalString != STRING_END){
+        if (*originalString >= 'A' && *originalString <= 'Z'){
+            *originalString + 'a' - 'A';
+        }
+        originalString++;
+    }
+}
+
+int byNameDeltaWithoutCase(void* student1, void* student2){
+    assert(student1 != NULL && student2 != NULL);
+    Person p1 = (Person) student1;
+    Person p2 = (Person) student2;
+
+    char* name1 = personGetName(p1);
+    toLowerCase(name1);
+    char* name2 = personGetName(p2);
+    toLowerCase(name2);
+    char* surname1 = personGetSurName(p1);
+    toLowerCase(surname1);
+    char* surname2 = personGetSurName(p2);
+    toLowerCase(surname2);
+
+    int nameDelta = 0;
+    int surnameDelta = 0;
+
+    for (int i = 0; name1[i] != STRING_END || name2[i] != STRING_END; i++)
+    {
+        if (name1[i] != STRING_END && name2[i] != STRING_END)
+        {
+            nameDelta += abs(name1[i] - name2[i]);
+        }
+        else if (name1[i] != STRING_END)
+        {
+            nameDelta += abs(name1[i]);
+        }
+        else
+        {
+            nameDelta += abs(name2[i]);
+        }
+    }
+
+    for (int i = 0; surname1[i] != STRING_END || surname2[i] != STRING_END; i++)
+    {
+        if (surname1[i] != STRING_END && surname2[i] != STRING_END)
+        {
+            surnameDelta += abs(surname1[i] - surname2[i]);
+        }
+        else if (surname1[i] != STRING_END)
+        {
+            surnameDelta += abs(surname1[i]);
+        }
+        else
+        {
+            surnameDelta += abs(surname2[i]);
+        }
+    }
+    return nameDelta + surnameDelta;
 }
 
 int byNameDelta(void* student1, void* student2)
@@ -726,7 +786,7 @@ EnrollmentSystemError insertStudentToCourseQueue(Course course,Person studentToI
     return enqueueStatus == ISRAELIQUEUE_SUCCESS ? ENROLLMENT_SYSTEM_SUCCESS : ENROLLMENT_SYSTEM_ERROR;
 }
 
-EnrollmentSystemError addFriendshipFunctionsAndThresholds(IsraeliQueue queue)
+EnrollmentSystemError addFriendshipFunctionsAndThresholds(IsraeliQueue queue, bool isFlagOn)
 {
     if (queue == NULL)
     {
@@ -738,7 +798,17 @@ EnrollmentSystemError addFriendshipFunctionsAndThresholds(IsraeliQueue queue)
     {
         return ENROLLMENT_SYSTEM_ERROR;
     }
-    function = byNameDelta;
+    if (isFlagOn)
+    {
+        function = byNameDeltaWithoutCase;
+
+    }
+    else
+    {
+        function = byNameDelta;
+
+    }
+
     if (IsraeliQueueAddFriendshipMeasure(queue, function) != ISRAELIQUEUE_SUCCESS)
     {
         return ENROLLMENT_SYSTEM_ERROR;
@@ -760,7 +830,7 @@ EnrollmentSystemError addFriendshipFunctionsAndThresholds(IsraeliQueue queue)
 }
 
 
-EnrollmentSystemError enrollStudents(Person* allStudentsList, int numberOfStudents, Course currentCourse, char* studentsIdList)
+EnrollmentSystemError enrollStudents(Person* allStudentsList, int numberOfStudents, Course currentCourse, char* studentsIdList, bool isFlagOn)
 {
     if (currentCourse == NULL || studentsIdList == NULL)
     {
@@ -782,7 +852,7 @@ EnrollmentSystemError enrollStudents(Person* allStudentsList, int numberOfStuden
         }
         token = strtok(NULL, " ");
     }
-    return addFriendshipFunctionsAndThresholds(getCourseQueue(currentCourse));
+    return addFriendshipFunctionsAndThresholds(getCourseQueue(currentCourse), isFlagOn);
 }
 
 EnrollmentSystemError makeCourseQueue(EnrollmentSystem sys, char* buffer)
@@ -806,7 +876,7 @@ EnrollmentSystemError makeCourseQueue(EnrollmentSystem sys, char* buffer)
     {
         if(courseNumber == getCourseNumber(currentCourse[i]))
         {
-            return enrollStudents(allStudentsList, numberOfStudents, currentCourse[i], studentsIdString);
+            return enrollStudents(allStudentsList, numberOfStudents, currentCourse[i], studentsIdString, sys->m_isFlagOn);
         }
     }
     return ENROLLMENT_SYSTEM_ERROR;

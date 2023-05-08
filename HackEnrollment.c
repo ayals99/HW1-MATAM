@@ -17,16 +17,18 @@
 #define FRIENDS 20
 #define FOES (-20)
 #define NEUTRAL 0
-#define IDENTICAL 1
+#define IDENTICAL_BY_COMPARISON_FUNCTION 1
+#define IDENTICAL_STRINGS 0
 #define INVALID_FILE (-1)
 #define INVALID_STR (-1)
 #define ROW_DROP '\n'
 #define SPACE_BAR ' '
 #define LINES_PER_HACKER 4
 #define CARRIAGE_RETURN '\r'
-#define IDENTICAL_STRING 0
 #define SIZE_OF_ID 9
 #define NUMBER_OF_INPUTS_TO_SCANF 7
+#define STRING_END '\0'
+#define LETTER_CASE_FLAG "-i"
 
 /** Struct declaration */
 typedef Hacker* HackerArray;
@@ -81,22 +83,20 @@ EnrollmentSystemError insertStudentToCourseQueue(Course course,
                                                  Person studentToInsert);
 EnrollmentSystemError addFriendshipFunctionsAndThresholds(IsraeliQueue queue);
 void DestroyCoursesArray(Course* array, int numberOfCourses);
-
-bool enrolledInTwoChoices(Person currentPerson,
-                          Hacker currentHackerStruct,
-                          Course* courseArray,
-                          int numberOfHackers,
-                          int totalNumberOfCourses);
-
-
+//bool enrolledInTwoChoices(Person currentPerson,
+//                          Hacker currentHackerStruct,
+//                          Course* courseArray,
+//                          int numberOfHackers,
+//                          int totalNumberOfCourses);
+Person getPersonByHacker(char* hackerID, Person* students, int numberOfStudents);
 void terminate(EnrollmentSystem system, char* studentID, FILE* out);
-
 bool requestedOnlyOneCourse (Hacker hacker);
 bool enrolledInCourse(Person currentPerson, Course currentCourse);
 Course findCourseByNumber(int courseNumber, int totalNumberOfCourses, Course *courseArrayPointer);
 void writeCourseQueueToFile(Course* CourseArray, int totalNumberOfCourses, FILE* out);
 char* intToString(int number);
 Hacker getHackerPointerFromList(HackerArray listOfHackers, int index);
+
 
 /** Comparison functions */
 
@@ -131,7 +131,7 @@ int byHackerFile(void* student1, void* student2)
         Friends *tmp = getFriendsArray(personGetHacker(student1_AUX)); //This function is supposed to receive a Hacker but is given a person.
         while (tmp != NULL)
         {
-            if (strcmp(*tmp, personGetID(student2_AUX)) == IDENTICAL_STRING)
+            if (strcmp(*tmp, personGetID(student2_AUX)) == IDENTICAL_STRINGS)
             {
                 return FRIENDS;
             }
@@ -140,7 +140,7 @@ int byHackerFile(void* student1, void* student2)
         tmp = getFoesArray(personGetHacker(student1_AUX));
         while (tmp != NULL)
         {
-            if (strcmp(*tmp, personGetID(student2_AUX)) == 0)
+            if (strcmp(*tmp, personGetID(student2_AUX)) == IDENTICAL_STRINGS)
             {
                 return FOES;
             }
@@ -152,7 +152,7 @@ int byHackerFile(void* student1, void* student2)
         char **tmp = getFriendsArray(personGetHacker(student2_AUX));
         while (tmp != NULL)
         {
-            if (strcmp(*tmp, personGetID(student1_AUX)) == 0)
+            if (strcmp(*tmp, personGetID(student1_AUX)) == IDENTICAL_STRINGS)
             {
                 return FRIENDS;
             }
@@ -161,7 +161,7 @@ int byHackerFile(void* student1, void* student2)
         tmp = getFoesArray(personGetHacker(student2_AUX));
         while (tmp != NULL)
         {
-            if (strcmp(*tmp, personGetID(student1_AUX)) == 0)
+            if (strcmp(*tmp, personGetID(student1_AUX)) == IDENTICAL_STRINGS)
             {
                 return FOES;
             }
@@ -185,13 +185,13 @@ int byNameDelta(void* student1, void* student2)
     int nameDelta = 0;
     int surnameDelta = 0;
 
-    for (int i = 0; name1[i] != '\0' || name2[i] != '\0'; i++)
+    for (int i = 0; name1[i] != STRING_END || name2[i] != STRING_END; i++)
     {
-        if (name1[i] != '\0' && name2[i] != '\0')
+        if (name1[i] != STRING_END && name2[i] != STRING_END)
         {
             nameDelta += abs(name1[i] - name2[i]);
         }
-        else if (name1[i] != '\0')
+        else if (name1[i] != STRING_END)
         {
             nameDelta += abs(name1[i]);
         }
@@ -201,13 +201,13 @@ int byNameDelta(void* student1, void* student2)
         }
     }
 
-    for (int i = 0; surname1[i] != '\0' || surname2[i] != '\0'; i++)
+    for (int i = 0; surname1[i] != STRING_END || surname2[i] != STRING_END; i++)
     {
-        if (surname1[i] != '\0' && surname2[i] != '\0')
+        if (surname1[i] != STRING_END && surname2[i] != STRING_END)
         {
             surnameDelta += abs(surname1[i] - surname2[i]);
         }
-        else if (surname1[i] != '\0')
+        else if (surname1[i] != STRING_END)
         {
             surnameDelta += abs(surname1[i]);
         }
@@ -234,7 +234,11 @@ int byIdDelta(void* student1, void* student2)
 /** Functions Implementation */
 
 bool FlagOnOrOff(char* flag){
-    return (strcmp(flag, "-i") )== 0;
+    return (strcmp(flag, LETTER_CASE_FLAG) ) == IDENTICAL_STRINGS;
+}
+
+Hacker getHackerPointerFromList(HackerArray listOfHackers, int index){
+    return listOfHackers[index];
 }
 
 int getLongestLineLength(FILE* file)
@@ -632,7 +636,7 @@ bool findAndAssignHackerToStudent(Person *studentsArray, int numberOfStudents, H
     char *currentHackerId = getHackerId(hacker);
     for (int i = 0; i < numberOfStudents; i++)
     {
-        if (strcmp(currentHackerId, personGetID(studentsArray[i])) == IDENTICAL_STRING)
+        if (strcmp(currentHackerId, personGetID(studentsArray[i])) == IDENTICAL_STRINGS)
         {
             personSetHacker(studentsArray[i], hacker);
             return true;
@@ -778,7 +782,7 @@ EnrollmentSystemError enrollStudents(Person* allStudentsList, int numberOfStuden
     {
         for(int i = 0; i < numberOfStudents; i++)
         {
-            if (strcmp(token, personGetID(allStudentsList[i])) == IDENTICAL_STRING)
+            if (strcmp(token, personGetID(allStudentsList[i])) == IDENTICAL_STRINGS)
             {
                 EnrollmentSystemError insertionStatus = insertStudentToCourseQueue(currentCourse, allStudentsList[i]);
                 if(insertionStatus != ENROLLMENT_SYSTEM_SUCCESS)
@@ -867,6 +871,18 @@ EnrollmentSystem readEnrollment(EnrollmentSystem sys, FILE* queues)
     return sys;
 }
 
+// getPersonByHacker: Returns a ptr to a person_t struct thar holds the hacker.
+// NOTE: Searches by ID.
+Person getPersonByHacker(char* hackerID, Person* students, int numberOfStudents){
+    for(int i = 0; i < numberOfStudents;i++){
+        Person currentPerson = students[i];
+        if(strcmp(hackerID, personGetID(currentPerson)) == IDENTICAL_STRINGS){
+            return currentPerson;
+        }
+    }
+    return NULL;
+}
+
 /**
  * hackEnrollment: writes to Out new course queue where the hackers are inserted .
  * to two courses that they wished for, or one if they wished for one.
@@ -886,7 +902,8 @@ void hackEnrollment(EnrollmentSystem system, FILE* out){
     for (int hackerIndex = 0; hackerIndex < numberOfHackers; hackerIndex++){
         int enrollmentCounter = 0;
         Hacker currentHackerStruct = getHackerPointerFromList(listOfHackers, hackerIndex);
-        Person currentPerson = nodeGetItem(listOfHackers[hackerIndex]); // TODO: check if this is the right way to get the person
+        Person currentPerson = getPersonByHacker(getHackerId(listOfHackers[hackerIndex]),
+                                                 system->m_students, system->m_numberOfStudents);
         char* studentID = personGetID(currentPerson);
         int numberOfDesiredCourses = getCoursesCount(currentHackerStruct);
         int* desiredCoursesArray = getCourseArray(currentHackerStruct);
@@ -1036,7 +1053,7 @@ bool enrolledInCourse(Person currentPerson, Course currentCourse){
     int courseSize = getCourseSize(currentCourse);
     // TODO: make sure that this loop needs to be until "courseSize - 1" and not "courseSize"
     for(int i = 0; i < (courseSize - 1) && currentPerson != NULL; i++){
-        if(comparisonFunction(currentPerson, currentPersonInList) == IDENTICAL){
+        if(comparisonFunction(currentPerson, currentPersonInList) == IDENTICAL_BY_COMPARISON_FUNCTION){
             return true;
         }
         currentPersonInList = (Person) IsraeliQueueDequeue(clonedList);
@@ -1046,24 +1063,24 @@ bool enrolledInCourse(Person currentPerson, Course currentCourse){
 }
 
 
-bool enrolledInTwoChoices(Person currentPerson, Hacker currentHackerStruct, Course* courseArray, int numberOfHackers,
-                          int totalNumberOfCourses){
-    int enrollmentCounter = 0;
-    int* desiredCoursesArray = getCourseArray(currentHackerStruct);
-    int numberOfDesiredCourses = getCoursesCount(currentHackerStruct);
-    for(int i = 0; i < numberOfDesiredCourses; i++){
-        Course currentCourse = findCourseByNumber(desiredCoursesArray[i], totalNumberOfCourses , courseArray);
-        if( enrolledInCourse(currentPerson, currentCourse) ){
-            enrollmentCounter += 1;
-        }
-    }
-    if(enrollmentCounter >= 2){
-        return true;
-    }
-    else{
-        return false;
-    }
-}
+//bool enrolledInTwoChoices(Person currentPerson, Hacker currentHackerStruct, Course* courseArray, int numberOfHackers,
+//                          int totalNumberOfCourses){
+//    int enrollmentCounter = 0;
+//    int* desiredCoursesArray = getCourseArray(currentHackerStruct);
+//    int numberOfDesiredCourses = getCoursesCount(currentHackerStruct);
+//    for(int i = 0; i < numberOfDesiredCourses; i++){
+//        Course currentCourse = findCourseByNumber(desiredCoursesArray[i], totalNumberOfCourses , courseArray);
+//        if( enrolledInCourse(currentPerson, currentCourse) ){
+//            enrollmentCounter += 1;
+//        }
+//    }
+//    if(enrollmentCounter >= 2){
+//        return true;
+//    }
+//    else{
+//        return false;
+//    }
+//}
 
 Course findCourseByNumber(int courseNumber, int totalNumberOfCourses, Course *courseArrayPointer) {
     for(int i = 0; i< totalNumberOfCourses; i++){

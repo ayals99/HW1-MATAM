@@ -93,6 +93,7 @@ char* personGetDepartment(Person currPerson);
 //personGetHacker: returns a ptr to a Hacker struct held by person.
 Hacker personGetHacker(Person currPerson);
 
+
 /** Setter Functions */
 
 //personSetID: Sets the selected persons ID with the ID provided

@@ -8,17 +8,41 @@ TARGET = program
 CC = gcc
 CFLAGS = -std=c99 -I. -I/home/mtm/public/2223b/ex1 -Itool -Wall -pedantic-errors -Werror -DNDEBUG
 
+#OBJECTS
+OBJS = main.o HackEnrollment.o Person.o Hacker.o Course.o Node.o IsraeliQueue.o
+
 # Linker options
-LDLIBS = -lm
+LDFLAGS = -lm
+
+# EXECUTE
+EXEC = program
 
 # Source files
 SRCS = main.c HackEnrollment.c Person.c Courses.c Hacker.c Node.c IsraeliQueue.c
 
+    $(TARGET): $(OBJS)
+	    	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $(TARGET)
+
     main.o: main.c HackEnrollment.h
-	    	
+	    	$(CC) $(CFLAGS) -c $< -o $@
 
     HackEnrollemnt.o: HackEnrollment.c Person.h Course.h
+			    	$(CC) $(CFLAGS) $(LDLIBS) -c $@
 
+    Person.o: Person.c Hacker.h Node.h
+			    $(CC) $(CFLAGS) $(LDLIBS) -c $@
+
+    Hacker.o: Hacker.c
+			    $(CC) $(CFLAGS) $(LDLIBS) -c $@
+
+	Course.o : Course.c
+			    $(CC) $(CFLAGS) $(LDLIBS) -c $@
+
+    IsraeliQueue.o : IsraeliQueue.c Node.h
+			    $(CC) $(CFLAGS) $(LDLIBS) -c $@
+
+	Node.o : Node.c
+			    $(CC) $(CFLAGS) $(LDLIBS) -c $@
 
 # include tree:
 #			HackEnrollment.h includes Person.h and Courses.h

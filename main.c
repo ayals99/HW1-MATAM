@@ -27,10 +27,47 @@ int checkForFlag(int numberOfInputs, char** argv){
     }
     return isFlagOn;
 }
+//
+//  #define STUDENTS_FILES_1 "\Tests\Test 1 - 1 hacker\students.txt"
+//  #define COURSES_FILES_1 "\Tests\Test 1 - 1 hacker\courses.txt"
+//  #define HACKERS_FILES_1 "\Tests\Test 1 - 1 hacker\hackers.txt"
+//  #define QUEUES_FILES_1 "\Tests\Test 1 - 1 hacker\queues.txt"
+//  #define TARGET_FILES_1 "\Tests\Test 1 - 1 hacker\target.txt"
+//
+//  #define STUDENTS_FILES_2 "\Tests\Test2 - 1 hacker (no demands)\students.txt"
+//  #define COURSES_FILES_2 "\Tests\Test2 - 1 hacker (no demands)\courses.txt"
+//  #define HACKERS_FILES_2 "\Tests\Test2 - 1 hacker (no demands)\hackers.txt"
+//  #define QUEUES_FILES_2 "\Tests\Test2 - 1 hacker (no demands)\queues.txt"
+// #define TARGET_FILES_2 "\Tests\Test2 - 1 hacker (no demands)\target.txt"
+//
+//  #define STUDENTS_FILES_3 "\Tests\Test3 - 1 hacker (empty queue)\students.txt"
+//  #define COURSES_FILES_3 "\Tests\Test3 - 1 hacker (empty queue)\courses.txt"
+//  #define HACKERS_FILES_3 "\Tests\Test3 - 1 hacker (empty queue)\hackers.txt"
+//  #define QUEUES_FILES_3 "\Tests\Test3 - 1 hacker (empty queue)\queues.txt"
+//  #define TARGET_FILES_3 "\Tests\Test3 - 1 hacker (empty queue)\target.txt"
+//
+//  bool test1(){
+//      FILE* students = fopen(STUDENTS_FILES_1, "r");
+//      FILE* courses = fopen(COURSES_FILES_1, "r");
+//      FILE* hackers = fopen(HACKERS_FILES_1, "r");
+//      FILE* queues = fopen(QUEUES_FILES_1, "r");
+//      FILE* target = fopen(TARGET_FILES_1, "w+");
+//      EnrollmentSystem system = createEnrollment(students, courses, hackers);
+//      if(system == NULL){
+//           return false;
+//      }
+//      system = readEnrollment(system, courses);
+//      hackEnrollment(system, target);
+//      enrollmentDestroy(system);
+//      fclose(target);
+//      fopen(target, "r");
+//
+// }
+
 
 int main(int argc, char** argv){
     if(argc > 7 || argc < 6){
-        return 1;
+        assert(argc > 7 || argc < 6);
     }
     int IsFlagOn = checkForFlag(argc - 1, argv);
     FILE* students = fopen(argv[2 - IsFlagOn], "r");

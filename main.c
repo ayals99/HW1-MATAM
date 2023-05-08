@@ -1,79 +1,64 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
+
+#define OFF 0
+#define ON 1
+
 #include "HackEnrollment.h" // Assuming the enrollment-related structures and functions are defined in this header file
 
-int main() {
-    const char *students_filename = "C:\\Users\\user\\Documents\\GitHub\\ex1---Berko-and-Ayal\\ExampleTest\\students.txt";
-    const char *courses_filename = "C:\\Users\\user\\Documents\\GitHub\\ex1---Berko-and-Ayal\\ExampleTest\\courses.txt";
-    const char *hackers_filename = "C:\\Users\\user\\Documents\\GitHub\\ex1---Berko-and-Ayal\\ExampleTest\\hackers.txt";
-    const char *queues_filename = "C:\\Users\\user\\Documents\\GitHub\\ex1---Berko-and-Ayal\\ExampleTest\\queues.txt";
+void closeFiles(FILE* students, FILE* courses, FILE* hackers, FILE* queues, FILE* target){
+    fclose(students);
+    fclose(courses);
+    fclose(hackers);
+    fclose(queues);
+    fclose(target);
+}
 
-    FILE *students_file = fopen(students_filename, "r");
-    if (students_file == NULL)
-    {
-        printf("Error opening students file.\n");
+int checkForFlag(int numberOfInputs, char** argv){
+    int isFlagOn = OFF;
+    for (int i = 1; i<numberOfInputs; i++){
+        int j = 0;
+        while( *(argv[i] + j) != '\0'){
+            if( *(argv[i] + j) == '-' && *(argv[i] + j + 1) == 'i'){
+                isFlagOn = ON;
+            }
+            j++;
+        }
+    }
+    return isFlagOn;
+}
+
+int main(int argc, char** argv){
+    if(argc > 7 || argc < 6){
         return 1;
     }
+    int IsFlagOn = checkForFlag(argc - 1, argv);
+    FILE* students = fopen(argv[2 - IsFlagOn], "r");
+    FILE* courses = fopen(argv[3 - IsFlagOn], "r");
+    FILE* hackers = fopen(argv[4 - IsFlagOn], "r");
+    FILE* queues = fopen(argv[5 - IsFlagOn], "r");;
+    FILE* target = fopen(argv[6 - IsFlagOn], "w");
 
-    FILE *courses_file = fopen(courses_filename, "r");
-    if (courses_file == NULL)
-    {
-        printf("Error opening courses file.\n");
-        fclose(students_file);
+    EnrollmentSystem system = createEnrollment(students, courses, hackers);
+    if(system == NULL){
+        assert(system == NULL);
+        closeFiles(students, courses, hackers, queues, target);
         return 1;
     }
-
-    FILE *hackers_file = fopen(hackers_filename, "r");
-    if (hackers_file == NULL)
-    {
-        printf("Error opening hackers file.\n");
-        fclose(students_file);
-        fclose(courses_file);
+    if (enrollmentSystemUpdateFlag(system, IsFlagOn) != ENROLLMENT_SYSTEM_SUCCESS){
+        assert(system == NULL);
+        closeFiles(students, courses, hackers, queues, target);
         return 1;
     }
-
-    FILE *queues_file = fopen(queues_filename, "r");
-    if (queues_file == NULL)
-    {
-        printf("Error opening queues file.\n");
-        fclose(students_file);
-        fclose(courses_file);
-        fclose(hackers_file);
+    system = readEnrollment(system, courses);
+    if(system == NULL){
+        assert(system == NULL);
+        closeFiles(students, courses, hackers, queues, target);
         return 1;
     }
-
-    EnrollmentSystem enrollment_system = createEnrollment(students_file, courses_file, hackers_file);
-    if (enrollment_system == NULL)
-    {
-        printf("Error creating enrollment system.\n");
-        fclose(students_file);
-        fclose(courses_file);
-        fclose(hackers_file);
-        fclose(queues_file);
-        return 1;
-    }
-
-
-    EnrollmentSystem updated_system = readEnrollment(enrollment_system, queues_file);
-    if (updated_system == NULL)
-    {
-        printf("Error reading enrollment data from queues file.\n");
-        fclose(students_file);
-        fclose(courses_file);
-        fclose(hackers_file);
-        fclose(queues_file);
-        enrollmentDestroy(enrollment_system);
-        return 1;
-    }
-
-    // You can perform operations on the updated_system here, e.g., enrolling students, adding courses, etc.
-
-    // Clean up and close the files
-    enrollmentDestroy(updated_system);
-    fclose(students_file);
-    fclose(courses_file);
-    fclose(hackers_file);
-    fclose(queues_file);
-
+    hackEnrollment(system, target);
+    enrollmentDestroy(system);
+    closeFiles(students, courses, hackers, queues, target);
     return 0;
 }

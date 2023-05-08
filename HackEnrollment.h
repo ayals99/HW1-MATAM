@@ -38,6 +38,7 @@ int byNameDelta(void*, void*);
 int byIdDelta(void*, void*);
 
 
+
 /** Functions */
 
 /**
@@ -77,5 +78,15 @@ void hackEnrollment(EnrollmentSystem, FILE*);
  * gets: an Enrollment system.
  */
 void enrollmentDestroy(EnrollmentSystem);
+
+/**
+ * enrollmentSystemUpdateFlag: Updates the flag of the enrollment system.
+ *
+ * gets: an Enrollment system and a bool flag.
+ *
+ * @return ENROLLMENT_SYSTEM_SUCCESS if the flag was updated successfully.
+ * ENROLLMENT_SYSTEM_ERROR otherwise.
+ */
+EnrollmentSystemError enrollmentSystemUpdateFlag(EnrollmentSystem system, bool isFlagOn);
 
 #endif

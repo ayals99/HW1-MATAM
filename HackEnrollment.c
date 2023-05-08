@@ -27,6 +27,7 @@
 #define CARRIAGE_RETURN '\r'
 #define IDENTICAL_STRING 0
 #define SIZE_OF_ID 9
+#define NUMBER_OF_INPUTS_TO_SCANF 7
 
 /** Struct declaration */
 typedef Hacker* HackerArray;
@@ -39,6 +40,7 @@ struct enrollmentSystem_t{
     int m_numberOfHackers;
     Person* m_students;
     int m_numberOfStudents;
+    bool m_isFlagOn;
 };
 
 /** Function Signatures */
@@ -58,10 +60,7 @@ char** parseStringArray(char* buffer);
 char* readAndTrimLine(FILE* file, char* buffer, int bufferLength);
 HackerArray makeHackerArray(FILE* hackers,int numberOfHackers);
 void freeAndDestroyHackerArray(HackerArray hackerArray,
-                               int count, char* buffer,
-                               int* desiredCourses,
-                               Friends* friendsArray,
-                               Foes* foesArray);
+                               int countOfHackers);
 Hacker createHackerFromFile(FILE* hackers, char* buffer, int bufferSize);
 char* copyBufferContents(char* buffer);
 bool checkAndFreeIfNull(char* hackerId, int* desiredCourses,
@@ -82,11 +81,7 @@ EnrollmentSystemError enrollStudents(Person* allStudentsList,
 EnrollmentSystemError insertStudentToCourseQueue(Course course,
                                                  Person studentToInsert);
 EnrollmentSystemError addFriendshipFunctionsAndThresholds(IsraeliQueue queue);
-
-
-
-
-
+void DestroyCoursesArray(Course* array, int numberOfCourses);
 
 bool enrolledInTwoChoices(Person currentPerson,
                           Hacker currentHackerStruct,
@@ -239,6 +234,10 @@ int byIdDelta(void* student1, void* student2)
 
 /** Functions Implementation */
 
+bool FlagOnOrOff(char* flag){
+    return (strcmp(flag, "-i") )== 0;
+}
+
 int getLongestLineLength(FILE* file)
 {
     if (file == NULL)
@@ -371,10 +370,9 @@ Person* makeAllStudentsArray(FILE* students,int numberOfStudents)
         char* department;
 
         int result = sscanf(buffer, "%s %d %lf %ms %ms %ms %ms", studentID, &totalCredits, &GPA, &name, &surName, &city, &department);
-        if (result != 7) {
+        if (result != NUMBER_OF_INPUTS_TO_SCANF) {
             //TODO: Error in parsing the line, you may want to handle it
-            //TODO: change 7 to a DEFINE
-            continue;
+            abort();
         }
 
         Person newPerson = personCreate(strdup(studentID), totalCredits, GPA, name, surName, city, department);
@@ -479,18 +477,12 @@ char* copyBufferContents(char* buffer)
     return copiedBuffer;
 }
 
-void freeAndDestroyHackerArray(HackerArray hackerArray, int count, char* buffer, int* desiredCourses, Friends* friendsArray, Foes* foesArray) {
+void freeAndDestroyHackerArray(HackerArray hackerArray, int count) {
     // TODO check if we use this function in a function where desiredCourses/friendsArray/foesArray are not NULL
-    free(foesArray);
-    free(friendsArray);
-    free(desiredCourses);
-
     for (int i = 0; i < count; i++) {
         hackerDestroy(hackerArray[i]);
     }
-
     free(hackerArray);
-    free(buffer);
 }
 
 bool checkAndFreeIfNull(char* hackerId, int* desiredCourses, Friends* friendsArray, Foes* foesArray)
@@ -575,7 +567,8 @@ HackerArray makeHackerArray(FILE* hackers,int numberOfHackers)
         Hacker newHacker = createHackerFromFile(hackers, buffer, longestLineLength + 1);
         if (newHacker == NULL)
         {
-            freeAndDestroyHackerArray(newHackerArray, i, buffer, NULL, NULL, NULL);
+            freeAndDestroyHackerArray(newHackerArray, i);
+            free(buffer);
             return NULL;
         }
         newHackerArray[i] = newHacker;
@@ -729,6 +722,7 @@ EnrollmentSystem createEnrollment(FILE *students, FILE *courses, FILE *hackers)
     return sys;
 }
 
+// From here on is "readEnrollment" functions:
 EnrollmentSystemError insertStudentToCourseQueue(Course course,Person studentToInsert)
 {
     if (course == NULL || studentToInsert ==NULL)
@@ -826,6 +820,14 @@ EnrollmentSystemError makeCourseQueue(EnrollmentSystem sys, char* buffer)
     return ENROLLMENT_SYSTEM_ERROR;
 }
 
+EnrollmentSystemError enrollmentSystemUpdateFlag(EnrollmentSystem system, bool isFlagOn){
+    if(system ==NULL){
+        return ENROLLMENT_SYSTEM_BAD_PARAM;
+    }
+    system->m_isFlagOn = isFlagOn;
+    return ENROLLMENT_SYSTEM_SUCCESS;
+}
+
 /**
  * readEnrollment: reads a file that describes the courses queues.
  *
@@ -896,7 +898,10 @@ void hackEnrollment(EnrollmentSystem system, FILE* out){
             int currentCourseNumber = desiredCoursesArray[i];
             Course currentCourse = findCourseByNumber(currentCourseNumber,  totalNumberOfCourses, courseArray);
             IsraeliQueue currentQueue = getCourseQueue(currentCourse);
-            IsraeliQueueEnqueue(currentQueue, currentPerson);
+            if( ISRAELIQUEUE_SUCCESS != IsraeliQueueEnqueue(currentQueue, currentPerson)) {
+                terminate(system, studentID, out);
+                return;
+            }
             bool gotTheCourse = enrolledInCourse(currentPerson, currentCourse);
             if(requestedOnlyOneCourse(currentHackerStruct) && !gotTheCourse){
                 terminate(system, studentID, out);
@@ -914,6 +919,15 @@ void hackEnrollment(EnrollmentSystem system, FILE* out){
     writeCourseQueueToFile(courseArray, totalNumberOfCourses, out);
 }
 
+void DestroyCoursesArray(Course* array, int numberOfCourses){
+    if(array == NULL){
+        return;
+    }
+    for(int i = 0; i < numberOfCourses; i++){
+        courseDestroy(array[i]);
+    }
+}
+
 /**
  * enrollmentDestroy: Deallocates all memory allocated by createEnrollment
  * for the object pointed to by the parameter.
@@ -921,26 +935,24 @@ void hackEnrollment(EnrollmentSystem system, FILE* out){
  * gets: an Enrollment system.
  */
 void enrollmentDestroy(EnrollmentSystem system){
-    DestoryCoursesArray(system->m_courses, system->m_numberOfCourses);
+    DestroyCoursesArray(system->m_courses, system->m_numberOfCourses);
     system->m_numberOfCourses = 0;
-    Person current = *(system->m_students);
-    Person next = NULL;
     Person* allStudentsArray =system->m_students;
     int numberOfStudents = system->m_numberOfStudents;
     for(int i = 0; i < numberOfStudents; i++){
-        freePerson(allStudentsArray[i]);
+        personDestroy(allStudentsArray[i]);
     }
+    free(system->m_hackerPointerArray);
     free(system->m_students);
-    freeAndDestroyHackerArray(system->m_hackerPointerArray, count, buffer, desiredCourses, friendsArray, foesArray);
     free(system);
 }
 
-Hacker getHackerPointerFromList(HackerArray listOfHackers, int index){
-//    Node* pointerToHackerNode = listOfHackers[index];
+//Hacker getHackerPointerFromList(HackerArray listOfHackers, int index){
+//    Node pointerToHackerNode = listOfHackers[index];
 //    Person originalHacker = nodeGetItem(pointerToHackerNode);
 //    Person currentHacker = copyPerson(originalHacker);
 //    return personGetHacker(currentHacker);
-}
+//}
 
 int countDigits(int number){
     int counter = 0;
@@ -977,25 +989,28 @@ void writeCourseQueueToFile(Course* CourseArray, int totalNumberOfCourses, FILE*
     for(int courseIndex = 0; courseIndex < totalNumberOfCourses; courseIndex++){
         Course currentCourse = CourseArray[courseIndex];
         IsraeliQueue queue = getCourseQueue(currentCourse);
-        Person head;
+
         int courseNumber = getCourseNumber(currentCourse);
 
         char* courseNumberStr = intToString(courseNumber);
         fputs(courseNumberStr, out);
         free (courseNumberStr);
         fputs(" ", out);
-        int courseCapacity = getCourseSize(currentCourse);
-        // prints to "out.txt" only the first students in line, until we reach courseCapacity
-        for(int i = 0; i < courseCapacity; i++){ // TODO: check if need to print to "out" all of the list or only up tp SIZE
-            head = IsraeliQueueDequeue(queue);
+        Person head = IsraeliQueueDequeue(queue);
+        int i = 0;
+        int queueSize = IsraeliQueueSize(queue);
+        while (head != NULL && i < queueSize){
             fputs(personGetID(head), out);
-            if(i != courseCapacity - 1){
-                fputs(" ",out);
+            if(i < (queueSize - 1)){
+                fputs(" ", out);
             }
+            head = IsraeliQueueDequeue(queue);
+            i++;
         }
         fputs("\n", out);
     }
     fputs("\n",out); // TODO: check if FILE* out needs to end with a '\n'
+
 }
 
 bool requestedOnlyOneCourse (Hacker hacker){
@@ -1012,7 +1027,7 @@ void terminate(EnrollmentSystem system, char* studentID, FILE* out){
     // write "Cannot satisfy constraints for <Student ID>" into file
     fputs(string, out);
     fputs(studentID, out);
-    enrollmentDestroy(system);
+    fputs("\n", out);
 }
 
 bool enrolledInCourse(Person currentPerson, Course currentCourse){

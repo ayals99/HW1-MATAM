@@ -20,14 +20,12 @@ typedef enum {HACKER_ERROR_ALLOC_FAILED, HACKER_ERROR_BAD_PARA, HACKER_ERROR_SUC
 
 
 Hacker hackerCreate(char* hackerId, int desiredCourseCount, int* desiredCourses, Friends* friendsArray, Foes* foesArray);
-=======
+
 char* getHackerId(Hacker currHacker);
 
 void hackerDestroy(Hacker toDestroy);
 
 /** Getter Functions */
-
-char* getHackerId(Hacker currHacker);
 
 int getCoursesCount(Hacker currHacker);
 

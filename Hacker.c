@@ -33,7 +33,8 @@ void freeArrayOfStrings(char** array){
     char* currentString = *(array);
     int i = 1;
     while(currentString != NULL){
-        free( currentString);
+        free(currentString);
+        *(array) = NULL;
         currentString = *(array + i);
         i++;
     }
@@ -47,9 +48,13 @@ void hackerDestroy(Hacker toDestroy)
         return;
     }
     freeArrayOfStrings((char**)toDestroy->m_friends);
+    toDestroy->m_friends = NULL;
     freeArrayOfStrings((char**)toDestroy->m_rivals);
+    toDestroy->m_rivals = NULL;
     free(toDestroy->m_desiredCoursesArray);
+    toDestroy->m_desiredCoursesArray = NULL;
     free(toDestroy->m_hackerId);
+    toDestroy->m_hackerId = NULL;
 }
 
 /** Getter Functions */

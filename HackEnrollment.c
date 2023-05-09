@@ -97,7 +97,7 @@ int comparisonFunction(void* student1, void* student2)
 }
 
 /** Friendship functions */
-//TODO need to implement theses functions in the end of readEnrollment
+// TODO: need to implement theses functions in the end of readEnrollment
 // TODO: make sure this function is less than 50 lines of code
 int byHackerFile(void* student1, void* student2)
 {

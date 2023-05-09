@@ -1,5 +1,6 @@
 #ifndef PERSON_H
 #define PERSON_H
+
 #include <stdbool.h>
 
 #include "Node.h"
@@ -37,12 +38,6 @@ Person personCreate(char* studentID,
  * gets a person ptr
  */
 void personDestroy(Person toDestroy);
-
-/**
- * freePersonFields: Frees all the fields under a given struct.
- * gets a person ptr
- */
-void freePersonFields(Person toDestroy);
 
 // TODO: Never used
 ///**

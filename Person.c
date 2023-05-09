@@ -26,7 +26,15 @@ struct Person_t{
     Hacker m_Hacker;
 };
 
-/** Function Implementation */
+/** functions declarations: */
+
+/**
+ * freePersonFields: Frees all the fields under a given struct.
+ * gets a person ptr
+ */
+void freePersonFields(Person toDestroy);
+
+/** Functions Implementations */
 
 Person personCreate(char* studentID,
                     int totalCredits,
@@ -59,13 +67,6 @@ void personDestroy(Person toDestroy)
         return;
     }
     freePersonFields(toDestroy);
-    toDestroy->m_City = NULL;
-    toDestroy->m_SurName = NULL;
-    toDestroy->m_Name = NULL;
-    toDestroy->m_Department = NULL;
-    toDestroy->m_ID = NULL;
-    toDestroy->m_Hacker = NULL;
-
     free(toDestroy);
 }
 
@@ -75,12 +76,24 @@ void freePersonFields(Person toDestroy)
     {
         return;
     }
+
     free(toDestroy->m_ID);
+    toDestroy->m_ID = NULL;
+
     free(toDestroy->m_Name);
+    toDestroy->m_Name = NULL;
+
     free(toDestroy->m_SurName);
+    toDestroy->m_SurName = NULL;
+
     free(toDestroy->m_City);
+    toDestroy->m_City = NULL;
+
     free(toDestroy->m_Department);
+    toDestroy->m_Department = NULL;
+
     hackerDestroy(toDestroy->m_Hacker);
+    toDestroy->m_Hacker = NULL;
 }
 
 // TODO: Never used

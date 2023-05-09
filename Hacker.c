@@ -10,7 +10,8 @@ struct hacker_t {
 
 void freeArrayOfStrings(char** array);
 
-Hacker hackerCreate(char* hackerId, int desiredCourseCount, int* desiredCourses, Friends* friendsArray, Foes* foesArray) {
+Hacker hackerCreate(char* hackerId, int desiredCourseCount, int* desiredCourses, Friends* friendsArray, Foes* foesArray)
+{
     Hacker newHacker = (Hacker) malloc(sizeof(*newHacker));
     if (newHacker == NULL) {
         return NULL;
@@ -26,6 +27,9 @@ Hacker hackerCreate(char* hackerId, int desiredCourseCount, int* desiredCourses,
 
 //frees a NULL terminated array of pointers to strings
 void freeArrayOfStrings(char** array){
+    if(array == NULL){
+        return;
+    }
     char* currentString = *(array);
     int i = 1;
     while(currentString != NULL){
@@ -87,34 +91,38 @@ Foes* getFoesArray(Hacker currHacker){
 
 /** Setter Functions */
 
-HackerError setCoursesCount(Hacker currHacker, int courseCount){
-    if(currHacker == NULL){
-        return HACKER_ERROR_BAD_PARA;
-    }
-    currHacker->m_desiredCoursesCount = courseCount;
-    return HACKER_ERROR_SUCCESS;
-}
+//TODO: never used
+//HackerError setCoursesCount(Hacker currHacker, int courseCount){
+//    if(currHacker == NULL){
+//        return HACKER_ERROR_BAD_PARA;
+//    }
+//    currHacker->m_desiredCoursesCount = courseCount;
+//    return HACKER_ERROR_SUCCESS;
+//}
 
-HackerError setCourseArray(Hacker currHacker, int* courseArray){
-    if(currHacker == NULL){
-        return HACKER_ERROR_BAD_PARA;
-    }
-    currHacker->m_desiredCoursesArray = courseArray;
-    return HACKER_ERROR_SUCCESS;
-}
+//// TODO: never used
+//HackerError setCourseArray(Hacker currHacker, int* courseArray){
+//    if(currHacker == NULL){
+//        return HACKER_ERROR_BAD_PARA;
+//    }
+//    currHacker->m_desiredCoursesArray = courseArray;
+//    return HACKER_ERROR_SUCCESS;
+//}
 
-HackerError setFriendsArray(Hacker currHacker, Friends* friendsArray){
-    if(currHacker == NULL){
-        return HACKER_ERROR_BAD_PARA;
-    }
-    currHacker->m_friends = friendsArray;
-    return HACKER_ERROR_SUCCESS;
-}
+//TODO: never used
+//HackerError setFriendsArray(Hacker currHacker, Friends* friendsArray){
+//    if(currHacker == NULL){
+//        return HACKER_ERROR_BAD_PARA;
+//    }
+//    currHacker->m_friends = friendsArray;
+//    return HACKER_ERROR_SUCCESS;
+//}
 
-HackerError setFoesArray(Hacker currHacker, Foes* foesArray){
-    if(currHacker == NULL){
-        return HACKER_ERROR_BAD_PARA;
-    }
-    currHacker->m_rivals = foesArray;
-    return HACKER_ERROR_SUCCESS;
-}
+//TODO: never used
+//HackerError setFoesArray(Hacker currHacker, Foes* foesArray){
+//    if(currHacker == NULL){
+//        return HACKER_ERROR_BAD_PARA;
+//    }
+//    currHacker->m_rivals = foesArray;
+//    return HACKER_ERROR_SUCCESS;
+//}

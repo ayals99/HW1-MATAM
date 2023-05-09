@@ -1,5 +1,5 @@
-#ifndef PROVIDED_HACKENROLLMENT_H
-#define PROVIDED_HACKENROLLMENT_H
+#ifndef PROVIDED_HACK_ENROLLMENT_H
+#define PROVIDED_HACK_ENROLLMENT_H
 
 /** Included files */
 
@@ -24,7 +24,7 @@
 
 /** Typedef */
 
-typedef enum {ENROLLMENT_SYSTEM_SUCCESS, ENROLLMENT_SYSTEM_ALLOC_FAILED, ENROLLMENT_SYSTEM_BAD_PARAM, ENROLLMENT_SYSTEM_ERROR} EnrollmentSystemError;
+typedef enum {ENROLLMENT_SYSTEM_SUCCESS, ENROLLMENT_SYSTEM_BAD_PARAM, ENROLLMENT_SYSTEM_ERROR} EnrollmentSystemError;
 typedef struct enrollmentSystem_t* EnrollmentSystem;
 
 /** Comparison functions */

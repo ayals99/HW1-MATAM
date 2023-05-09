@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <math.h>
 #include <assert.h>
 #include <string.h>
 
@@ -25,9 +24,8 @@
 #define LINES_PER_HACKER 4
 #define CARRIAGE_RETURN '\r'
 #define SIZE_OF_ID 9
-#define NUMBER_OF_INPUTS_TO_SCANF 7
+#define NUMBER_OF_INPUTS_TO_SCAN_F 7
 #define STRING_END '\0'
-#define LETTER_CASE_FLAG "-i"
 #define EMPTY_STRING 0
 
 /** Struct declaration */
@@ -84,7 +82,6 @@ bool requestedOnlyOneCourse (Hacker hacker);
 bool enrolledInCourse(Person currentPerson, Course currentCourse);
 Course findCourseByNumber(int courseNumber, int totalNumberOfCourses, Course *courseArrayPointer);
 void writeCourseQueueToFile(Course* CourseArray, int totalNumberOfCourses, FILE* out);
-char* intToString(int number);
 Hacker getHackerPointerFromList(HackerArray listOfHackers, int index);
 
 
@@ -157,7 +154,7 @@ int byHackerFile(void* student1, void* student2)
 void toLowerCase(char* originalString){
     while(*originalString != STRING_END){
         if (*originalString >= 'A' && *originalString <= 'Z'){
-            *originalString + 'a' - 'A';
+            *(originalString) = (char)(*originalString + 'a' - 'A');
         }
         originalString++;
     }
@@ -280,17 +277,13 @@ int byIdDelta(void* student1, void* student2)
     Person p1 = (Person) student1;
     Person p2 = (Person) student2;
 
-    int id1 = atoi(personGetID(p1));
-    int id2 = atoi(personGetID(p2));
+    int id1 = (int)strtol(personGetID(p1), NULL, 10);
+    int id2 = (int)strtol(personGetID(p2), NULL, 10);
 
     return abs(id1 - id2);
 }
 
 /** Functions Implementation */
-
-bool FlagOnOrOff(char* flag){
-    return (strcmp(flag, LETTER_CASE_FLAG) ) == IDENTICAL_STRINGS;
-}
 
 Hacker getHackerPointerFromList(HackerArray listOfHackers, int index){
     return listOfHackers[index];
@@ -381,10 +374,10 @@ courseStructPointerArray makeCoursesArray(FILE* courses, int numberOfCourses)
     {
         char* token = strtok(buffer, delimiter);
         //assert(token != NULL);
-        int courseNumber = atoi(token);
+        int courseNumber = (int)strtol(token, NULL, 10);
         token = strtok(NULL, delimiter);
         //assert(token != NULL);
-        int courseCapacity = atoi(token);
+        int courseCapacity = (int)strtol(token, NULL, 10);
 
         Course currentCourse = courseCreate(courseNumber, courseCapacity, newComparisonFunction);
         if(currentCourse == NULL)
@@ -428,7 +421,7 @@ Person* makeAllStudentsArray(FILE* students,int numberOfStudents)
         char* city;
         char* department;
         int result = sscanf(buffer, "%s %d %lf %ms %ms %ms %ms", studentID, &totalCredits, &GPA, &name, &surName, &city, &department);
-        if (result != NUMBER_OF_INPUTS_TO_SCANF) {
+        if (result != NUMBER_OF_INPUTS_TO_SCAN_F) {
             //TODO: Error in parsing the line, you may want to handle it
             abort();
         }
@@ -437,6 +430,7 @@ Person* makeAllStudentsArray(FILE* students,int numberOfStudents)
         {
             for (int j = 0; j < i; j++) {
                 personDestroy(allStudentsArray[j]);
+                allStudentsArray[j] = NULL;
             }
             free(allStudentsArray);
             free(buffer);
@@ -476,7 +470,7 @@ int* parseIntArray(char* buffer, int numberOfElementsInLine)
     char *token = strtok(buffer, " ");
     for (int i = 0; i < numberOfElementsInLine && token != NULL; i++)
     {
-        array[i] = atoi(token);
+        array[i] = strtol(token, NULL, 10);
         token = strtok(NULL, " ");
     }
     return array;
@@ -869,7 +863,7 @@ EnrollmentSystemError makeCourseQueue(EnrollmentSystem sys, char* buffer)
     {
         return ENROLLMENT_SYSTEM_ERROR;
     }
-    int courseNumber = atoi(buffer);
+    int courseNumber = strtol(buffer, NULL, 10); // TODO: make sure this is the right way to convert this specific string to int
     char* studentsIdString = spacePosition + 1;
     int numberOfStudents = sys->m_numberOfStudents;
     Person* allStudentsList = sys->m_students;
@@ -886,7 +880,7 @@ EnrollmentSystemError makeCourseQueue(EnrollmentSystem sys, char* buffer)
 }
 
 EnrollmentSystemError enrollmentSystemUpdateFlag(EnrollmentSystem system, bool isFlagOn){
-    if(system ==NULL){
+    if(system == NULL){
         return ENROLLMENT_SYSTEM_BAD_PARAM;
     }
     system->m_isFlagOn = isFlagOn;
@@ -1040,6 +1034,7 @@ void enrollmentDestroy(EnrollmentSystem system){
     Person* allStudentsArray =system->m_students;
     for(int i = 0; i < numberOfStudents; i++){
         personDestroy(allStudentsArray[i]);
+        allStudentsArray[i] = NULL;
     }
     free(system->m_hackerPointerArray);
     free(system->m_students);
@@ -1053,61 +1048,24 @@ void enrollmentDestroy(EnrollmentSystem system){
 //    return personGetHacker(currentHacker);
 //}
 
-int countDigits(int number){
-    int counter = 0;
-    while(number > 0){
-        counter++;
-        number /= 10;
-    }
-    return counter;
-}
-
-/**
- * intToString() takes an integer and turns it into a string
- * uses malloc, so needs to be freed later by user of function
- */
-char* intToString(int number){
-    int tempNumber = number;
-    int digitAmount = countDigits(number);
-    char* string = malloc(sizeof(*string)*digitAmount);
-    int index = 0;
-
-    while (digitAmount > 0){
-        int currentDigit =  tempNumber / (int)pow(10,digitAmount - 1);
-        string[index] = (char)(currentDigit + '0');
-        tempNumber /= 10;
-        digitAmount--;
-    }
-    string[index] = '\0';
-    return string;
-}
-
-
-
+// loops through all courses and writes thw whole queue to "out" file
 void writeCourseQueueToFile(Course* CourseArray, int totalNumberOfCourses, FILE* out){
-    // loops through all courses:
     for(int courseIndex = 0; courseIndex < totalNumberOfCourses; courseIndex++){
         Course currentCourse = CourseArray[courseIndex];
         IsraeliQueue queue = getCourseQueue(currentCourse);
         int courseNumber = getCourseNumber(currentCourse);
-        char* courseNumberStr = intToString(courseNumber);
-        fputs(courseNumberStr, out);
-        free (courseNumberStr);
-        fputs(" ", out);
+        fprintf(out, "%d", courseNumber);
         Person head = IsraeliQueueDequeue(queue);
         int i = 0;
         int queueSize = IsraeliQueueSize(queue);
         while (head != NULL && i < queueSize){
+            fprintf(out, " ");
             fputs(personGetID(head), out);
-            if(i < (queueSize - 1)){
-                fputs(" ", out);
-            }
             head = IsraeliQueueDequeue(queue);
             i++;
         }
-        fputs("\n", out);
+        fprintf(out, "\n");
     }
-    fputs("\n",out); // TODO: check if FILE* out needs to end with a '\n'
 }
 
 bool requestedOnlyOneCourse (Hacker hacker){
@@ -1124,7 +1082,7 @@ void terminate(char* studentID, FILE* out){
     // write "Cannot satisfy constraints for <Student ID>" into file
     fputs(string, out);
     fputs(studentID, out);
-    fputs("\n", out);
+    fprintf(out, "\n");
 }
 
 bool enrolledInCourse(Person currentPerson, Course currentCourse){
@@ -1142,9 +1100,6 @@ bool enrolledInCourse(Person currentPerson, Course currentCourse){
     IsraeliQueueDestroy(clonedList);
     return false;
 }
-
-
-
 
 Course findCourseByNumber(int courseNumber, int totalNumberOfCourses, Course *courseArrayPointer) {
     for(int i = 0; i< totalNumberOfCourses; i++){

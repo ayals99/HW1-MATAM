@@ -3,8 +3,8 @@
 
 
 /** Type for defining the Node */
-typedef struct Node_t Node;
-typedef enum {NODE_ERROR_BAD_PARAM, NODE_ERROR_SUCCESS} NodeError;
+typedef struct Node_t* Node;
+typedef enum {NODE_ERROR_BAD_PARAM = -1, NODE_ERROR_SUCCESS} NodeError;
 
 /**
  * nodeCreate: Allocates a new node with an Item pointer and a pointer to the
@@ -15,13 +15,13 @@ typedef enum {NODE_ERROR_BAD_PARAM, NODE_ERROR_SUCCESS} NodeError;
  *
  * return - the Node if successful or NULL in case of any error.
  */
-Node* nodeCreate(void*);
+Node nodeCreate(void*);
 
 /**
  * nodeDestroy: Deallocates an existing node.
  * Gets the node we wish to destroy.
  */
-void nodeDestroy(Node*);
+void nodeDestroy(Node);
 
 /**
  * addNodeAfter: Puts a new node between the current and next Nodes.
@@ -29,15 +29,7 @@ void nodeDestroy(Node*);
  *
  * return - BAD_PARAM if any of the parameters are NULL Or SUCCESS otherwise
  */
-NodeError addNodeAfter(Node*, Node*);
-
-/**
- * addNodeBefore: Puts a new node between the current and previous Nodes.
- * gets the current Node and the Node to inject.
- *
- * return - BAD_PARAM if any of the parameters are NULL Or SUCCESS otherwise
- */
-NodeError addNodeBefore(Node*, Node*);
+NodeError addNodeAfter(Node, Node);
 
 /**
  * addPassCount: add +1 to the passCount of the given node.
@@ -45,7 +37,7 @@ NodeError addNodeBefore(Node*, Node*);
  *
  * @return - BAD_PARAM if the node is NULL or SUCCESS otherwise.
  */
-NodeError addPassCount(Node*);
+NodeError addPassCount(Node);
 
 /**
  * addBlockCount: add +1 to the blockCount of the given node.
@@ -53,15 +45,8 @@ NodeError addPassCount(Node*);
  *
  * @return - BAD_PARAM if the node is NULL or SUCCESS otherwise.
  */
-NodeError addBlockCount(Node*);
+NodeError addBlockCount(Node);
 
-/**
- * resetCount: resets the counts on a given node.
- * gets a node.
- *
- * @return - BAD_PARAM if the node is NULL or SUCCESS otherwise.
- */
-NodeError resetCount(Node*);
 
 /**
  * cloneNode: clones a node with the exact same parameters. but the cloned item
@@ -70,7 +55,7 @@ NodeError resetCount(Node*);
  *
  * @return - NULL if the node is NULL or the clonedNode otherwise.
  */
-Node* cloneNode(Node*);
+Node cloneNode(Node);
 
 /** Getter Functions */
 
@@ -80,7 +65,7 @@ Node* cloneNode(Node*);
  *
  * return - a pointer to the next Node, or NULL if the next is NULL;
  */
-Node* nodeGetNext(Node*);
+Node nodeGetNext(Node);
 
 /**
  * nodeGetPrevious: Getter for the previous Node.
@@ -89,7 +74,7 @@ Node* nodeGetNext(Node*);
  * return - a pointer to the previous Node; (Any extreme cast that
  * the return value is anything but a ptr?)
  */
-Node* nodeGetPrevious(Node*);
+Node nodeGetPrevious(Node);
 
 /**
  * nodeGetItem: Getter for the Item.
@@ -97,7 +82,7 @@ Node* nodeGetPrevious(Node*);
  *
  * return - a pointer to the Item;
  */
-void* nodeGetItem(Node*);
+void* nodeGetItem(Node);
 
 /**
  * nodeGetPassCount: Getter for the passCount.
@@ -105,7 +90,7 @@ void* nodeGetItem(Node*);
  *
  * return - The passCount, NEEDS TO ESTABLISH AND ERROR MESSAGE
  */
-int nodeGetPassCount(Node*);
+int nodeGetPassCount(Node);
 
 /**
  * nodeGetBlockCount: Getter for the blockCount.
@@ -113,36 +98,29 @@ int nodeGetPassCount(Node*);
  *
  * return - The blockCount, NEEDS TO ESTABLISH AND ERROR MESSAGE
  */
-int nodeGetBlockCount(Node*);
+int nodeGetBlockCount(Node);
 
 
 /** Setter Functions */
 
-/**
- * nodeSetItem: Adds an Item ptr to the selected Node.
- * gets: a Node ptr and an Item ptr.
- *
- * return - BAD_PARAM if any of the parameters are NULL Or SUCCESS otherwise
- */
-NodeError nodeSetItem(Node*, void*);
 
 /**
  * nodeSetNext: sets the Next node to the given one in the function.
- * @param Node*, a ptr to the current node.
- * @param Node* a ptr to the node we with to set next.
+ * @param Node, a ptr to the current node.
+ * @param Node a ptr to the node we with to set next.
  *
  * return - BAD_PARAM if any of the parameters are NULL Or SUCCESS otherwise
  */
-NodeError nodeSetNext(Node*, Node*);
+NodeError nodeSetNext(Node, Node);
 
 /**
  * nodeSetPrevious: sets the Previous node to the given one in the function.
- * @param Node*, a ptr to the current node.
- * @param Node* a ptr to the node we with to set previous.
+ * @param Node, a ptr to the current node.
+ * @param Node a ptr to the node we with to set previous.
  *
  * return - BAD_PARAM if any of the parameters are NULL Or SUCCESS otherwise
  */
-NodeError nodeSetPrevious(Node*, Node*);
+NodeError nodeSetPrevious(Node, Node);
 
 
 

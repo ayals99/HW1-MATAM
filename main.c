@@ -1,10 +1,29 @@
 #include <stdio.h>
-#include <assert.h>
+//#include <assert.h>
 
-#define OFF 0
-#define ON 1
+/** Internal Includes */
 
 #include "HackEnrollment.h"
+
+/** Defines */
+
+#define IDENTICAL_STRINGS 0
+#define ON 0
+#define OFF 1
+#define ARGUMENTS_WITH_FLAG 7
+#define ARGUMENTS_WITHOUT_FLAG 6
+#define FIRST_FILE 2
+#define SECOND_FILE 3
+#define THIRD_FILE 4
+#define FOURTH_FILE 5
+#define FIFTH_FILE 6
+
+/** Functions Signatures */
+void closeFiles(FILE* , FILE* , FILE* , FILE* , FILE* );
+int checkForFlag(int , char** );
+int freeProgram(EnrollmentSystem ,FILE* ,FILE* , FILE* , FILE* , FILE*);
+
+/** Helper functions */
 
 void closeFiles(FILE* students, FILE* courses, FILE* hackers, FILE* queues, FILE* target){
     fclose(students);
@@ -14,98 +33,61 @@ void closeFiles(FILE* students, FILE* courses, FILE* hackers, FILE* queues, FILE
     fclose(target);
 }
 
-int checkForFlag(int numberOfInputs, char** argv){
-    int isFlagOn = OFF;
-    for (int i = 1; i<numberOfInputs; i++){
-        int j = 0;
-        while( *(argv[i] + j) != '\0'){
-            if( *(argv[i] + j) == '-' && *(argv[i] + j + 1) == 'i'){
-                isFlagOn = ON;
-            }
-            j++;
+int checkForFlag(int numberOfInputs, char** argv)
+{
+    for (int i = 1; i < numberOfInputs; i++)
+    {
+        if (strcmp(argv[i], "-i") == IDENTICAL_STRINGS)
+        {
+            return ON;
         }
     }
-    return isFlagOn;
+    return OFF;
 }
-//
-//  #define STUDENTS_FILES_1 "\Tests\Test 1 - 1 hacker\students.txt"
-//  #define COURSES_FILES_1 "\Tests\Test 1 - 1 hacker\courses.txt"
-//  #define HACKERS_FILES_1 "\Tests\Test 1 - 1 hacker\hackers.txt"
-//  #define QUEUES_FILES_1 "\Tests\Test 1 - 1 hacker\queues.txt"
-//  #define TARGET_FILES_1 "\Tests\Test 1 - 1 hacker\target.txt"
-//
-//  #define STUDENTS_FILES_2 "\Tests\Test2 - 1 hacker (no demands)\students.txt"
-//  #define COURSES_FILES_2 "\Tests\Test2 - 1 hacker (no demands)\courses.txt"
-//  #define HACKERS_FILES_2 "\Tests\Test2 - 1 hacker (no demands)\hackers.txt"
-//  #define QUEUES_FILES_2 "\Tests\Test2 - 1 hacker (no demands)\queues.txt"
-// #define TARGET_FILES_2 "\Tests\Test2 - 1 hacker (no demands)\target.txt"
-//
-//  #define STUDENTS_FILES_3 "\Tests\Test3 - 1 hacker (empty queue)\students.txt"
-//  #define COURSES_FILES_3 "\Tests\Test3 - 1 hacker (empty queue)\courses.txt"
-//  #define HACKERS_FILES_3 "\Tests\Test3 - 1 hacker (empty queue)\hackers.txt"
-//  #define QUEUES_FILES_3 "\Tests\Test3 - 1 hacker (empty queue)\queues.txt"
-//  #define TARGET_FILES_3 "\Tests\Test3 - 1 hacker (empty queue)\target.txt"
-//
-//  bool test1(){
-//      FILE* students = fopen(STUDENTS_FILES_1, "r");
-//      FILE* courses = fopen(COURSES_FILES_1, "r");
-//      FILE* hackers = fopen(HACKERS_FILES_1, "r");
-//      FILE* queues = fopen(QUEUES_FILES_1, "r");
-//      FILE* target = fopen(TARGET_FILES_1, "w+");
-//      EnrollmentSystem system = createEnrollment(students, courses, hackers);
-//      if(system == NULL){
-//           return false;
-//      }
-//      system = readEnrollment(system, courses);
-//      hackEnrollment(system, target);
-//      enrollmentDestroy(system);
-//      fclose(target);
-//      fopen(target, "r");
-//
-// }
 
-
-int main(int argc, char** argv){
-    if(argc > 7 || argc < 6){
-        assert(argc > 7 || argc < 6);
-    }
-    char* studentPath = "C:\\Users\\user\\Documents\\GitHub\\ex1---Berko-and-Ayal\\ExampleTest\\students.txt";
-    char* hackersPath = "C:\\Users\\user\\Documents\\GitHub\\ex1---Berko-and-Ayal\\ExampleTest\\hackers.txt";
-    char* coursesPath = "C:\\Users\\user\\Documents\\GitHub\\ex1---Berko-and-Ayal\\ExampleTest\\courses.txt";
-    char* queuesPath = "C:\\Users\\user\\Documents\\GitHub\\ex1---Berko-and-Ayal\\ExampleTest\\queues.txt";
-
-    int IsFlagOn = checkForFlag(argc - 1, argv);
-//    FILE* students = fopen(argv[2 - IsFlagOn], "r");
-    FILE* students = fopen(studentPath, "r");
-    FILE* courses = fopen(coursesPath, "r");
-    FILE* hackers = fopen(hackersPath, "r");
-    FILE* queues = fopen(queuesPath, "r");
-
-//    FILE* courses = fopen(argv[3 - IsFlagOn], "r");
-//    FILE* hackers = fopen(argv[4 - IsFlagOn], "r");
-//    FILE* queues = fopen(argv[5 - IsFlagOn], "r");
-//    FILE* target = fopen(argv[6 - IsFlagOn], "w+");
-
-    FILE* target = fopen("C:\\Users\\user\\Documents\\GitHub\\ex1---Berko-and-Ayal\\ExampleTest\\target.txt", "w+");
-    EnrollmentSystem system = createEnrollment(students, courses, hackers);
-    if(system == NULL){
-        assert(system != NULL);
-        closeFiles(students, courses, hackers, queues, target);
-        return 4;
-    }
-    if (enrollmentSystemUpdateFlag(system, IsFlagOn) != ENROLLMENT_SYSTEM_SUCCESS){
-        assert(system != NULL);
-        closeFiles(students, courses, hackers, queues, target);
-        return 2;
-    }
-    system = readEnrollment(system, queues);
-    if(system == NULL){
-        assert(system != NULL);
-        closeFiles(students, courses, hackers, queues, target);
-        return 3;
-    }
-    hackEnrollment(system, target);
+int freeProgram(EnrollmentSystem system ,FILE* students,FILE* courses, FILE* hackers, FILE* queues, FILE* target)
+{
     enrollmentDestroy(system);
     closeFiles(students, courses, hackers, queues, target);
     return 0;
+}
+
+int main(int argc, char** argv)
+{
+    int IsFlagOn = OFF;
+    if(argc == ARGUMENTS_WITH_FLAG)
+    {
+        IsFlagOn = checkForFlag(argc, argv);
+    }
+    else if (argc != ARGUMENTS_WITHOUT_FLAG)
+    {
+        return 0;
+    }
+
+    FILE* students = fopen(argv[FIRST_FILE - IsFlagOn], "r");
+    FILE* courses = fopen(argv[SECOND_FILE - IsFlagOn], "r");
+    FILE* hackers = fopen(argv[THIRD_FILE - IsFlagOn], "r");
+    FILE* queues = fopen(argv[FOURTH_FILE - IsFlagOn], "r");
+    FILE* target = fopen(argv[FIFTH_FILE - IsFlagOn], "w+");
+
+    if(!students || !courses || !hackers || !queues || !target)
+    {
+        closeFiles(students, courses, hackers, queues, target);
+        return 1;
+    }
+    EnrollmentSystem system = createEnrollment(students, courses, hackers);
+    if(system == NULL)
+    {
+        return freeProgram(system,students, courses, hackers, queues, target);
+    }
+    if (enrollmentSystemUpdateFlag(system, IsFlagOn) != ENROLLMENT_SYSTEM_SUCCESS)
+    {
+        return freeProgram(system,students, courses, hackers, queues, target);
+    }
+    if((system = readEnrollment(system, queues)) == NULL)
+    {
+        return freeProgram(system,students, courses, hackers, queues, target);
+    }
+    hackEnrollment(system, target);
+    return freeProgram(system,students, courses, hackers, queues, target);
 }

@@ -1036,9 +1036,8 @@ void DestroyCoursesArray(Course* array, int numberOfCourses){
  */
 void enrollmentDestroy(EnrollmentSystem system){
     DestroyCoursesArray(system->m_courses, system->m_numberOfCourses);
-    system->m_numberOfCourses = 0;
-    Person* allStudentsArray =system->m_students;
     int numberOfStudents = system->m_numberOfStudents;
+    Person* allStudentsArray =system->m_students;
     for(int i = 0; i < numberOfStudents; i++){
         personDestroy(allStudentsArray[i]);
     }

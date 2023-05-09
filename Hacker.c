@@ -36,9 +36,14 @@ void freeArrayOfStrings(char** array){
     free(array);
 }
 
-void hackerDestroy(Hacker toDestroy){
-    freeArrayOfStrings(toDestroy->m_friends);
-    freeArrayOfStrings(toDestroy->m_rivals);
+void hackerDestroy(Hacker toDestroy)
+{
+    if(toDestroy == NULL)
+    {
+        return;
+    }
+    freeArrayOfStrings((char**)toDestroy->m_friends);
+    freeArrayOfStrings((char**)toDestroy->m_rivals);
     free(toDestroy->m_desiredCoursesArray);
     free(toDestroy->m_hackerId);
 }

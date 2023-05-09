@@ -118,9 +118,11 @@ Relationship getRelationship(IsraeliQueue queue, Node* existing, Node* toAdd)
         return NEUTRAL;
     }
     FriendshipFunction* array = queue->friendshipFunctions;
+    void* exitingItem = nodeGetItem(existing);
+    void* toAddItem = nodeGetItem(toAdd);
     for (int i = 0; i < numberOfFunctions; i++)
     {
-        int friendshipFunctionResult = (array[i])(nodeGetItem(existing),nodeGetItem(toAdd));
+        int friendshipFunctionResult = (array[i])(exitingItem,toAddItem);
         if(friendshipFunctionResult > friendShipThreshold && (nodeGetPassCount(existing) < FRIEND_QUOTA))
         {
             return FRIENDS;
@@ -161,10 +163,18 @@ Node* findFriend(IsraeliQueue queue, Node* current, Node* nodeToAdd)
 
 Node* findFoe(IsraeliQueue queue, Node* current, Node* nodeToAdd)
 {
+    if(current == NULL)
+    {
+        return NULL;
+    }
     Relationship relationshipStatus = getRelationship(queue, current, nodeToAdd);
     while(relationshipStatus != FOES && current != NULL)
     {
         current = nodeGetNext(current);
+        if (current == NULL)
+        {
+            break;
+        }
         relationshipStatus = getRelationship(queue, current, nodeToAdd);
     }
     return current;
@@ -189,19 +199,18 @@ IsraeliQueueError addToEnd(IsraeliQueue queue, Node* toAdd)
 
 IsraeliQueueError enqueueNode(IsraeliQueue queue, Node* nodeToAdd)
 {
-    if (queue->friendshipFunctions == NULL)
+    if (*(queue->friendshipFunctions) == NULL)
     {
-
         return addToEnd(queue, nodeToAdd);
     }
     Node* potentialFriend = findFriend(queue, queue->head, nodeToAdd);
     Node* potentialFoe = NULL;
     while (potentialFriend != NULL)
     {
-        potentialFoe = findFoe(queue, potentialFriend, nodeToAdd);
+        potentialFoe = findFoe(queue, nodeGetNext(potentialFriend), nodeToAdd);
         if (potentialFoe == NULL)
         {
-            if (addNodeAfter(potentialFriend, nodeToAdd) == ISRAELIQUEUE_SUCCESS)
+            if (addNodeAfter(potentialFriend, nodeToAdd) == NODE_ERROR_SUCCESS)
             {
                 addPassCount(potentialFriend);
                 return ISRAELIQUEUE_SUCCESS;
@@ -209,8 +218,7 @@ IsraeliQueueError enqueueNode(IsraeliQueue queue, Node* nodeToAdd)
             return ISRAELIQUEUE_BAD_PARAM;
         }
         addBlockCount(potentialFoe);
-        potentialFriend = findFriend(queue, nodeGetNext(potentialFoe),
-                                     nodeToAdd);
+        potentialFriend = findFriend(queue, nodeGetNext(potentialFoe),nodeToAdd);
     }
     return addToEnd(queue, nodeToAdd);
 }

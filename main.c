@@ -4,7 +4,7 @@
 #define OFF 0
 #define ON 1
 
-#include "HackEnrollment.h" // Assuming the enrollment-related structures and functions are defined in this header file
+#include "HackEnrollment.h"
 
 void closeFiles(FILE* students, FILE* courses, FILE* hackers, FILE* queues, FILE* target){
     fclose(students);
@@ -69,10 +69,10 @@ int main(int argc, char** argv){
     if(argc > 7 || argc < 6){
         assert(argc > 7 || argc < 6);
     }
-    char* studentPath = "C:\\Users\\ayals\\Downloads\\Tests (1)\\Tests\\Test1 - 1 hacker\\students.txt";
-    char* hackersPath = "C:\\Users\\ayals\\Downloads\\Tests (1)\\Tests\\Test1 - 1 hacker\\hackers.txt";
-    char* coursesPath = "C:\\Users\\ayals\\Downloads\\Tests (1)\\Tests\\Test1 - 1 hacker\\courses.txt";
-    char* queuesPath = "C:\\Users\\ayals\\Downloads\\Tests (1)\\Tests\\Test1 - 1 hacker\\queues.txt";
+    char* studentPath = "C:\\Users\\user\\Documents\\GitHub\\ex1---Berko-and-Ayal\\ExampleTest\\students.txt";
+    char* hackersPath = "C:\\Users\\user\\Documents\\GitHub\\ex1---Berko-and-Ayal\\ExampleTest\\hackers.txt";
+    char* coursesPath = "C:\\Users\\user\\Documents\\GitHub\\ex1---Berko-and-Ayal\\ExampleTest\\courses.txt";
+    char* queuesPath = "C:\\Users\\user\\Documents\\GitHub\\ex1---Berko-and-Ayal\\ExampleTest\\queues.txt";
 
     int IsFlagOn = checkForFlag(argc - 1, argv);
 //    FILE* students = fopen(argv[2 - IsFlagOn], "r");
@@ -86,7 +86,7 @@ int main(int argc, char** argv){
 //    FILE* queues = fopen(argv[5 - IsFlagOn], "r");
 //    FILE* target = fopen(argv[6 - IsFlagOn], "w+");
 
-    FILE* target = fopen("C:\\Users\\ayals\\Downloads\\Tests (1)\\Tests\\Test1 - 1 hacker\\target.txt", "w+");
+    FILE* target = fopen("C:\\Users\\user\\Documents\\GitHub\\ex1---Berko-and-Ayal\\ExampleTest\\target.txt", "w+");
     EnrollmentSystem system = createEnrollment(students, courses, hackers);
     if(system == NULL){
         assert(system != NULL);

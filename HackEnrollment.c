@@ -28,6 +28,7 @@
 #define NUMBER_OF_INPUTS_TO_SCANF 7
 #define STRING_END '\0'
 #define LETTER_CASE_FLAG "-i"
+#define EMPTY_STRING 0
 
 /** Struct declaration */
 typedef Hacker* HackerArray;
@@ -103,20 +104,11 @@ int comparisonFunction(void* student1, void* student2)
 // TODO: make sure this function is less than 50 lines of code
 int byHackerFile(void* student1, void* student2)
 {
-//    assert(student1 != NULL && student2 != NULL);
+    assert(student1 != NULL && student2 != NULL);
     Person student1_AUX = (Person) student1;
     Person student2_AUX = (Person) student2;
-    bool isStudent1Hacker = isPersonHacker(student1_AUX);
-    Hacker student1_Hacker = NULL;
-    Hacker student2_Hacker = NULL;
-    if (isStudent1Hacker){
-        student1_Hacker = personGetHacker(student1_AUX);
-    }
-    bool isStudent2Hacker = isPersonHacker(student2_AUX);
-    if (isStudent2Hacker){
-        student2_Hacker = personGetHacker(student2_AUX);
-    }
-    if (isStudent1Hacker)
+    bool isStudentHacker = isPersonHacker(student1_AUX);
+    if (isStudentHacker)
     {
         Friends *tmp = getFriendsArray(personGetHacker(student1_AUX)); //This function is supposed to receive a Hacker but is given a person.
         while (tmp != NULL)
@@ -137,7 +129,8 @@ int byHackerFile(void* student1, void* student2)
             tmp++;
         }
     }
-    if (isStudent2Hacker)
+    isStudentHacker = isPersonHacker(student2_AUX);
+    if (isStudentHacker)
     {
         Friends* tmp = getFriendsArray(personGetHacker(student2_AUX));
         while (*tmp != NULL)
@@ -149,7 +142,7 @@ int byHackerFile(void* student1, void* student2)
             tmp++;
         }
         tmp = getFoesArray(personGetHacker(student2_AUX));
-        while (tmp != NULL)
+        while (*tmp != NULL)
         {
             if (strcmp(*tmp, personGetID(student2_AUX)) == IDENTICAL_STRINGS)
             {
@@ -193,13 +186,16 @@ int byNameDeltaWithoutCase(void* student1, void* student2){
         {
             nameDelta += abs(name1[i] - name2[i]);
         }
-        else if (name1[i] != STRING_END)
-        {
-            nameDelta += abs(name1[i]);
-        }
         else
         {
-            nameDelta += abs(name2[i]);
+            for(int j = i; name1[j] != STRING_END; j++)
+            {
+                nameDelta += abs(name1[j]);
+            }
+            for(int j = i; name2[j] != STRING_END; j++)
+            {
+                nameDelta += abs(name2[j]);
+            }
         }
     }
 
@@ -208,14 +204,16 @@ int byNameDeltaWithoutCase(void* student1, void* student2){
         if (surname1[i] != STRING_END && surname2[i] != STRING_END)
         {
             surnameDelta += abs(surname1[i] - surname2[i]);
-        }
-        else if (surname1[i] != STRING_END)
+        } else
         {
-            surnameDelta += abs(surname1[i]);
-        }
-        else
-        {
-            surnameDelta += abs(surname2[i]);
+            for (int j = i; surname1[j] != STRING_END; j++)
+            {
+                surnameDelta += abs(surname1[j]);
+            }
+            for (int j = i; surname2[j] != STRING_END; j++)
+            {
+                surnameDelta += abs(surname2[j]);
+            }
         }
     }
     return nameDelta + surnameDelta;
@@ -241,28 +239,36 @@ int byNameDelta(void* student1, void* student2)
         {
             nameDelta += abs(name1[i] - name2[i]);
         }
-        else if (name1[i] != STRING_END)
-        {
-            nameDelta += abs(name1[i]);
-        }
         else
         {
-            nameDelta += abs(name2[i]);
+            for(int j = i; name1[j] != STRING_END; j++)
+            {
+                nameDelta += abs(name1[j]);
+            }
+            for(int j = i; name2[j] != STRING_END; j++)
+            {
+                nameDelta += abs(name2[j]);
+            }
+            break;
         }
     }
+
     for (int i = 0; surname1[i] != STRING_END || surname2[i] != STRING_END; i++)
     {
         if (surname1[i] != STRING_END && surname2[i] != STRING_END)
         {
             surnameDelta += abs(surname1[i] - surname2[i]);
-        }
-        else if (surname1[i] != STRING_END)
+        } else
         {
-            surnameDelta += abs(surname1[i]);
-        }
-        else
-        {
-            surnameDelta += abs(surname2[i]);
+            for (int j = i; surname1[j] != STRING_END; j++)
+            {
+                surnameDelta += abs(surname1[j]);
+            }
+            for (int j = i; surname2[j] != STRING_END; j++)
+            {
+                surnameDelta += abs(surname2[j]);
+            }
+            break;
         }
     }
     return nameDelta + surnameDelta;
@@ -449,7 +455,7 @@ int getNumberOfElementsInLine(char* string)
         return INVALID_STR;
     }
     int count = 0;
-    while((*string != ROW_DROP ))
+    while((*string != ROW_DROP && strlen(string) != EMPTY_STRING))
     {
         if(*string == SPACE_BAR)
         {

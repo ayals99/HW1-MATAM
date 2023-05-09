@@ -120,10 +120,8 @@ Relationship getRelationship(IsraeliQueue queue, Node* existing, Node* toAdd)
     FriendshipFunction* array = queue->friendshipFunctions;
     for (int i = 0; i < numberOfFunctions; i++)
     {
-        int friendshipFunctionResult = (array[i])(nodeGetItem(existing),
-                                                  nodeGetItem(toAdd));
-        if(friendshipFunctionResult > friendShipThreshold &&
-                                (nodeGetPassCount(existing) < FRIEND_QUOTA))
+        int friendshipFunctionResult = (array[i])(nodeGetItem(existing),nodeGetItem(toAdd));
+        if(friendshipFunctionResult > friendShipThreshold && (nodeGetPassCount(existing) < FRIEND_QUOTA))
         {
             return FRIENDS;
         }
@@ -196,8 +194,8 @@ IsraeliQueueError enqueueNode(IsraeliQueue queue, Node* nodeToAdd)
 
         return addToEnd(queue, nodeToAdd);
     }
-    Node *potentialFriend = findFriend(queue, queue->head, nodeToAdd);
-    Node *potentialFoe = NULL;
+    Node* potentialFriend = findFriend(queue, queue->head, nodeToAdd);
+    Node* potentialFoe = NULL;
     while (potentialFriend != NULL)
     {
         potentialFoe = findFoe(queue, potentialFriend, nodeToAdd);

@@ -1082,6 +1082,8 @@ char* intToString(int number){
     return string;
 }
 
+
+
 void writeCourseQueueToFile(Course* CourseArray, int totalNumberOfCourses, FILE* out){
     // loops through all courses:
     for(int courseIndex = 0; courseIndex < totalNumberOfCourses; courseIndex++){

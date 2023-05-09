@@ -4,9 +4,7 @@
 #include <assert.h>
 #include <string.h>
 
-#include "IsraeliQueue.h"
-#include "Person.h"
-#include "Hacker.h"
+
 #include "HackEnrollment.h"
 
 

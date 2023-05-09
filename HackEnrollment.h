@@ -3,6 +3,8 @@
 
 /** Included files */
 
+#include "IsraeliQueue.h"
+#include "Hacker.h"
 #include "Person.h"
 #include "Course.h"
 /*

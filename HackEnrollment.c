@@ -1048,34 +1048,34 @@ void enrollmentDestroy(EnrollmentSystem system){
 //    return personGetHacker(currentHacker);
 //}
 
-int countDigits(int number){
-    int counter = 0;
-    while(number > 0){
-        counter++;
-        number /= 10;
-    }
-    return counter;
-}
-
-/**
- * intToString() takes an integer and turns it into a string
- * uses malloc, so needs to be freed later by user of function
- */
-char* intToString(int number){
-    int tempNumber = number;
-    int digitAmount = countDigits(number);
-    char* string = malloc(sizeof(*string)*digitAmount);
-    int index = 0;
-
-    while (digitAmount > 0){
-        int currentDigit =  tempNumber / (int)pow(10,digitAmount - 1);
-        string[index] = (char)(currentDigit + '0');
-        tempNumber /= 10;
-        digitAmount--;
-    }
-    string[index] = '\0';
-    return string;
-}
+//int countDigits(int number){
+//    int counter = 0;
+//    while(number > 0){
+//        counter++;
+//        number /= 10;
+//    }
+//    return counter;
+//}
+//
+///**
+// * intToString() takes an integer and turns it into a string
+// * uses malloc, so needs to be freed later by user of function
+// */
+//char* intToString(int number){
+//    int tempNumber = number;
+//    int digitAmount = countDigits(number);
+//    char* string = malloc(sizeof(*string)*digitAmount);
+//    int index = 0;
+//
+//    while (digitAmount > 0){
+//        int currentDigit =  tempNumber / (int)pow(10,digitAmount - 1);
+//        string[index] = (char)(currentDigit + '0');
+//        tempNumber /= 10;
+//        digitAmount--;
+//    }
+//    string[index] = '\0';
+//    return string;
+//}
 
 void writeCourseQueueToFile(Course* CourseArray, int totalNumberOfCourses, FILE* out){
     // loops through all courses:
@@ -1083,24 +1083,18 @@ void writeCourseQueueToFile(Course* CourseArray, int totalNumberOfCourses, FILE*
         Course currentCourse = CourseArray[courseIndex];
         IsraeliQueue queue = getCourseQueue(currentCourse);
         int courseNumber = getCourseNumber(currentCourse);
-        char* courseNumberStr = intToString(courseNumber);
-        fputs(courseNumberStr, out);
-        free (courseNumberStr);
-        fputs(" ", out);
+        fprintf(out,"%d", courseNumber);
         Person head = IsraeliQueueDequeue(queue);
         int i = 0;
         int queueSize = IsraeliQueueSize(queue);
         while (head != NULL && i < queueSize){
+            fprintf(out, " ");
             fputs(personGetID(head), out);
-            if(i < (queueSize - 1)){
-                fputs(" ", out);
-            }
             head = IsraeliQueueDequeue(queue);
             i++;
         }
-        fputs("\n", out);
+        fprintf(out, "\n");
     }
-    fputs("\n",out); // TODO: check if FILE* out needs to end with a '\n'
 }
 
 bool requestedOnlyOneCourse (Hacker hacker){

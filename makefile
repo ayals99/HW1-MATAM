@@ -34,6 +34,3 @@ IsraeliQueue.o: IsraeliQueue.c IsraeliQueue.h tool/Node.h
 
 clean:
 	rm -f $(OBJS) $(TARGET)
-
-
-./HackEnrollment ../Tests/Test1/students.txt ../Tests/Test1/courses.txt /Tests/Test1/hackers1.txt /Tests/Test1/queues1.txt target.txt | diff - Tests/Test1/expOut.txt

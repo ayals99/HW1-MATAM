@@ -1163,6 +1163,9 @@ void DestroyCoursesArray(Course* array, int numberOfCourses){
  * gets: an Enrollment system.
  */
 void enrollmentDestroy(EnrollmentSystem system){
+    if(system == NULL){
+        return;
+    }
     DestroyCoursesArray(system->m_courses, system->m_numberOfCourses);
     int numberOfStudents = system->m_numberOfStudents;
     Person* allStudentsArray =system->m_students;

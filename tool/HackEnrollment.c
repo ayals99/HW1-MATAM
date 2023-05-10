@@ -1191,10 +1191,13 @@ void writeCourseQueueToFile(Course* CourseArray, int totalNumberOfCourses, FILE*
         Course currentCourse = CourseArray[courseIndex];
         IsraeliQueue queue = getCourseQueue(currentCourse);
         int courseNumber = getCourseNumber(currentCourse);
-        fprintf(out, "%d", courseNumber);
+        int queueSize = IsraeliQueueSize(queue);
         Person head = IsraeliQueueDequeue(queue);
         int i = 0;
-        int queueSize = IsraeliQueueSize(queue);
+        if(queueSize == 0){
+            return;
+        }
+        fprintf(out, "%d", courseNumber);
         while (head != NULL && i < queueSize){
             fprintf(out, " ");
             fputs(personGetID(head), out);
@@ -1230,6 +1233,7 @@ bool enrolledInCourse(Person currentPerson, Course currentCourse){
     // TODO: make sure that this loop needs to be until "courseSize - 1" and not "courseSize"
     for(int i = 0; i < (courseSize - 1) && currentPerson != NULL; i++){
         if(comparisonFunction(currentPerson, currentPersonInList) == IDENTICAL_BY_COMPARISON_FUNCTION){
+            IsraeliQueueDestroy(clonedList);
             return true;
         }
         currentPersonInList = (Person) IsraeliQueueDequeue(clonedList);

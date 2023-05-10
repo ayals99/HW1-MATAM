@@ -20,11 +20,18 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e8d68ddf-8fb1-4d4e-a26e-c48ee2153ca4" name="Changes" comment="fixing freeArrayOfStrings">
+    <list default="true" id="e8d68ddf-8fb1-4d4e-a26e-c48ee2153ca4" name="Changes" comment="testing if push works">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tests/Test16/target.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/Test16/target.txt" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/Tests/Test2 - 1 hacker (no demands)/target.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/Test2 - 1 hacker (no demands)/target.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ex1___Berko_and_Ayal.dir/tool/HackEnrollment.c.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ex1___Berko_and_Ayal.dir/tool/HackEnrollment.c.obj" afterDir="false" />
+>>>>>>> Berko-Main-Testing
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/ex1___Berko_and_Ayal.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/ex1___Berko_and_Ayal.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tool/HackEnrollment.c" beforeDir="false" afterPath="$PROJECT_DIR$/tool/HackEnrollment.c" afterDir="false" />
@@ -101,7 +108,6 @@
     </configuration>
     <list>
       <item itemvalue="CMake Application.ex1___Berko_and_Ayal" />
-      <item itemvalue="CMake Debug.cmakelists" />
       <item itemvalue="Makefile Target.main.o" />
     </list>
     <recent_temporary>
@@ -167,6 +173,7 @@
       <workItem from="1683703726864" duration="3282000" />
       <workItem from="1683721455003" duration="2419000" />
       <workItem from="1683723914621" duration="9045000" />
+<<<<<<< HEAD
       <workItem from="1683735055328" duration="257000" />
       <workItem from="1683741221969" duration="4486000" />
       <workItem from="1683747986368" duration="2869000" />
@@ -174,6 +181,12 @@
       <workItem from="1683751667887" duration="1000" />
       <workItem from="1683752073022" duration="2062000" />
       <workItem from="1683754724243" duration="498000" />
+=======
+      <workItem from="1683734415834" duration="1000" />
+      <workItem from="1683734657936" duration="12266000" />
+      <workItem from="1683751684823" duration="1000" />
+      <workItem from="1683751822030" duration="4190000" />
+>>>>>>> Berko-Main-Testing
     </task>
     <task id="LOCAL-00001" summary="enrollementDestroy first draft">
       <created>1683276424602</created>
@@ -210,14 +223,7 @@
       <option name="project" value="LOCAL" />
       <updated>1683650489739</updated>
     </task>
-    <task id="LOCAL-00006" summary="fixing freeArrayOfStrings">
-      <created>1683748988089</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1683748988089</updated>
-    </task>
-    <option name="localTasksCounter" value="7" />
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -235,8 +241,7 @@
     <MESSAGE value="finishing course.c" />
     <MESSAGE value="updating Hacker.c" />
     <MESSAGE value="testing if push works" />
-    <MESSAGE value="fixing freeArrayOfStrings" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixing freeArrayOfStrings" />
+    <option name="LAST_COMMIT_MESSAGE" value="testing if push works" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -247,6 +252,14 @@
           <option name="timeStamp" value="26" />
         </line-breakpoint>
         <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+<<<<<<< HEAD
+=======
+          <url>file://$PROJECT_DIR$/tool/HackEnrollment.c</url>
+          <line>1130</line>
+          <option name="timeStamp" value="46" />
+        </line-breakpoint>
+        <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+>>>>>>> Berko-Main-Testing
           <url>file://$PROJECT_DIR$/IsraeliQueue.c</url>
           <line>204</line>
           <option name="timeStamp" value="48" />
@@ -266,8 +279,9 @@
           <line>217</line>
           <option name="timeStamp" value="59" />
         </line-breakpoint>
-        <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/tool/HackEnrollment.c</url>
+<<<<<<< HEAD
           <line>707</line>
           <option name="timeStamp" value="66" />
         </line-breakpoint>
@@ -295,6 +309,35 @@
           <url>file://$PROJECT_DIR$/tool/HackEnrollment.c</url>
           <line>1129</line>
           <option name="timeStamp" value="95" />
+=======
+          <line>1261</line>
+          <option name="timeStamp" value="100" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/tool/HackEnrollment.c</url>
+          <line>1125</line>
+          <option name="timeStamp" value="112" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/tool/HackEnrollment.c</url>
+          <line>1134</line>
+          <option name="timeStamp" value="113" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/tool/HackEnrollment.c</url>
+          <line>1161</line>
+          <option name="timeStamp" value="116" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/tool/main.c</url>
+          <line>94</line>
+          <option name="timeStamp" value="117" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/tool/HackEnrollment.c</url>
+          <line>1138</line>
+          <option name="timeStamp" value="120" />
+>>>>>>> Berko-Main-Testing
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>

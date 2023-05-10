@@ -92,4 +92,7 @@ void enrollmentDestroy(EnrollmentSystem);
  */
 EnrollmentSystemError enrollmentSystemUpdateFlag(EnrollmentSystem system, bool isFlagOn);
 
+
+void printEnrollmentSystem(EnrollmentSystem sys);
+
 #endif

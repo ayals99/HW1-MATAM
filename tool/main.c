@@ -52,6 +52,9 @@ int freeProgram(EnrollmentSystem system ,FILE* students,FILE* courses, FILE* hac
     return 0;
 }
 
+
+
+
 int main(int argc, char** argv)
 {
     int IsFlagOn = OFF;
@@ -88,6 +91,7 @@ int main(int argc, char** argv)
     {
         return freeProgram(system,students, courses, hackers, queues, target);
     }
+    printEnrollmentSystem(system);
     hackEnrollment(system, target);
     return freeProgram(system,students, courses, hackers, queues, target);
 }

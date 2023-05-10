@@ -384,7 +384,7 @@ courseStructPointerArray makeCoursesArray(FILE* courses, int numberOfCourses)
         return NULL;
     }
     int longestLineLength = getLongestLineLength(courses);
-    char* buffer = malloc(sizeof(char) * (longestLineLength + 1));
+    char* buffer = malloc(sizeof(char) * (longestLineLength + OFFSET));
     if(buffer == NULL)
     {
         free(coursesArray);
@@ -399,6 +399,8 @@ courseStructPointerArray makeCoursesArray(FILE* courses, int numberOfCourses)
             handleErrorCourseArray(buffer, coursesArray, i);
             return NULL;
         }
+
+
         char* token = strtok(buffer, delimiter);
         int courseNumber = (int)strtol(token, NULL, 10);
         token = strtok(NULL, delimiter);
@@ -411,8 +413,7 @@ courseStructPointerArray makeCoursesArray(FILE* courses, int numberOfCourses)
         }
         coursesArray[i] = currentCourse;
     }
-    //TODO I get sef fault here for some reason
-    // free(buffer);
+    free(buffer);
     return coursesArray;
 }
 
@@ -506,13 +507,13 @@ Person* makeAllStudentsArray(FILE* students,int numberOfStudents)
     {
         return NULL;
     }
-    Person* allStudentsArray = malloc(sizeof(allStudentsArray) * (numberOfStudents + 1));
+    Person* allStudentsArray = malloc(sizeof(allStudentsArray) * (numberOfStudents + OFFSET));
     if(allStudentsArray == NULL)
     {
         return NULL;
     }
     int longestLineLength = getLongestLineLength(students);
-    char* buffer = malloc(sizeof(char) * (longestLineLength + 1));
+    char* buffer = malloc(sizeof(char) * (longestLineLength + OFFSET));
     if(buffer == NULL)
     {
         free(allStudentsArray);
@@ -552,8 +553,7 @@ Person* makeAllStudentsArray(FILE* students,int numberOfStudents)
         }
         allStudentsArray[i] = newPerson;
     }
-    //TODO I get seg fault here
-    //free(buffer);
+    free(buffer);
     return allStudentsArray;
 }
 
@@ -622,6 +622,10 @@ char** parseStringArray(char* buffer, int numberOfElementsInLine) // TODO: check
 
 char* readAndTrimLine(FILE* file, char* buffer, int bufferLength)
 {
+    if(buffer == NULL)
+    {
+        return NULL;
+    }
     if (fgets(buffer, bufferLength, file) == NULL)
     {
         return NULL;
@@ -742,7 +746,7 @@ HackerArray makeHackerArray(FILE* hackers,int numberOfHackers)
         return NULL;
     }
     int longestLineLength = getLongestLineLength(hackers);
-    char* buffer = malloc(sizeof(char) * (longestLineLength + 1));
+    char* buffer = malloc(sizeof(char) * (longestLineLength + OFFSET));
     if (buffer == NULL)
     {
         free(newHackerArray);
@@ -750,7 +754,7 @@ HackerArray makeHackerArray(FILE* hackers,int numberOfHackers)
     }
     for (int i = 0; i < numberOfHackers; i++)
     {
-        Hacker newHacker = createHackerFromFile(hackers, buffer, longestLineLength + 1);
+        Hacker newHacker = createHackerFromFile(hackers, buffer, longestLineLength + OFFSET);
         if (newHacker == NULL)
         {
             freeAndDestroyHackerArray(newHackerArray, i);
@@ -759,8 +763,7 @@ HackerArray makeHackerArray(FILE* hackers,int numberOfHackers)
         }
         newHackerArray[i] = newHacker;
     }
-    //TODO I get seg fault here
-    //free(buffer);
+    free(buffer);
     return newHackerArray;
 }
 
@@ -1039,7 +1042,7 @@ EnrollmentSystem readEnrollment(EnrollmentSystem sys, FILE* queues)
     }
 
     int longestLineInFile = getLongestLineLength(queues);
-    char* buffer = malloc((sizeof(char) * (longestLineInFile + 1)));
+    char* buffer = malloc((sizeof(char) * (longestLineInFile + OFFSET)));
 
     if (buffer == NULL)
     {
@@ -1058,7 +1061,6 @@ EnrollmentSystem readEnrollment(EnrollmentSystem sys, FILE* queues)
         }
         buffer = readAndTrimLine(queues, buffer, longestLineInFile + OFFSET);
     }
-
     free(buffer);
     return sys;
 }
@@ -1250,4 +1252,127 @@ Course findCourseByNumber(int courseNumber, int totalNumberOfCourses, Course *co
         }
     }
     return NULL;
+}
+
+int getCount(Friends* array)
+{
+    int count = 0;
+    while(*array != NULL)
+    {
+        count++;
+        array++;
+    }
+    return count;
+}
+
+void printFriends(Hacker hacker) {
+    Friends* friends = getFriendsArray(hacker); // Assuming there is a function to get the friends array
+    int friendCount = getCount(friends);
+    fprintf(stdout, "Friends: ");
+    for (int i = 0; i < friendCount; i++) {
+        fprintf(stdout, "%s ", friends[i]);
+    }
+    fprintf(stdout, "\n");
+}
+
+void printFoes(Hacker hacker) {
+    Foes* foes = getFoesArray(hacker);
+    int foeCount = getCount(foes);
+    fprintf(stdout, "Foes: ");
+    for (int i = 0; i < foeCount; i++) {
+        fprintf(stdout, "%s ", foes[i]);
+    }
+    fprintf(stdout, "\n");
+}
+
+void printQueue(IsraeliQueue queue)
+{
+    fprintf(stdout, "Course Queue:\n");
+    Person student = (Person) IsraeliQueueDequeue(queue);
+    while (student != NULL)
+    {
+        fprintf(stdout, "%s\n", personGetID(student));
+        student = IsraeliQueueDequeue(queue);
+    }
+}
+
+
+void printCourse(Course course)
+{
+    if (course == NULL)
+    {
+        fprintf(stdout, "Course is NULL\n");
+        return;
+    }
+    fprintf(stdout, "Course number: %d\n", getCourseNumber(course));
+    fprintf(stdout, "Course capacity: %d\n", getCourseSize(course));
+    printQueue(getCourseQueue(course));
+}
+
+void printHacker(Hacker hacker)
+{
+    if (hacker == NULL)
+    {
+        fprintf(stdout, "Hacker is NULL\n");
+        return;
+    }
+    fprintf(stdout, "Hacker ID: %s\n", getHackerId(hacker));
+    fprintf(stdout, "Desired courses count: %d\n", getCoursesCount(hacker));
+    fprintf(stdout, "Desired courses: ");
+    for (int i = 0; i < getCoursesCount(hacker) ; i++)
+    {
+        fprintf(stdout, "%d ", *(getCourseArray(hacker) + i));
+    }
+    fprintf(stdout, "\n");
+    printFriends(hacker);
+    printFoes(hacker);
+}
+
+void printPerson(Person person)
+{
+    if (person == NULL)
+    {
+        fprintf(stdout, "Person is NULL\n");
+        return;
+    }
+
+    fprintf(stdout, "ID: %s\n", personGetID(person));
+    fprintf(stdout, "Name: %s %s\n", personGetName(person), personGetSurName(person));
+    fprintf(stdout, "Hacker details:\n");
+    printHacker(personGetHacker(person));
+}
+
+
+void printEnrollmentSystem(EnrollmentSystem sys)
+{
+    if (sys == NULL)
+    {
+        fprintf(stdout, "EnrollmentSystem is NULL\n");
+        return;
+    }
+
+    fprintf(stdout, "EnrollmentSystem:\n");
+    fprintf(stdout, "Number of courses: %d\n", sys->m_numberOfCourses);
+
+    for (int i = 0; i < sys->m_numberOfCourses; i++)
+    {
+        fprintf(stdout, "Course %d: \n", i);
+        printCourse(sys->m_courses[i]);
+    }
+
+    fprintf(stdout, "Number of hackers: %d\n", sys->m_numberOfHackers);
+    for (int i = 0; i < sys->m_numberOfHackers; i++)
+    {
+        fprintf(stdout, "Hacker %d: \n", i);
+        printHacker(sys->m_hackerPointerArray[i]);
+    }
+
+    fprintf(stdout, "Number of students: %d\n", sys->m_numberOfStudents);
+
+    for (int i = 0; i < sys->m_numberOfStudents; i++)
+    {
+        fprintf(stdout, "Student %d: \n", i);
+        printPerson(sys->m_students[i]); // Assuming m_students is an array of Person instances
+    }
+    fprintf(stdout, "Is flag on: %s\n", sys->m_isFlagOn ? "true" : "false");
 }

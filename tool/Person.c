@@ -169,26 +169,26 @@ char* personGetID(Person currPerson)
 }
 
 // TODO: "personGetTotalCredits" Never used
-//int personGetTotalCredits(Person currPerson)
-//{
-//    if(currPerson == NULL)
-//    {
-//        //Needs to check return values for this function.
-//        return -1;
-//    }
-//    return currPerson->m_TotalCredits;
-//}
+int personGetTotalCredits(Person currPerson)
+{
+    if(currPerson == NULL)
+    {
+        //Needs to check return values for this function.
+        return -1;
+    }
+    return currPerson->m_TotalCredits;
+}
 
 // TODO: "personGetGPA" Never used
-//int personGetGPA(Person currPerson)
-//{
-//    if(currPerson == NULL)
-//    {
-//        //Needs to check return values for this function.
-//        return -1;
-//    }
-//    return currPerson->m_GPA;
-//}
+int personGetGPA(Person currPerson)
+{
+    if(currPerson == NULL)
+    {
+        //Needs to check return values for this function.
+        return -1;
+    }
+    return currPerson->m_GPA;
+}
 
 char* personGetName(Person currPerson)
 {
@@ -209,24 +209,24 @@ char* personGetSurName(Person currPerson)
 }
 
 // TODO: "personGetCity" Never used
-//char* personGetCity(Person currPerson)
-//{
-//    if(currPerson == NULL)
-//    {
-//        return NULL;
-//    }
-//    return currPerson->m_City;
-//}
+char* personGetCity(Person currPerson)
+{
+    if(currPerson == NULL)
+    {
+        return NULL;
+    }
+    return currPerson->m_City;
+}
 
 // TODO: "personGetDepartment" Never used
-//char* personGetDepartment(Person currPerson)
-//{
-//    if(currPerson == NULL)
-//    {
-//        return NULL;
-//    }
-//    return currPerson->m_Department;
-//}
+char* personGetDepartment(Person currPerson)
+{
+    if(currPerson == NULL)
+    {
+        return NULL;
+    }
+    return currPerson->m_Department;
+}
 
 bool isPersonHacker(Person student)
 {

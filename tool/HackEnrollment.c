@@ -392,6 +392,20 @@ courseStructPointerArray makeCoursesArray(FILE* courses, int numberOfCourses)
     return coursesArray;
 }
 
+char* duplicateString(char* string)
+{
+    if(string == NULL)
+    {
+        return NULL;
+    }
+    char* newString = malloc(sizeof(char) * (strlen(string) + 1));
+    if(newString == NULL)
+    {
+        return NULL;
+    }
+    strcpy(newString, string);
+    return newString;
+}
 
 Person* makeAllStudentsArray(FILE* students,int numberOfStudents)
 {
@@ -425,7 +439,8 @@ Person* makeAllStudentsArray(FILE* students,int numberOfStudents)
             //TODO: Error in parsing the line, you may want to handle it
             abort();
         }
-        Person newPerson = personCreate(strdup(studentID), totalCredits, GPA, name, surName, city, department);
+        char* tempID = duplicateString(studentID);
+        Person newPerson = personCreate(tempID, totalCredits, GPA, name, surName, city, department);
         if(newPerson == NULL)
         {
             for (int j = 0; j < i; j++) {
@@ -487,7 +502,7 @@ char** parseStringArray(char* buffer) // TODO: check if it works
     char *token = strtok(buffer, " ");
     for (int i = 0; i < numberOfElementsInLine && token != NULL; i++)
     {
-        array[i] = strdup(token);
+        array[i] = duplicateString(token);
         token = strtok(NULL, " ");
     }
     array[numberOfElementsInLine] = NULL;

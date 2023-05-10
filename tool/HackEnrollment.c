@@ -399,8 +399,10 @@ courseStructPointerArray makeCoursesArray(FILE* courses, int numberOfCourses)
             handleErrorCourseArray(buffer, coursesArray, i);
             return NULL;
         }
-
-
+        if (buffer[0] == '\n')
+        {
+            continue;
+        }
         char* token = strtok(buffer, delimiter);
         int courseNumber = (int)strtol(token, NULL, 10);
         token = strtok(NULL, delimiter);
@@ -1060,6 +1062,13 @@ EnrollmentSystem readEnrollment(EnrollmentSystem sys, FILE* queues)
             return NULL;
         }
         buffer = readAndTrimLine(queues, buffer, longestLineInFile + OFFSET);
+    }
+    for(int i = 0; i < sys->m_numberOfCourses; i++)
+    {
+        if (!IsraeliQueueSize(getCourseQueue(sys->m_courses[i])))
+        {
+            addFriendshipFunctionsAndThresholds(getCourseQueue(sys->m_courses[i]), sys->m_isFlagOn);
+        }
     }
     free(buffer);
     return sys;

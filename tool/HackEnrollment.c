@@ -1247,3 +1247,93 @@ Course findCourseByNumber(int courseNumber, int totalNumberOfCourses, Course *co
     }
     return NULL;
 }
+
+void printQueue(IsraeliQueue queue)
+{
+    Person student = IsraeliQueueDequeue(queue);
+    while (student != NULL)
+    {
+        printf("%s\n", personGetID(student));
+        student = IsraeliQueueDequeue(queue);
+    }
+}
+
+
+void printCourse(Course course)
+{
+    if (course == NULL)
+    {
+        fprintf(stdout, "Course is NULL\n");
+        return;
+    }
+    fprintf(stdout, "Course number: %d\n", getCourseNumber(course));
+    fprintf(stdout, "Course capacity: %d\n", getCourseSize(course));
+    printQueue(getCourseQueue(course));
+}
+
+void printHacker(Hacker hacker)
+{
+    if (hacker == NULL)
+    {
+        fprintf(stdout, "Hacker is NULL\n");
+        return;
+    }
+    fprintf(stdout, "Hacker ID: %s\n", getHackerId(hacker));
+    fprintf(stdout, "Desired courses count: %d\n", getCoursesCount(hacker));
+    fprintf(stdout, "Desired courses: ");
+    for (int i = 0; i < getCoursesCount(hacker) ; i++)
+    {
+        fprintf(stdout, "%d ", *(getCourseArray(hacker) + i));
+    }
+    fprintf(stdout, "\n");
+    // Print Friends and Foes arrays if necessary
+}
+
+void printPerson(Person person)
+{
+    if (person == NULL)
+    {
+        fprintf(stdout, "Person is NULL\n");
+        return;
+    }
+
+    fprintf(stdout, "ID: %s\n", personGetID(person));
+    fprintf(stdout, "Name: %s %s\n", personGetName(person), personGetSurName(person));
+    fprintf(stdout, "Hacker details:\n");
+    printHacker(personGetHacker(person));
+}
+
+
+void printEnrollmentSystem(EnrollmentSystem sys)
+{
+    if (sys == NULL)
+    {
+        fprintf(stdout, "EnrollmentSystem is NULL\n");
+        return;
+    }
+
+    fprintf(stdout, "EnrollmentSystem:\n");
+    fprintf(stdout, "Number of courses: %d\n", sys->m_numberOfCourses);
+
+    for (int i = 0; i < sys->m_numberOfCourses; i++)
+    {
+        fprintf(stdout, "Course %d: \n", i);
+        printCourse(sys->m_courses[i]); // Assuming m_courses is an array of Course instances
+    }
+
+    fprintf(stdout, "Number of hackers: %d\n", sys->m_numberOfHackers);
+    for (int i = 0; i < sys->m_numberOfHackers; i++)
+    {
+        fprintf(stdout, "Hacker %d: \n", i);
+        printHacker(sys->m_hackerPointerArray[i]); // Assuming m_hackerPointerArray is an array of Hacker instances
+    }
+
+    fprintf(stdout, "Number of students: %d\n", sys->m_numberOfStudents);
+
+    for (int i = 0; i < sys->m_numberOfStudents; i++)
+    {
+        fprintf(stdout, "Student %d: \n", i);
+        printPerson(sys->m_students[i]); // Assuming m_students is an array of Person instances
+    }
+    fprintf(stdout, "Is flag on: %s\n", sys->m_isFlagOn ? "true" : "false");
+}

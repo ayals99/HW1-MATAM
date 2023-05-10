@@ -47,16 +47,13 @@ void hackerDestroy(Hacker toDestroy)
     {
         return;
     }
-    freeArrayOfStrings((char**)toDestroy->m_friends);
+    free(toDestroy->m_friends);
     toDestroy->m_friends = NULL;
-    freeArrayOfStrings((char**)toDestroy->m_rivals);
+    free(toDestroy->m_rivals);
     toDestroy->m_rivals = NULL;
     free(toDestroy->m_desiredCoursesArray);
     toDestroy->m_desiredCoursesArray = NULL;
-    free(toDestroy->m_hackerId);
-    toDestroy->m_hackerId = NULL;
 }
-
 /** Getter Functions */
 
 char* getHackerId(Hacker currHacker){

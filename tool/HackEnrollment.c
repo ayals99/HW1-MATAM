@@ -81,7 +81,7 @@ bool requestedOnlyOneCourse (Hacker hacker);
 bool enrolledInCourse(Person currentPerson, Course currentCourse);
 Course findCourseByNumber(int courseNumber, int totalNumberOfCourses, Course *courseArrayPointer);
 void writeCourseQueueToFile(Course* CourseArray, int totalNumberOfCourses, FILE* out);
-Hacker getHackerPointerFromList(HackerArray listOfHackers, int index);
+Hacker getHackerPointerFromList(HackerArray listOfHackers, int index, int numberOfHackers);
 char* duplicateString(char* string);
 int getLongestElementInLine(char* buffer);
 EnrollmentSystemError allocateMemoryForFields(char** name, char** surName, char** city, char** department, int longestElementInLine);
@@ -295,8 +295,10 @@ int byIdDelta(void* student1, void* student2)
 }
 
 /** Functions Implementation */
-
-Hacker getHackerPointerFromList(HackerArray listOfHackers, int index){
+Hacker getHackerPointerFromList(HackerArray listOfHackers, int index, int numberOfHackers){
+    if(listOfHackers == NULL || index >= numberOfHackers){
+        return NULL;
+    }
     return listOfHackers[index];
 }
 
@@ -1064,6 +1066,9 @@ EnrollmentSystem readEnrollment(EnrollmentSystem sys, FILE* queues)
 // getPersonByHacker: Returns a ptr to a person_t struct thar holds the hacker.
 // NOTE: Searches by ID.
 Person getPersonByHacker(char* hackerID, Person* students, int numberOfStudents){
+    if(students == NULL || hackerID == NULL){
+        return NULL;
+    }
     for(int i = 0; i < numberOfStudents;i++){
         Person currentPerson = students[i];
         if(strcmp(hackerID, personGetID(currentPerson)) == IDENTICAL_STRINGS){
@@ -1102,19 +1107,19 @@ bool enrolledInTwoChoices(Person currentPerson,Hacker currentHackerStruct,Course
  */
 // loops through all hackers and tries to enqueue them into the queue.
 void hackEnrollment(EnrollmentSystem system, FILE* out){
-    int totalNumberOfCourses = system->m_numberOfCourses;
-    int numberOfHackers = system->m_numberOfHackers;
     Course* courseArray = system->m_courses;
+    int totalNumberOfCourses = system->m_numberOfCourses;
     HackerArray listOfHackers = system->m_hackerPointerArray;
+    int numberOfHackers = system->m_numberOfHackers;
     // loop through all hackers and enroll them in the courses they requested
     for (int hackerIndex = 0; hackerIndex < numberOfHackers; hackerIndex++) {
-        Hacker currentHackerStruct = getHackerPointerFromList(listOfHackers, hackerIndex);
-        Person currentPerson = getPersonByHacker(getHackerId(listOfHackers[hackerIndex]),
+        Hacker currentHackerStruct = getHackerPointerFromList(listOfHackers, hackerIndex, numberOfHackers);
+        Person currentPerson = getPersonByHacker(getHackerId(currentHackerStruct),
                                                  system->m_students, system->m_numberOfStudents);
         char *studentID = personGetID(currentPerson);
+        int* desiredCoursesArray = getCourseArray(currentHackerStruct);
         int numberOfDesiredCourses = getCoursesCount(currentHackerStruct);
-        int *desiredCoursesArray = getCourseArray(currentHackerStruct);
-        // loop through this Hacker's courses and assign him in the course. at the end we'll check that he got at least
+        // loop through this Hacker's desired courses and assign him in the course. at the end we'll check that he got at least
         // two courses overall (unless he asked for only one course and didn't get it):
         for (int i = 0; i < numberOfDesiredCourses; i++) {
             int currentCourseNumber = desiredCoursesArray[i];
@@ -1130,7 +1135,7 @@ void hackEnrollment(EnrollmentSystem system, FILE* out){
     for (int hackerIndex = 0; hackerIndex < numberOfHackers; hackerIndex++){
         Person currentPerson = getPersonByHacker(getHackerId(listOfHackers[hackerIndex]),
                                                  system->m_students, system->m_numberOfStudents);
-        Hacker currentHackerStruct = getHackerPointerFromList(listOfHackers, hackerIndex);
+        Hacker currentHackerStruct = getHackerPointerFromList(listOfHackers, hackerIndex, numberOfHackers);
         if( getCoursesCount(currentHackerStruct) == 0){
             continue;
         }
@@ -1243,6 +1248,9 @@ bool enrolledInCourse(Person currentPerson, Course currentCourse){
 }
 
 Course findCourseByNumber(int courseNumber, int totalNumberOfCourses, Course *courseArrayPointer) {
+    if(courseArrayPointer == NULL){
+        return NULL;
+    }
     for(int i = 0; i< totalNumberOfCourses; i++){
         Course current = courseArrayPointer[i];
         if(courseNumber == getCourseNumber(current)){

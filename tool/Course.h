@@ -9,7 +9,7 @@
 
 /** Defines */
 #define THRESHOLD_RESET 0
-#define COURSE_NULL 0
+#define COURSE_NULL (-1)
 
 typedef struct course_t* Course;
 //typedef enum {COURSE_ERROR_BAD_PARAM, COURSE_ERROR_ALLOC_FAILED, COURSE_ERROR_SUCCESS} CourseError;

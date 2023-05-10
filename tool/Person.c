@@ -75,7 +75,6 @@ void freePersonFields(Person toDestroy)
     {
         return;
     }
-
     free(toDestroy->m_ID);
     toDestroy->m_ID = NULL;
 

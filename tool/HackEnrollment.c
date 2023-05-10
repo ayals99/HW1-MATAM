@@ -1116,7 +1116,7 @@ void hackEnrollment(EnrollmentSystem system, FILE* out){
         Hacker currentHackerStruct = getHackerPointerFromList(listOfHackers, hackerIndex, numberOfHackers);
         Person currentPerson = getPersonByHacker(getHackerId(currentHackerStruct),
                                                  system->m_students, system->m_numberOfStudents);
-        char *studentID = personGetID(currentPerson);
+        char* studentID = personGetID(currentPerson);
         int* desiredCoursesArray = getCourseArray(currentHackerStruct);
         int numberOfDesiredCourses = getCoursesCount(currentHackerStruct);
         // loop through this Hacker's desired courses and assign him in the course. at the end we'll check that he got at least
@@ -1142,9 +1142,8 @@ void hackEnrollment(EnrollmentSystem system, FILE* out){
         Course firstCourseOnList = findCourseByNumber(getCourseArray(currentHackerStruct)[0],
                                                       totalNumberOfCourses,courseArray);
         if( (requestedOnlyOneCourse(currentHackerStruct) && !enrolledInCourse(currentPerson, firstCourseOnList) )
-            ||
-            (!enrolledInTwoChoices(currentPerson,currentHackerStruct,courseArray,totalNumberOfCourses)
-                && !requestedOnlyOneCourse(currentHackerStruct) ) ) {
+            || (!enrolledInTwoChoices(currentPerson,currentHackerStruct,courseArray,totalNumberOfCourses)
+                && (getCoursesCount(currentHackerStruct) >= 2) ) ) {
             terminate(personGetID(currentPerson), out);
             return;
         }
@@ -1214,7 +1213,7 @@ void writeCourseQueueToFile(Course* CourseArray, int totalNumberOfCourses, FILE*
 }
 
 bool requestedOnlyOneCourse (Hacker hacker){
-    if (getCoursesCount(hacker) <= 1){
+    if (getCoursesCount(hacker) == 1){
         return true;
     }
     else{
@@ -1231,12 +1230,12 @@ void terminate(char* studentID, FILE* out){
 }
 
 bool enrolledInCourse(Person currentPerson, Course currentCourse){
-  IsraeliQueue list = getCourseQueue(currentCourse);
+    IsraeliQueue list = getCourseQueue(currentCourse);
     IsraeliQueue clonedList = IsraeliQueueClone(list);
     Person currentPersonInList = (Person) IsraeliQueueDequeue(clonedList);
     int courseSize = getCourseSize(currentCourse);
     // TODO: make sure that this loop needs to be until "courseSize - 1" and not "courseSize"
-    for(int i = 0; i < (courseSize - 1) && currentPerson != NULL; i++){
+    for(int i = 0; i < courseSize && currentPersonInList != NULL; i++){
         if(comparisonFunction(currentPerson, currentPersonInList) == IDENTICAL_BY_COMPARISON_FUNCTION){
             IsraeliQueueDestroy(clonedList);
             return true;

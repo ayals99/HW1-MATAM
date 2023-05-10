@@ -651,7 +651,5 @@ void IsraeliQueueDestroy(IsraeliQueue queue)
         current = next;
     }
     free(queue->m_friendshipFunctions);
-    // According to question @273 we can't assume that "friendshipFunctions" was malloced,
-    // therefore we used malloc to copy it and to clone it, then we always need to free() it.
     free(queue);
 }

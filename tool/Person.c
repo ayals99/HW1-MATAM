@@ -16,8 +16,8 @@
 
 struct Person_t{
     char* m_ID;
-    __attribute__((unused)) int m_TotalCredits;
-    __attribute__((unused)) double m_GPA;
+    int m_TotalCredits;
+    double m_GPA;
     char* m_Name;
     char* m_SurName;
     char* m_City;

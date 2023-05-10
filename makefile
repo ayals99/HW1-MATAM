@@ -14,22 +14,23 @@ $(TARGET): $(OBJS)
 main.o: tool/main.c  tool/HackEnrollment.h
 	$(CC) $(CFLAGS) -c $<
 
-HackEnrollment.o: tool/HackEnrollment.c tool/HackEnrollment.h tool/Person.h tools/Course.h
+HackEnrollment.o: tool/HackEnrollment.c tool/HackEnrollment.h IsraeliQueue.h tool/Person.h tool/Node.h tool/Hacker.h\
+ tool/Course.h
 	$(CC) $(CFLAGS) -c $<
 
-Person.o: tools/Person.c tools/Person.h tools/Hacker.h tools/Hacker.c  tools/Node.h tools/Node.c
+Person.o: tool/Person.c tool/Person.h tool/Node.h tool/Hacker.h tool/Node.h
 	$(CC) $(CFLAGS) -c $<
 
-Hacker.o: tools/Hacker.c tools/Hacker.h
+Hacker.o: tool/Hacker.c tool/Hacker.h
 	$(CC) $(CFLAGS) -c $<
 
-Course.o: tools/Course.c tools/Course.h IsraeliQueue.h IsraeliQueue.c
+Course.o: tool/Course.c tool/Course.h IsraeliQueue.h IsraeliQueue.c
 	$(CC) $(CFLAGS) -c $<
 
-Node.o: tools/Node.c tools/Node.h
+Node.o: tool/Node.c tool/Node.h
 	$(CC) $(CFLAGS) -c $<
 
-IsraeliQueue.o: tools/IsraeliQueue.c tools/IsraeliQueue.h tools/Node.h tools/Node.c
+IsraeliQueue.o: IsraeliQueue.c IsraeliQueue.h tool/Node.h
 	$(CC) $(CFLAGS) -c $<
 
 clean:

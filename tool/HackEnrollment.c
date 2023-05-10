@@ -83,6 +83,16 @@ bool enrolledInCourse(Person currentPerson, Course currentCourse);
 Course findCourseByNumber(int courseNumber, int totalNumberOfCourses, Course *courseArrayPointer);
 void writeCourseQueueToFile(Course* CourseArray, int totalNumberOfCourses, FILE* out);
 Hacker getHackerPointerFromList(HackerArray listOfHackers, int index);
+char* duplicateString(char* string);
+int getLongestElementInLine(char* buffer);
+EnrollmentSystemError allocateMemoryForFields(char** name, char** surName, char** city, char** department, int longestElementInLine);
+void freeAllocatedMemoryForFields(char* name ,char* surName, char* city, char* department);
+void handleErrorAllStudentsArray (char* buffer, Person* allStudentsArray, int index);
+
+
+
+
+
 
 
 /** Comparison functions */
@@ -407,6 +417,75 @@ char* duplicateString(char* string)
     return newString;
 }
 
+int getLongestElementInLine(char* buffer)
+{
+    int maxCount = 0;
+    if(buffer == NULL)
+    {
+        return -1;
+    }
+    while(*buffer != '\0')
+    {
+        int count = 0;
+        while (*buffer != SPACE_BAR && *buffer != '\0')
+        {
+            count++;
+            buffer++;
+        }
+        if (count > maxCount)
+        {
+            maxCount = count;
+        }
+        if (*buffer == SPACE_BAR)
+        {
+            buffer++;
+        }
+    }
+    return maxCount;
+}
+
+EnrollmentSystemError allocateMemoryForFields(char** name, char** surName, char** city, char** department, int longestElementInLine)
+{
+    if (longestElementInLine < 1)
+    {
+        return ENROLLMENT_SYSTEM_BAD_PARAM;
+    }
+
+    *name = (char*) malloc((longestElementInLine + 1) * sizeof(char));
+    *surName = (char*) malloc((longestElementInLine + 1) * sizeof(char));
+    *city = (char*) malloc((longestElementInLine + 1) * sizeof(char));
+    *department = (char*) malloc((longestElementInLine + 1) * sizeof(char));
+
+    if (*name == NULL || *surName == NULL || *city == NULL || *department == NULL)
+    {
+        free(*name);
+        free(*surName);
+        free(*city);
+        free(*department);
+        return ENROLLMENT_SYSTEM_ALLOC_FAIL;
+    }
+    return ENROLLMENT_SYSTEM_SUCCESS;
+}
+
+void freeAllocatedMemoryForFields(char* name ,char* surName, char* city, char* department)
+{
+    free(name);
+    free(surName);
+    free(city);
+    free(department);
+}
+
+void handleErrorAllStudentsArray (char* buffer, Person* allStudentsArray, int index)
+{
+    for (int j = 0; j < index; j++)
+    {
+        personDestroy(allStudentsArray[j]);
+        allStudentsArray[j] = NULL;
+    }
+    free(allStudentsArray);
+    free(buffer);
+}
+
 Person* makeAllStudentsArray(FILE* students,int numberOfStudents)
 {
     if(students == NULL || numberOfStudents < 0)
@@ -427,28 +506,34 @@ Person* makeAllStudentsArray(FILE* students,int numberOfStudents)
     }
     for(int i = 0; readAndTrimLine(students, buffer, longestLineLength + 1) != NULL; i++)
     {
+        int longestElementInLine = getLongestElementInLine(buffer);
+        if (!longestElementInLine)
+        {
+            handleErrorAllStudentsArray(buffer, allStudentsArray, i);
+            return NULL;
+        }
         char studentID[SIZE_OF_ID];
         int totalCredits;
         double GPA;
-        char* name;
-        char* surName;
-        char* city;
-        char* department;
-        int result = sscanf(buffer, "%s %d %lf %ms %ms %ms %ms", studentID, &totalCredits, &GPA, &name, &surName, &city, &department);
-        if (result != NUMBER_OF_INPUTS_TO_SCAN_F) {
-            //TODO: Error in parsing the line, you may want to handle it
-            abort();
+        char *name, *surName, *city, *department;
+        if (allocateMemoryForFields(&name, &surName, &city, &department,longestElementInLine) !=
+            ENROLLMENT_SYSTEM_SUCCESS)
+        {
+            handleErrorAllStudentsArray(buffer, allStudentsArray, i);
+            return NULL;
+        }
+        int result = sscanf(buffer, "%s %d %lf %s %s %s %s", studentID, &totalCredits, &GPA, name, surName, city, department);
+        if (result != NUMBER_OF_INPUTS_TO_SCAN_F)
+        {
+            freeAllocatedMemoryForFields(name, surName, city, department);
+            handleErrorAllStudentsArray(buffer, allStudentsArray, i);
+            return NULL;
         }
         char* tempID = duplicateString(studentID);
         Person newPerson = personCreate(tempID, totalCredits, GPA, name, surName, city, department);
         if(newPerson == NULL)
         {
-            for (int j = 0; j < i; j++) {
-                personDestroy(allStudentsArray[j]);
-                allStudentsArray[j] = NULL;
-            }
-            free(allStudentsArray);
-            free(buffer);
+            handleErrorAllStudentsArray(buffer, allStudentsArray, i);
             return NULL;
         }
         allStudentsArray[i] = newPerson;

@@ -545,7 +545,11 @@ char* copyBufferContents(char* buffer)
 
 void freeAndDestroyHackerArray(HackerArray hackerArray, int count) {
     // TODO check if we use this function in a function where desiredCourses/friendsArray/foesArray are not NULL
+    if(hackerArray == NULL){
+        return;
+    }
     for (int i = 0; i < count; i++) {
+
         hackerDestroy(hackerArray[i]);
     }
     free(hackerArray);

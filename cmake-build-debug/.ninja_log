@@ -2,3 +2,6 @@
 26	164	7053673062829379	CMakeFiles/ex1___Berko_and_Ayal.dir/IsraeliQueue.c.obj	9bea58d77eb54f57
 182	286	7053673064003205	ex1___Berko_and_Ayal.exe	13d4182001757dc9
 1	741	7054061117741797	build.ninja	2a8c0eb4fb1778f8
+17	193	7054077579947849	CMakeFiles/ex1___Berko_and_Ayal.dir/tool/Hacker.c.obj	5cd55602c76a1dbc
+9	194	7054077579971963	CMakeFiles/ex1___Berko_and_Ayal.dir/tool/Node.c.obj	337b6da766ff98eb
+38	213	7054077580154697	CMakeFiles/ex1___Berko_and_Ayal.dir/tool/Person.c.obj	d81d9b00e0dd5512

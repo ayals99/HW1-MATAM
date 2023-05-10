@@ -1,0 +1,3 @@
+"C:\Program Files\JetBrains\CLion 2022.2.4\bin\cmake\win\bin\cmake.exe" -E rm -f CMakeFiles\ex1___Berko_and_Ayal.dir/objects.a
+C:\PROGRA~1\JETBRA~1\CLION2~1.4\bin\mingw\bin\ar.exe qc CMakeFiles\ex1___Berko_and_Ayal.dir/objects.a @CMakeFiles\ex1___Berko_and_Ayal.dir\objects1.rsp
+C:\PROGRA~1\JETBRA~1\CLION2~1.4\bin\mingw\bin\gcc.exe -g -Wl,--whole-archive CMakeFiles\ex1___Berko_and_Ayal.dir/objects.a -Wl,--no-whole-archive -o ex1___Berko_and_Ayal.exe -Wl,--out-implib,libex1___Berko_and_Ayal.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\ex1___Berko_and_Ayal.dir\linklibs.rsp

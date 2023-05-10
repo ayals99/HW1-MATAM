@@ -1053,9 +1053,15 @@ EnrollmentSystem readEnrollment(EnrollmentSystem sys, FILE* queues){
     }
     for(int i = 0; i < sys->m_numberOfCourses; i++)
     {
-        if (!IsraeliQueueSize(getCourseQueue(sys->m_courses[i])))
+        IsraeliQueue currentQueue = getCourseQueue(*(sys->m_courses + i));
+        int queueSize = IsraeliQueueSize(currentQueue);
+        if (!queueSize)
         {
-            addFriendshipFunctionsAndThresholds(getCourseQueue(sys->m_courses[i]), sys->m_isFlagOn);
+            if(addFriendshipFunctionsAndThresholds(currentQueue, sys->m_isFlagOn) != ENROLLMENT_SYSTEM_SUCCESS)
+            {
+                free(buffer);
+                return NULL;
+            }
         }
     }
     free(buffer);

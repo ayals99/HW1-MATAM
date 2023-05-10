@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="ex1___Berko_and_Ayal"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/PROGRA~1/JETBRA~1/CLION2~1.4/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="C:/PROGRA~1/JETBRA~1/CLION2~1.4/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~1/JETBRA~1/CLION2~1.4/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~1/JETBRA~1/CLION2~1.4/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="ex1___Berko_and_Ayal">
+				<Option output="C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/cmake-build-debug/ex1___Berko_and_Ayal.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/../../../../include"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/../../../../x86_64-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/PROGRA~1/JETBRA~1/CLION2~1.4/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/cmake-build-debug/Makefile&quot;  VERBOSE=1 ex1___Berko_and_Ayal"/>
+					<CompileFile command="C:/PROGRA~1/JETBRA~1/CLION2~1.4/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~1/JETBRA~1/CLION2~1.4/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~1/JETBRA~1/CLION2~1.4/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="ex1___Berko_and_Ayal/fast">
+				<Option output="C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/cmake-build-debug/ex1___Berko_and_Ayal.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/../../../../include"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/../../../../x86_64-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/PROGRA~1/JETBRA~1/CLION2~1.4/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/cmake-build-debug/Makefile&quot;  VERBOSE=1 ex1___Berko_and_Ayal/fast"/>
+					<CompileFile command="C:/PROGRA~1/JETBRA~1/CLION2~1.4/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~1/JETBRA~1/CLION2~1.4/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~1/JETBRA~1/CLION2~1.4/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/PROGRA~1/JETBRA~1/CLION2~1.4/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="C:/PROGRA~1/JETBRA~1/CLION2~1.4/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~1/JETBRA~1/CLION2~1.4/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~1/JETBRA~1/CLION2~1.4/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/PROGRA~1/JETBRA~1/CLION2~1.4/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="C:/PROGRA~1/JETBRA~1/CLION2~1.4/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~1/JETBRA~1/CLION2~1.4/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~1/JETBRA~1/CLION2~1.4/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/IsraeliQueue.c">
+			<Option target="ex1___Berko_and_Ayal"/>
+		</Unit>
+		<Unit filename="C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/IsraeliQueue.h">
+			<Option target="ex1___Berko_and_Ayal"/>
+		</Unit>
+		<Unit filename="C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/tool/Course.c">
+			<Option target="ex1___Berko_and_Ayal"/>
+		</Unit>
+		<Unit filename="C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/tool/Course.h">
+			<Option target="ex1___Berko_and_Ayal"/>
+		</Unit>
+		<Unit filename="C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/tool/HackEnrollment.c">
+			<Option target="ex1___Berko_and_Ayal"/>
+		</Unit>
+		<Unit filename="C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/tool/HackEnrollment.h">
+			<Option target="ex1___Berko_and_Ayal"/>
+		</Unit>
+		<Unit filename="C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/tool/Hacker.c">
+			<Option target="ex1___Berko_and_Ayal"/>
+		</Unit>
+		<Unit filename="C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/tool/Hacker.h">
+			<Option target="ex1___Berko_and_Ayal"/>
+		</Unit>
+		<Unit filename="C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/tool/Node.c">
+			<Option target="ex1___Berko_and_Ayal"/>
+		</Unit>
+		<Unit filename="C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/tool/Node.h">
+			<Option target="ex1___Berko_and_Ayal"/>
+		</Unit>
+		<Unit filename="C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/tool/Person.c">
+			<Option target="ex1___Berko_and_Ayal"/>
+		</Unit>
+		<Unit filename="C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/tool/Person.h">
+			<Option target="ex1___Berko_and_Ayal"/>
+		</Unit>
+		<Unit filename="C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/tool/main.c">
+			<Option target="ex1___Berko_and_Ayal"/>
+		</Unit>
+		<Unit filename="C:/Users/user/Documents/GitHub/ex1---Berko-and-Ayal/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

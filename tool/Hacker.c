@@ -25,18 +25,28 @@ Hacker hackerCreate(char* hackerId, int desiredCourseCount, int* desiredCourses,
     return newHacker;
 }
 
+int countStrings(char** array){
+    if(array == NULL){
+        return 0;
+    }
+    char* currentString = *(array);
+    int counter = 0;
+    while(currentString != NULL){
+        currentString = *(array + counter);
+        counter++;
+    }
+    return counter;
+}
+
 //frees a NULL terminated array of pointers to strings
 void freeArrayOfStrings(char** array){
     if(array == NULL){
         return;
     }
-    char* currentString = *(array);
-    int i = 1;
-    while(currentString != NULL){
-        free(currentString);
-        *(array) = NULL;
-        currentString = *(array + i);
-        i++;
+    int numberOfStrings = countStrings(array);
+    for(int i = 0; i < numberOfStrings; i++){
+        free(array[i]);
+        array[i] = NULL;
     }
     free(array);
 }
@@ -47,12 +57,14 @@ void hackerDestroy(Hacker toDestroy)
     {
         return;
     }
-    free(toDestroy->m_friends);
+    freeArrayOfStrings(toDestroy->m_friends);
     toDestroy->m_friends = NULL;
-    free(toDestroy->m_rivals);
+    freeArrayOfStrings(toDestroy->m_rivals);
     toDestroy->m_rivals = NULL;
     free(toDestroy->m_desiredCoursesArray);
     toDestroy->m_desiredCoursesArray = NULL;
+    free(toDestroy->m_hackerId);
+    toDestroy->m_hackerId = NULL;
 }
 /** Getter Functions */
 

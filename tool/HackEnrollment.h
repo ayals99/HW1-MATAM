@@ -3,10 +3,8 @@
 
 /** Included files */
 
-#include "IsraeliQueue.h"
-#include "Hacker.h"
-#include "Person.h"
-#include "Course.h"
+#include "../tool/Person.h"
+#include "../tool/Course.h"
 /*
     #Include tree:
     HackEnrollment.h includes Person.h and Courses.h

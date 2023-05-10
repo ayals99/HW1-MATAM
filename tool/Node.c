@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#include "Node.h"
+#include "../tool/Node.h"
 
 #define INITIALIZATION 0
 

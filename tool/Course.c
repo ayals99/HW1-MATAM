@@ -1,4 +1,5 @@
-#include "Course.h"
+#include "../tool/Course.h"
+#include "IsraeliQueue.h"
 
 struct course_t{
     int m_courseNumber;

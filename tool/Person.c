@@ -2,8 +2,8 @@
 // #include <string.h>
 #include <assert.h>
 
-#include "Person.h"
-#include "Hacker.h"
+#include "../tool/Person.h"
+#include "../tool/Hacker.h"
 
 /** DEFINES */
 

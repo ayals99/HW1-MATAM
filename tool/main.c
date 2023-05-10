@@ -3,7 +3,7 @@
 
 /** Internal Includes */
 
-#include "HackEnrollment.h"
+#include "../tool/HackEnrollment.h"
 
 /** Defines */
 

@@ -3,8 +3,8 @@
 
 #include <stdbool.h>
 
-#include "Node.h"
-#include "Hacker.h"
+#include "../tool/Node.h"
+#include "../tool/Hacker.h"
 
 /** Type for defining the Person */
 typedef struct Person_t* Person;

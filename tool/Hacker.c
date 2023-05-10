@@ -1,4 +1,4 @@
-#include "Hacker.h"
+#include "../tool/Hacker.h"
 
 struct hacker_t {
     char* m_hackerId;

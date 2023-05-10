@@ -1,8 +1,8 @@
 CC := gcc
-CFLAGS := -std=c99 -o HackEnrollment -I/new_home/mtm/public/2223b/ex1 -I/new_home/mtm/public/2223b/ex1/tool -Wall -pedantic-errors -Werror -DNDEBUG
+CFLAGS := -std=c99 HackEnrollment -I/home/mtm/public/2223b/ex1 -Itool -Wall -pedantic-errors -Werror -DNDEBUG *.c tool/*.c
 TARGET := HackEnrollment
 LDFLAGS := -lm
-OBJS := tool/main.o tool/HackEnrollment.o tool/Person.o tool/Hacker.o tool/Course.o Node.o IsraeliQueue.o
+OBJS := main.o HackEnrollment.o Person.o Hacker.o Course.o Node.o IsraeliQueue.o
 
 .PHONY: all clean
 
@@ -11,26 +11,26 @@ all: $(TARGET)
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
-tool/main.o: tool/main.c tool/HackEnrollment.h
-	$(CC) $(CFLAGS) -c $< -o $@
+main.o: tool/main.c tool/HackEnrollment.h tool/HackEnrollment.c
+	$(CC) $(CFLAGS) -c $<
 
-tool/HackEnrollment.o: tool/HackEnrollment.c tool/HackEnrollment.h tool/Person.h tool/Course.h IsraeliQueue.h
-	$(CC) $(CFLAGS) -c $< -o $@
+HackEnrollment.o: tool/HackEnrollment.c tool/HackEnrollment.h tool/Person.h tools/Course.h
+	$(CC) $(CFLAGS) -c $<
 
-tool/Person.o: tool/Person.c tool/Person.h tool/Hacker.h
-	$(CC) $(CFLAGS) -c $< -o $@
+Person.o: tools/Person.c tools/Person.h tools/Hacker.h tools/Hacker.c  tools/Node.h tools/Node.c
+	$(CC) $(CFLAGS) -c $<
 
-tool/Hacker.o: tool/Hacker.c tool/Hacker.h
-	$(CC) $(CFLAGS) -c $< -o $@
+Hacker.o: tools/Hacker.c tools/Hacker.h tools/Node.h tools/Node.c
+	$(CC) $(CFLAGS) -c $<
 
-tool/Course.o: tool/Course.c tool/Course.h IsraeliQueue.h
-	$(CC) $(CFLAGS) -c $< -o $@
+Course.o: tools/Course.c tools/Course.h tools/IsraeliQueue.h tools/IsraeliQueue.c
+	$(CC) $(CFLAGS) -c $<
 
-Node.o: Node.c Node.h
-	$(CC) $(CFLAGS) -c $< -o $@
+Node.o: tools/Node.c tools/Node.h
+	$(CC) $(CFLAGS) -c $<
 
-IsraeliQueue.o: IsraeliQueue.c IsraeliQueue.h Node.h
-	$(CC) $(CFLAGS) -c $< -o $@
+IsraeliQueue.o: tools/IsraeliQueue.c tools/IsraeliQueue.h tools/Node.h tools/Node.c
+	$(CC) $(CFLAGS) -c $<
 
 clean:
 	rm -f $(TARGET) $(OBJS)

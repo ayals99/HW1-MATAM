@@ -25,6 +25,7 @@
 #define NUMBER_OF_INPUTS_TO_SCAN_F 7
 #define STRING_END '\0'
 #define EMPTY_STRING 0
+#define OFFSET 2
 
 /** Struct declaration */
 typedef Hacker* HackerArray;
@@ -48,15 +49,15 @@ int getLinesOfFile(FILE* file);
 Person* makeAllStudentsArray(FILE* students,int numberOfStudents);
 int getNumberOfElementsInLine(char* string);
 int* parseIntArray(char* buffer, int numberOfElementsInLine);
-char** parseStringArray(char* buffer);
+char** parseStringArray(char* buffer, int numberOfElementsInLine);
 char* readAndTrimLine(FILE* file, char* buffer, int bufferLength);
 HackerArray makeHackerArray(FILE* hackers,int numberOfHackers);
 void freeAndDestroyHackerArray(HackerArray hackerArray,
                                int countOfHackers);
 Hacker createHackerFromFile(FILE* hackers, char* buffer, int bufferSize);
 char* copyBufferContents(char* buffer);
-bool checkAndFreeIfNull(char* hackerId, int* desiredCourses,
-                        Friends* friendsArray, Foes* foesArray);
+bool checkAndFreeIfNull(char* hackerId, int* desiredCourses, Friends* friendsArray,
+                        Foes* foesArray, int numberOfCourses, int numberOfFriends, int numberOfFoes);
 HackerArray createHackersArray(FILE* hackers, EnrollmentSystem sys);
 Person* createStudentsArray(FILE* students, EnrollmentSystem sys);
 courseStructPointerArray createCoursesArray(FILE* courses,
@@ -86,6 +87,8 @@ int getLongestElementInLine(char* buffer);
 EnrollmentSystemError allocateMemoryForFields(char** name, char** surName, char** city, char** department, int longestElementInLine);
 void freeAllocatedMemoryForFields(char* name ,char* surName, char* city, char* department);
 void handleErrorAllStudentsArray (char* buffer, Person* allStudentsArray, int index);
+void handleErrorCourseArray (char* buffer, courseStructPointerArray coursesArray, int index);
+
 
 
 
@@ -360,10 +363,20 @@ EnrollmentSystemError initializeSystem(EnrollmentSystem sys)
     return ENROLLMENT_SYSTEM_SUCCESS;
 }
 
+void handleErrorCourseArray (char* buffer, courseStructPointerArray coursesArray, int index)
+{
+    for (int j = 0; j < index; j++)
+    {
+        courseDestroy(coursesArray[j]);
+        coursesArray[j] = NULL;
+    }
+    free(coursesArray);
+    free(buffer);
+}
+
 courseStructPointerArray makeCoursesArray(FILE* courses, int numberOfCourses)
 {
-    courseStructPointerArray coursesArray = (courseStructPointerArray) malloc(
-            sizeof(Course) * numberOfCourses);
+    courseStructPointerArray coursesArray = (courseStructPointerArray) malloc(sizeof(Course) * numberOfCourses);
     if(coursesArray == NULL)
     {
         return NULL;
@@ -377,26 +390,27 @@ courseStructPointerArray makeCoursesArray(FILE* courses, int numberOfCourses)
     }
     ComparisonFunction newComparisonFunction = comparisonFunction;
     const char delimiter[] = {SPACE_BAR};
-
-    for(int i = 0; readAndTrimLine(courses, buffer, longestLineLength + 1 ) != NULL; i++)
+    for(int i = 0; i < numberOfCourses; i++)
     {
+        if (readAndTrimLine(courses, buffer, longestLineLength + OFFSET) == NULL)
+        {
+            handleErrorCourseArray(buffer, coursesArray, i);
+            return NULL;
+        }
         char* token = strtok(buffer, delimiter);
-        //assert(token != NULL);
         int courseNumber = (int)strtol(token, NULL, 10);
         token = strtok(NULL, delimiter);
-        //assert(token != NULL);
         int courseCapacity = (int)strtol(token, NULL, 10);
-
         Course currentCourse = courseCreate(courseNumber, courseCapacity, newComparisonFunction);
         if(currentCourse == NULL)
         {
-            free(coursesArray);
-            free(buffer);
+            handleErrorCourseArray(buffer, coursesArray, i);
             return NULL;
         }
         coursesArray[i] = currentCourse;
     }
-    free(buffer);
+    //TODO I get sef fault here for some reason
+    // free(buffer);
     return coursesArray;
 }
 
@@ -502,7 +516,7 @@ Person* makeAllStudentsArray(FILE* students,int numberOfStudents)
         free(allStudentsArray);
         return NULL;
     }
-    for(int i = 0; readAndTrimLine(students, buffer, longestLineLength + 1) != NULL; i++)
+    for(int i = 0; readAndTrimLine(students, buffer, longestLineLength + OFFSET) != NULL; i++)
     {
         int longestElementInLine = getLongestElementInLine(buffer);
         if (!longestElementInLine)
@@ -536,7 +550,8 @@ Person* makeAllStudentsArray(FILE* students,int numberOfStudents)
         }
         allStudentsArray[i] = newPerson;
     }
-    free(buffer);
+    //TODO I get seg fault here
+    //free(buffer);
     return allStudentsArray;
 }
 
@@ -547,6 +562,10 @@ int getNumberOfElementsInLine(char* string)
         return INVALID_STR;
     }
     int count = 0;
+    if (*string == ROW_DROP)
+    {
+        return count;
+    }
     while((*string != ROW_DROP && strlen(string) != EMPTY_STRING))
     {
         if(*string == SPACE_BAR)
@@ -560,6 +579,10 @@ int getNumberOfElementsInLine(char* string)
 
 int* parseIntArray(char* buffer, int numberOfElementsInLine)
 {
+    if (!numberOfElementsInLine)
+    {
+        return NULL;
+    }
     int* array = malloc(sizeof(int) * numberOfElementsInLine);
     if (array == NULL)
     {
@@ -574,9 +597,12 @@ int* parseIntArray(char* buffer, int numberOfElementsInLine)
     return array;
 }
 
-char** parseStringArray(char* buffer) // TODO: check if it works
+char** parseStringArray(char* buffer, int numberOfElementsInLine) // TODO: check if it works
 {
-    int numberOfElementsInLine = getNumberOfElementsInLine(buffer);
+    if (!numberOfElementsInLine)
+    {
+        return NULL;
+    }
     char** array = malloc(sizeof(char*) * (numberOfElementsInLine + 1));
     if (array == NULL)
     {
@@ -594,19 +620,18 @@ char** parseStringArray(char* buffer) // TODO: check if it works
 
 char* readAndTrimLine(FILE* file, char* buffer, int bufferLength)
 {
-    do
+    if (fgets(buffer, bufferLength, file) == NULL)
     {
-        if (fgets(buffer, bufferLength, file) == NULL)
-        {
-            return NULL;
-        }
+        return NULL;
+    }
+    if (strlen(buffer) > 1)
+    {
         char* newline = strchr(buffer, ROW_DROP);
         if (newline)
         {
             *newline = '\0';
         }
-    } while(strlen(buffer) == 0);
-
+    }
     return buffer;
 }
 
@@ -638,9 +663,11 @@ void freeAndDestroyHackerArray(HackerArray hackerArray, int count) {
     free(hackerArray);
 }
 
-bool checkAndFreeIfNull(char* hackerId, int* desiredCourses, Friends* friendsArray, Foes* foesArray)
+bool checkAndFreeIfNull(char* hackerId, int* desiredCourses, Friends* friendsArray, Foes* foesArray,
+                        int numberOfCourses, int numberOfFriends, int numberOfFoes)
 {
-    bool nullCheck[4] = {hackerId == NULL, desiredCourses == NULL, friendsArray == NULL, foesArray == NULL};
+    bool nullCheck[4] = {hackerId == NULL, desiredCourses == NULL && numberOfCourses > 0  ,
+                         friendsArray == NULL && numberOfFriends > 0 , foesArray == NULL && numberOfFoes > 0};
     bool anyNull = false;
     for (int i = 0; i < 4; i++)
     {
@@ -668,7 +695,7 @@ Hacker createHackerFromFile(FILE* hackers, char* buffer, int bufferSize)
     Friends* friendsArray = NULL;
     Foes* foesArray= NULL;
 
-    if (readAndTrimLine(hackers, buffer, bufferSize) != NULL)
+    if (readAndTrimLine(hackers, buffer, bufferSize + OFFSET) != NULL)
     {
         hackerId = copyBufferContents(buffer);
         if(hackerId == NULL)
@@ -676,21 +703,25 @@ Hacker createHackerFromFile(FILE* hackers, char* buffer, int bufferSize)
             return NULL;
         }
     }
-    int numberOfCourses;
-    if (readAndTrimLine(hackers, buffer, bufferSize) != NULL)
+    int numberOfCourses = 0;
+    if (readAndTrimLine(hackers, buffer, bufferSize + OFFSET) != NULL)
     {
         numberOfCourses = getNumberOfElementsInLine(buffer);
         desiredCourses = parseIntArray(buffer, numberOfCourses);
     }
-    if (readAndTrimLine(hackers, buffer, bufferSize) != NULL)
+    int numberOfFriends = 0;
+    if (readAndTrimLine(hackers, buffer, bufferSize + OFFSET) != NULL)
     {
-        friendsArray = parseStringArray(buffer);
+        numberOfFriends = getNumberOfElementsInLine(buffer);
+        friendsArray = parseStringArray(buffer,numberOfFriends);
     }
-    if (readAndTrimLine(hackers, buffer, bufferSize) != NULL)
+    int numberOfFoes = 0;
+    if (readAndTrimLine(hackers, buffer, bufferSize + OFFSET) != NULL)
     {
-        foesArray = parseStringArray(buffer);
+        numberOfFoes = getNumberOfElementsInLine(buffer);
+        foesArray = parseStringArray(buffer, numberOfFoes);
     }
-    if (!checkAndFreeIfNull(hackerId, desiredCourses, friendsArray, foesArray))
+    if (!checkAndFreeIfNull(hackerId, desiredCourses, friendsArray, foesArray, numberOfCourses, numberOfFriends, numberOfFoes))
     {
         return NULL;
     }
@@ -726,7 +757,8 @@ HackerArray makeHackerArray(FILE* hackers,int numberOfHackers)
         }
         newHackerArray[i] = newHacker;
     }
-    free(buffer);
+    //TODO I get seg fault here
+    //free(buffer);
     return newHackerArray;
 }
 
@@ -985,7 +1017,7 @@ EnrollmentSystemError enrollmentSystemUpdateFlag(EnrollmentSystem system, bool i
     if(system == NULL){
         return ENROLLMENT_SYSTEM_BAD_PARAM;
     }
-    system->m_isFlagOn = isFlagOn;
+    system->m_isFlagOn = !isFlagOn;
     return ENROLLMENT_SYSTEM_SUCCESS;
 }
 
@@ -1012,7 +1044,7 @@ EnrollmentSystem readEnrollment(EnrollmentSystem sys, FILE* queues)
         return NULL;
     }
 
-    buffer = readAndTrimLine(queues, buffer, longestLineInFile + 1 );
+    buffer = readAndTrimLine(queues, buffer, longestLineInFile + OFFSET);
 
     while (buffer != NULL)
     {
@@ -1022,7 +1054,7 @@ EnrollmentSystem readEnrollment(EnrollmentSystem sys, FILE* queues)
             free(buffer);
             return NULL;
         }
-        buffer = readAndTrimLine(queues, buffer, longestLineInFile + 1 );
+        buffer = readAndTrimLine(queues, buffer, longestLineInFile + OFFSET);
     }
 
     free(buffer);

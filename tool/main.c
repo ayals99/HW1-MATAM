@@ -73,7 +73,7 @@ int main(int argc, char** argv)
     if(!students || !courses || !hackers || !queues || !target)
     {
         closeFiles(students, courses, hackers, queues, target);
-        return 1;
+        return 0;
     }
     EnrollmentSystem system = createEnrollment(students, courses, hackers);
     if(system == NULL)

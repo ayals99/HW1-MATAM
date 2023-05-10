@@ -20,9 +20,18 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e8d68ddf-8fb1-4d4e-a26e-c48ee2153ca4" name="Changes" comment="fixing freeArrayOfStrings">
+    <list default="true" id="e8d68ddf-8fb1-4d4e-a26e-c48ee2153ca4" name="Changes" comment="testing if push works">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tool/HackEnrollment.c" beforeDir="false" afterPath="$PROJECT_DIR$/tool/HackEnrollment.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/index-2023-05-10T16-00-56-0584.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ex1___Berko_and_Ayal.dir/IsraeliQueue.c.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ex1___Berko_and_Ayal.dir/IsraeliQueue.c.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ex1___Berko_and_Ayal.dir/tool/Course.c.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ex1___Berko_and_Ayal.dir/tool/Course.c.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ex1___Berko_and_Ayal.dir/tool/HackEnrollment.c.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ex1___Berko_and_Ayal.dir/tool/HackEnrollment.c.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ex1___Berko_and_Ayal.dir/tool/Hacker.c.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ex1___Berko_and_Ayal.dir/tool/Hacker.c.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ex1___Berko_and_Ayal.dir/tool/Person.c.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ex1___Berko_and_Ayal.dir/tool/Person.c.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/ex1___Berko_and_Ayal.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/ex1___Berko_and_Ayal.exe" afterDir="false" />
     </list>
     <list id="13eda3fb-5b55-4bcb-871f-722610e3ace4" name="Changes by user" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -83,7 +92,7 @@
     </key>
   </component>
   <component name="RunManager" selected="CMake Application.ex1___Berko_and_Ayal">
-    <configuration name="ex1___Berko_and_Ayal" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="./students.txt  ./courses.txt  ./hackers.txt  ./queues.txt  ./target.txt  " REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" WORKING_DIR="file://$PROJECT_DIR$/Tests/Test2 - 1 hacker (no demands)" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ex1___Berko_and_Ayal" TARGET_NAME="ex1___Berko_and_Ayal" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="ex1___Berko_and_Ayal" RUN_TARGET_NAME="ex1___Berko_and_Ayal">
+    <configuration name="ex1___Berko_and_Ayal" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="./students.txt  ./courses.txt  ./hackers.txt  ./queues.txt  ./target.txt  " REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" WORKING_DIR="file://$PROJECT_DIR$/Tests/Test3 - 1 hacker (empty queue)" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ex1___Berko_and_Ayal" TARGET_NAME="ex1___Berko_and_Ayal" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="ex1___Berko_and_Ayal" RUN_TARGET_NAME="ex1___Berko_and_Ayal">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -96,7 +105,6 @@
     </configuration>
     <list>
       <item itemvalue="CMake Application.ex1___Berko_and_Ayal" />
-      <item itemvalue="CMake Debug.cmakelists" />
       <item itemvalue="Makefile Target.main.o" />
     </list>
     <recent_temporary>
@@ -162,9 +170,10 @@
       <workItem from="1683703726864" duration="3282000" />
       <workItem from="1683721455003" duration="2419000" />
       <workItem from="1683723914621" duration="9045000" />
-      <workItem from="1683735055328" duration="257000" />
-      <workItem from="1683741221969" duration="4486000" />
-      <workItem from="1683747986368" duration="2869000" />
+      <workItem from="1683734415834" duration="1000" />
+      <workItem from="1683734657936" duration="12266000" />
+      <workItem from="1683751684823" duration="1000" />
+      <workItem from="1683751822030" duration="1000" />
     </task>
     <task id="LOCAL-00001" summary="enrollementDestroy first draft">
       <created>1683276424602</created>
@@ -201,14 +210,7 @@
       <option name="project" value="LOCAL" />
       <updated>1683650489739</updated>
     </task>
-    <task id="LOCAL-00006" summary="fixing freeArrayOfStrings">
-      <created>1683748988089</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1683748988089</updated>
-    </task>
-    <option name="localTasksCounter" value="7" />
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -226,8 +228,7 @@
     <MESSAGE value="finishing course.c" />
     <MESSAGE value="updating Hacker.c" />
     <MESSAGE value="testing if push works" />
-    <MESSAGE value="fixing freeArrayOfStrings" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixing freeArrayOfStrings" />
+    <option name="LAST_COMMIT_MESSAGE" value="testing if push works" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -239,7 +240,7 @@
         </line-breakpoint>
         <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/tool/HackEnrollment.c</url>
-          <line>1124</line>
+          <line>1121</line>
           <option name="timeStamp" value="46" />
         </line-breakpoint>
         <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
@@ -262,70 +263,10 @@
           <line>217</line>
           <option name="timeStamp" value="59" />
         </line-breakpoint>
-        <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/tool/HackEnrollment.c</url>
-          <line>708</line>
-          <option name="timeStamp" value="66" />
-        </line-breakpoint>
-        <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/tool/HackEnrollment.c</url>
-          <line>622</line>
-          <option name="timeStamp" value="67" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/tool/HackEnrollment.c</url>
-          <line>878</line>
-          <option name="timeStamp" value="79" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/tool/HackEnrollment.c</url>
-          <line>883</line>
-          <option name="timeStamp" value="80" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/tool/HackEnrollment.c</url>
-          <line>888</line>
-          <option name="timeStamp" value="81" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/tool/HackEnrollment.c</url>
-          <line>893</line>
-          <option name="timeStamp" value="83" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/tool/HackEnrollment.c</url>
-          <line>898</line>
-          <option name="timeStamp" value="84" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/tool/HackEnrollment.c</url>
-          <line>903</line>
-          <option name="timeStamp" value="85" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/tool/HackEnrollment.c</url>
-          <line>790</line>
-          <option name="timeStamp" value="86" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/tool/HackEnrollment.c</url>
-          <line>808</line>
-          <option name="timeStamp" value="87" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/tool/HackEnrollment.c</url>
-          <line>752</line>
-          <option name="timeStamp" value="88" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/tool/HackEnrollment.c</url>
-          <line>725</line>
-          <option name="timeStamp" value="89" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/tool/main.c</url>
-          <line>90</line>
-          <option name="timeStamp" value="91" />
+          <line>1252</line>
+          <option name="timeStamp" value="100" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>

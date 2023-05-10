@@ -1028,25 +1028,19 @@ EnrollmentSystemError enrollmentSystemUpdateFlag(EnrollmentSystem system, bool i
  * @return Enrollment system with the courses queues as described in the file.
  * NULL in case of failure.
  */
-EnrollmentSystem readEnrollment(EnrollmentSystem sys, FILE* queues)
-{
-    if(sys == NULL || queues == NULL)
-    {
+EnrollmentSystem readEnrollment(EnrollmentSystem sys, FILE* queues){
+    if(sys == NULL || queues == NULL){
         return NULL;
     }
-
     int longestLineInFile = getLongestLineLength(queues);
     char* buffer = malloc((sizeof(char) * (longestLineInFile + OFFSET)));
-
-    if (buffer == NULL)
-    {
+    if (buffer == NULL){
         return NULL;
     }
 
     buffer = readAndTrimLine(queues, buffer, longestLineInFile + OFFSET);
 
-    while (buffer != NULL)
-    {
+    while (buffer != NULL){
         EnrollmentSystemError QueueStatus = makeCourseQueue(sys, buffer);
         if(QueueStatus != ENROLLMENT_SYSTEM_SUCCESS)
         {

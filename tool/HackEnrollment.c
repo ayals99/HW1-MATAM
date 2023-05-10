@@ -503,24 +503,20 @@ void handleErrorAllStudentsArray (char* buffer, Person* allStudentsArray, int in
 
 Person* makeAllStudentsArray(FILE* students,int numberOfStudents)
 {
-    if(students == NULL || numberOfStudents < 0)
-    {
+    if(students == NULL || numberOfStudents < 0){
         return NULL;
     }
     Person* allStudentsArray = malloc(sizeof(allStudentsArray) * (numberOfStudents + OFFSET));
-    if(allStudentsArray == NULL)
-    {
+    if(allStudentsArray == NULL){
         return NULL;
     }
     int longestLineLength = getLongestLineLength(students);
     char* buffer = malloc(sizeof(char) * (longestLineLength + OFFSET));
-    if(buffer == NULL)
-    {
+    if(buffer == NULL){
         free(allStudentsArray);
         return NULL;
     }
-    for(int i = 0; readAndTrimLine(students, buffer, longestLineLength + OFFSET) != NULL; i++)
-    {
+    for(int i = 0; readAndTrimLine(students, buffer, longestLineLength + OFFSET) != NULL; i++){
         int longestElementInLine = getLongestElementInLine(buffer);
         if (!longestElementInLine)
         {
@@ -532,22 +528,20 @@ Person* makeAllStudentsArray(FILE* students,int numberOfStudents)
         double GPA;
         char *name, *surName, *city, *department;
         if (allocateMemoryForFields(&name, &surName, &city, &department,longestElementInLine) !=
-            ENROLLMENT_SYSTEM_SUCCESS)
-        {
+            ENROLLMENT_SYSTEM_SUCCESS){
             handleErrorAllStudentsArray(buffer, allStudentsArray, i);
             return NULL;
         }
-        int result = sscanf(buffer, "%s %d %lf %s %s %s %s", studentID, &totalCredits, &GPA, name, surName, city, department);
-        if (result != NUMBER_OF_INPUTS_TO_SCAN_F)
-        {
+        int result = sscanf(buffer, "%s %d %lf %s %s %s %s", studentID, &totalCredits, &GPA, name, surName,
+                            city, department);
+        if (result != NUMBER_OF_INPUTS_TO_SCAN_F){
             freeAllocatedMemoryForFields(name, surName, city, department);
             handleErrorAllStudentsArray(buffer, allStudentsArray, i);
             return NULL;
         }
         char* tempID = duplicateString(studentID);
         Person newPerson = personCreate(tempID, totalCredits, GPA, name, surName, city, department);
-        if(newPerson == NULL)
-        {
+        if(newPerson == NULL){
             handleErrorAllStudentsArray(buffer, allStudentsArray, i);
             return NULL;
         }

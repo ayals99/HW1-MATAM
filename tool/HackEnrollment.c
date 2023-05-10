@@ -1141,9 +1141,9 @@ void hackEnrollment(EnrollmentSystem system, FILE* out){
         }
         Course firstCourseOnList = findCourseByNumber(getCourseArray(currentHackerStruct)[0],
                                                       totalNumberOfCourses,courseArray);
-        if( (requestedOnlyOneCourse(currentHackerStruct) && !enrolledInCourse(currentPerson, firstCourseOnList) )
-            || (!enrolledInTwoChoices(currentPerson,currentHackerStruct,courseArray,totalNumberOfCourses)
-                && (getCoursesCount(currentHackerStruct) >= 2) ) ) {
+        if((requestedOnlyOneCourse(currentHackerStruct) && !enrolledInCourse(currentPerson, firstCourseOnList) )
+                    || (!enrolledInTwoChoices(currentPerson,currentHackerStruct,courseArray,totalNumberOfCourses)
+                        && (getCoursesCount(currentHackerStruct) >= 2) ) ) {
             terminate(personGetID(currentPerson), out);
             return;
         }
@@ -1182,13 +1182,6 @@ void enrollmentDestroy(EnrollmentSystem system){
     free(system);
 }
 
-//Hacker getHackerPointerFromList(HackerArray listOfHackers, int index){
-//    Node pointerToHackerNode = listOfHackers[index];
-//    Person originalHacker = nodeGetItem(pointerToHackerNode);
-//    Person currentHacker = copyPerson(originalHacker);
-//    return personGetHacker(currentHacker);
-//}
-
 // loops through all courses and writes thw whole queue to "out" file
 void writeCourseQueueToFile(Course* CourseArray, int totalNumberOfCourses, FILE* out){
     for(int courseIndex = 0; courseIndex < totalNumberOfCourses; courseIndex++){
@@ -1196,15 +1189,16 @@ void writeCourseQueueToFile(Course* CourseArray, int totalNumberOfCourses, FILE*
         IsraeliQueue queue = getCourseQueue(currentCourse);
         int courseNumber = getCourseNumber(currentCourse);
         int queueSize = IsraeliQueueSize(queue);
-        Person head = IsraeliQueueDequeue(queue);
-        int i = 0;
         if(queueSize == 0){
             return;
         }
         fprintf(out, "%d", courseNumber);
+        int i = 0;
+        Person head = IsraeliQueueDequeue(queue);
         while (head != NULL && i < queueSize){
             fprintf(out, " ");
-            fputs(personGetID(head), out);
+            char* studentID = personGetID(head);
+            fprintf(out, "%s", studentID);
             head = IsraeliQueueDequeue(queue);
             i++;
         }
@@ -1234,7 +1228,6 @@ bool enrolledInCourse(Person currentPerson, Course currentCourse){
     IsraeliQueue clonedList = IsraeliQueueClone(list);
     Person currentPersonInList = (Person) IsraeliQueueDequeue(clonedList);
     int courseSize = getCourseSize(currentCourse);
-    // TODO: make sure that this loop needs to be until "courseSize - 1" and not "courseSize"
     for(int i = 0; i < courseSize && currentPersonInList != NULL; i++){
         if(comparisonFunction(currentPerson, currentPersonInList) == IDENTICAL_BY_COMPARISON_FUNCTION){
             IsraeliQueueDestroy(clonedList);

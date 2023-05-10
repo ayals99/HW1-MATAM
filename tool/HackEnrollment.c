@@ -1198,14 +1198,12 @@ void writeCourseQueueToFile(Course* CourseArray, int totalNumberOfCourses, FILE*
             return;
         }
         fprintf(out, "%d", courseNumber);
-        int i = 0;
         Person head = IsraeliQueueDequeue(queue);
-        while (head != NULL && i < queueSize){
+        while (head != NULL){
             fprintf(out, " ");
             char* studentID = personGetID(head);
             fprintf(out, "%s", studentID);
             head = IsraeliQueueDequeue(queue);
-            i++;
         }
         fprintf(out, "\n");
     }

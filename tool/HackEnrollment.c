@@ -4,10 +4,8 @@
 #include <assert.h>
 #include <string.h>
 
-#include "IsraeliQueue.h"
-#include "../tool/Person.h"
-#include "../tool/Hacker.h"
-#include "../tool/HackEnrollment.h"
+
+#include "HackEnrollment.h"
 
 
 /** Defines */

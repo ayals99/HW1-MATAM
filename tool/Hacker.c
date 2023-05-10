@@ -1,4 +1,4 @@
-#include "../tool/Hacker.h"
+#include "Hacker.h"
 
 struct hacker_t {
     char* m_hackerId;
@@ -105,7 +105,7 @@ Foes* getFoesArray(Hacker currHacker){
 //    return HACKER_ERROR_SUCCESS;
 //}
 
-//// TODO: never used
+// TODO: never used
 //HackerError setCourseArray(Hacker currHacker, int* courseArray){
 //    if(currHacker == NULL){
 //        return HACKER_ERROR_BAD_PARA;

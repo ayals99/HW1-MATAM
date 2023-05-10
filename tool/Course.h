@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "IsraeliQueue.h"
+#include "../IsraeliQueue.h"
 
 
 /** Defines */

@@ -11,7 +11,7 @@ all: $(TARGET)
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
-main.o: tool/main.c tool/HackEnrollment.h tool/HackEnrollment.c
+main.o: tool/main.c  tool/HackEnrollment.h
 	$(CC) $(CFLAGS) -c $<
 
 HackEnrollment.o: tool/HackEnrollment.c tool/HackEnrollment.h tool/Person.h tools/Course.h
@@ -20,10 +20,10 @@ HackEnrollment.o: tool/HackEnrollment.c tool/HackEnrollment.h tool/Person.h tool
 Person.o: tools/Person.c tools/Person.h tools/Hacker.h tools/Hacker.c  tools/Node.h tools/Node.c
 	$(CC) $(CFLAGS) -c $<
 
-Hacker.o: tools/Hacker.c tools/Hacker.h tools/Node.h tools/Node.c
+Hacker.o: tools/Hacker.c tools/Hacker.h
 	$(CC) $(CFLAGS) -c $<
 
-Course.o: tools/Course.c tools/Course.h tools/IsraeliQueue.h tools/IsraeliQueue.c
+Course.o: tools/Course.c tools/Course.h IsraeliQueue.h IsraeliQueue.c
 	$(CC) $(CFLAGS) -c $<
 
 Node.o: tools/Node.c tools/Node.h

@@ -4,8 +4,8 @@
 #include <math.h>
 #include <assert.h>
 
-#include "../IsraeliQueue.h"
-#include "../tool/Node.h"
+#include "IsraeliQueue.h"
+#include "tool/Node.h"
 
 #define EMPTY_QUEUE 0
 

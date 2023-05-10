@@ -3,7 +3,6 @@
 #include <assert.h>
 
 #include "../tool/Person.h"
-#include "../tool/Hacker.h"
 
 /** DEFINES */
 

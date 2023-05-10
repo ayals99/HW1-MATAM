@@ -2,9 +2,9 @@
 #define PROVIDED_HACK_ENROLLMENT_H
 
 /** Included files */
-
-#include "../tool/Person.h"
-#include "../tool/Course.h"
+#include "../IsraeliQueue.h"
+#include "Person.h"
+#include "Course.h"
 /*
     #Include tree:
     HackEnrollment.h includes Person.h and Courses.h

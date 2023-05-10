@@ -11,10 +11,12 @@ all: $(TARGET)
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $@ $(LDFLAGS)
 
-tool/main.o: tool/main.c tool/HackEnrollment.h
+tool/main.o: tool/main.c tool/HackEnrollment.h IsraeliQueue.h tool/Person.h tool/Node.h tool/Hacker.h\
+tool/Course.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
-tool/HackEnrollment.o: tool/HackEnrollment.c tool/HackEnrollment.h IsraeliQueue.h tool/Person.h tool/Course.h
+tool/HackEnrollment.o: tool/HackEnrollment.c tool/HackEnrollment.h IsraeliQueue.h tool/Person.h\
+tool/Node.h tool/Hacker.h tool/Course.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 tool/Person.o: tool/Person.c tool/Person.h tool/Node.h tool/Hacker.h tool/Node.h

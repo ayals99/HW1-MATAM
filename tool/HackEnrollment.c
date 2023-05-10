@@ -88,6 +88,8 @@ EnrollmentSystemError allocateMemoryForFields(char** name, char** surName, char*
 void freeAllocatedMemoryForFields(char* name ,char* surName, char* city, char* department);
 void handleErrorAllStudentsArray (char* buffer, Person* allStudentsArray, int index);
 void handleErrorCourseArray (char* buffer, courseStructPointerArray coursesArray, int index);
+void printQueue(IsraeliQueue queue);
+
 
 
 
@@ -119,7 +121,7 @@ int byHackerFile(void* student1, void* student2)
     if (isStudentHacker)
     {
         Friends *tmp = getFriendsArray(personGetHacker(student1_AUX)); //This function is supposed to receive a Hacker but is given a person.
-        while (tmp != NULL)
+        while (*tmp != NULL)
         {
             if (strcmp(*tmp, personGetID(student1_AUX)) == IDENTICAL_STRINGS)
             {
@@ -128,7 +130,7 @@ int byHackerFile(void* student1, void* student2)
             tmp++;
         }
         tmp = getFoesArray(personGetHacker(student1_AUX));
-        while (tmp != NULL)
+        while (*tmp != NULL)
         {
             if (strcmp(*tmp, personGetID(student1_AUX)) == IDENTICAL_STRINGS)
             {
@@ -1187,6 +1189,7 @@ void enrollmentDestroy(EnrollmentSystem system){
     free(system);
 }
 
+
 // loops through all courses and writes thw whole queue to "out" file
 void writeCourseQueueToFile(Course* CourseArray, int totalNumberOfCourses, FILE* out){
     for(int courseIndex = 0; courseIndex < totalNumberOfCourses; courseIndex++){
@@ -1195,7 +1198,7 @@ void writeCourseQueueToFile(Course* CourseArray, int totalNumberOfCourses, FILE*
         int courseNumber = getCourseNumber(currentCourse);
         int queueSize = IsraeliQueueSize(queue);
         if(queueSize == 0){
-            return;
+            continue;
         }
         fprintf(out, "%d", courseNumber);
         Person head = IsraeliQueueDequeue(queue);

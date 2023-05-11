@@ -15,9 +15,6 @@ typedef struct hacker_t* Hacker;
 typedef char* Friends;
 typedef char* Foes;
 
-// TODO: never used:
-// typedef enum {HACKER_ERROR_ALLOC_FAILED, HACKER_ERROR_BAD_PARA, HACKER_ERROR_SUCCESS} HackerError;
-
 /** Functions */
 
 
@@ -38,14 +35,5 @@ Friends* getFriendsArray(Hacker currHacker);
 Foes* getFoesArray(Hacker currHacker);
 
 /** Setter Functions */
-
-//TODO: never used:
-//HackerError setCoursesCount(Hacker currHacker, int courseCount);
-//
-//HackerError setCourseArray(Hacker currHacker, int* courseArray);
-//
-//HackerError setFriendsArray(Hacker currHacker, Friends* friendsArray);
-//
-//HackerError setFoesArray(Hacker currHacker, Foes* foesArray);
 
 #endif

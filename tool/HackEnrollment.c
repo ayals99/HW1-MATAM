@@ -26,6 +26,8 @@
 #define STRING_END '\0'
 #define EMPTY_STRING 0
 #define OFFSET 2
+#define DECIMAL 10
+#define SPACE_BAR_STRING " "
 
 /** Struct declaration */
 typedef Hacker* HackerArray;
@@ -84,19 +86,12 @@ void writeCourseQueueToFile(Course* CourseArray, int totalNumberOfCourses, FILE*
 Hacker getHackerPointerFromList(HackerArray listOfHackers, int index, int numberOfHackers);
 char* duplicateString(char* string);
 int getLongestElementInLine(char* buffer);
-EnrollmentSystemError allocateMemoryForFields(char** name, char** surName, char** city, char** department, int longestElementInLine);
+EnrollmentSystemError allocateMemoryForFields(char** name, char** surName, char** city, char** department,
+                                              int longestElementInLine);
 void freeAllocatedMemoryForFields(char* name ,char* surName, char* city, char* department);
 void handleErrorAllStudentsArray (char* buffer, Person* allStudentsArray, int index);
 void handleErrorCourseArray (char* buffer, courseStructPointerArray coursesArray, int index);
 void printQueue(IsraeliQueue queue);
-
-
-
-
-
-
-
-
 
 /** Comparison functions */
 
@@ -110,17 +105,15 @@ int comparisonFunction(void* student1, void* student2)
 }
 
 /** Friendship functions */
-// TODO: need to implement theses functions in the end of readEnrollment
-// TODO: make sure this function is less than 50 lines of code
+
 int byHackerFile(void* student1, void* student2)
 {
-    assert(student1 != NULL && student2 != NULL);
     Person student1_AUX = (Person) student1;
     Person student2_AUX = (Person) student2;
     bool isStudentHacker = isPersonHacker(student1_AUX);
     if (isStudentHacker)
     {
-        Friends *tmp = getFriendsArray(personGetHacker(student1_AUX)); //This function is supposed to receive a Hacker but is given a person.
+        Friends *tmp = getFriendsArray(personGetHacker(student1_AUX));
         while (tmp != NULL && *tmp != NULL)
         {
             if (strcmp(*tmp, personGetID(student2_AUX)) == IDENTICAL_STRINGS)
@@ -174,10 +167,8 @@ void toLowerCase(char* originalString){
 }
 
 int byNameDeltaWithoutCase(void* student1, void* student2){
-    assert(student1 != NULL && student2 != NULL);
     Person p1 = (Person) student1;
     Person p2 = (Person) student2;
-
     char* name1 = personGetName(p1);
     toLowerCase(name1);
     char* name2 = personGetName(p2);
@@ -192,23 +183,17 @@ int byNameDeltaWithoutCase(void* student1, void* student2){
 
     for (int i = 0; name1[i] != STRING_END || name2[i] != STRING_END; i++)
     {
-        if (name1[i] != STRING_END && name2[i] != STRING_END)
-        {
+        if (name1[i] != STRING_END && name2[i] != STRING_END) {
             nameDelta += abs(name1[i] - name2[i]);
-        }
-        else
-        {
-            for(int j = i; name1[j] != STRING_END; j++)
-            {
+        } else {
+            for (int j = i; name1[j] != STRING_END; j++) {
                 nameDelta += abs(name1[j]);
             }
-            for(int j = i; name2[j] != STRING_END; j++)
-            {
+            for (int j = i; name2[j] != STRING_END; j++) {
                 nameDelta += abs(name2[j]);
             }
         }
     }
-
     for (int i = 0; surname1[i] != STRING_END || surname2[i] != STRING_END; i++)
     {
         if (surname1[i] != STRING_END && surname2[i] != STRING_END)
@@ -243,39 +228,27 @@ int byNameDelta(void* student1, void* student2)
     int nameDelta = 0;
     int surnameDelta = 0;
 
-    for (int i = 0; name1[i] != STRING_END || name2[i] != STRING_END; i++)
-    {
-        if (name1[i] != STRING_END && name2[i] != STRING_END)
-        {
+    for (int i = 0; name1[i] != STRING_END || name2[i] != STRING_END; i++) {
+        if (name1[i] != STRING_END && name2[i] != STRING_END) {
             nameDelta += abs(name1[i] - name2[i]);
-        }
-        else
-        {
-            for(int j = i; name1[j] != STRING_END; j++)
-            {
+        } else {
+            for (int j = i; name1[j] != STRING_END; j++) {
                 nameDelta += abs(name1[j]);
             }
-            for(int j = i; name2[j] != STRING_END; j++)
-            {
+            for (int j = i; name2[j] != STRING_END; j++) {
                 nameDelta += abs(name2[j]);
             }
             break;
         }
     }
-
-    for (int i = 0; surname1[i] != STRING_END || surname2[i] != STRING_END; i++)
-    {
-        if (surname1[i] != STRING_END && surname2[i] != STRING_END)
-        {
+    for (int i = 0; surname1[i] != STRING_END || surname2[i] != STRING_END; i++) {
+        if (surname1[i] != STRING_END && surname2[i] != STRING_END) {
             surnameDelta += abs(surname1[i] - surname2[i]);
-        } else
-        {
-            for (int j = i; surname1[j] != STRING_END; j++)
-            {
+        } else {
+            for (int j = i; surname1[j] != STRING_END; j++) {
                 surnameDelta += abs(surname1[j]);
             }
-            for (int j = i; surname2[j] != STRING_END; j++)
-            {
+            for (int j = i; surname2[j] != STRING_END; j++) {
                 surnameDelta += abs(surname2[j]);
             }
             break;
@@ -290,8 +263,8 @@ int byIdDelta(void* student1, void* student2)
     Person p1 = (Person) student1;
     Person p2 = (Person) student2;
 
-    int id1 = (int)strtol(personGetID(p1), NULL, 10);
-    int id2 = (int)strtol(personGetID(p2), NULL, 10);
+    int id1 = (int)strtol(personGetID(p1), NULL, DECIMAL);
+    int id2 = (int)strtol(personGetID(p2), NULL, DECIMAL);
 
     return abs(id1 - id2);
 }
@@ -406,9 +379,9 @@ courseStructPointerArray makeCoursesArray(FILE* courses, int numberOfCourses)
             continue;
         }
         char* token = strtok(buffer, delimiter);
-        int courseNumber = (int)strtol(token, NULL, 10);
+        int courseNumber = (int)strtol(token, NULL, DECIMAL);
         token = strtok(NULL, delimiter);
-        int courseCapacity = (int)strtol(token, NULL, 10);
+        int courseCapacity = (int)strtol(token, NULL, DECIMAL);
         Course currentCourse = courseCreate(courseNumber, courseCapacity, newComparisonFunction);
         if(currentCourse == NULL)
         {
@@ -463,7 +436,8 @@ int getLongestElementInLine(char* buffer)
     return maxCount;
 }
 
-EnrollmentSystemError allocateMemoryForFields(char** name, char** surName, char** city, char** department, int longestElementInLine)
+EnrollmentSystemError allocateMemoryForFields(char** name, char** surName, char** city, char** department,
+                                              int longestElementInLine)
 {
     if (longestElementInLine < 1)
     {
@@ -588,16 +562,16 @@ int* parseIntArray(char* buffer, int numberOfElementsInLine)
     {
         return NULL;
     }
-    char *token = strtok(buffer, " ");
+    char *token = strtok(buffer, SPACE_BAR_STRING);
     for (int i = 0; i < numberOfElementsInLine && token != NULL; i++)
     {
-        array[i] = strtol(token, NULL, 10);
-        token = strtok(NULL, " ");
+        array[i] = strtol(token, NULL, DECIMAL);
+        token = strtok(NULL, SPACE_BAR_STRING);
     }
     return array;
 }
 
-char** parseStringArray(char* buffer, int numberOfElementsInLine) // TODO: check if it works
+char** parseStringArray(char* buffer, int numberOfElementsInLine)
 {
     if (!numberOfElementsInLine)
     {
@@ -608,11 +582,11 @@ char** parseStringArray(char* buffer, int numberOfElementsInLine) // TODO: check
     {
         return NULL;
     }
-    char *token = strtok(buffer, " ");
+    char *token = strtok(buffer, SPACE_BAR_STRING);
     for (int i = 0; i < numberOfElementsInLine && token != NULL; i++)
     {
         array[i] = duplicateString(token);
-        token = strtok(NULL, " ");
+        token = strtok(NULL, SPACE_BAR_STRING);
     }
     array[numberOfElementsInLine] = NULL;
     return array;
@@ -656,7 +630,6 @@ char* copyBufferContents(char* buffer)
 }
 
 void freeAndDestroyHackerArray(HackerArray hackerArray, int count) {
-    // TODO check if we use this function in a function where desiredCourses/friendsArray/foesArray are not NULL
     if(hackerArray == NULL){
         return;
     }
@@ -725,7 +698,8 @@ Hacker createHackerFromFile(FILE* hackers, char* buffer, int bufferSize)
         numberOfFoes = getNumberOfElementsInLine(buffer);
         foesArray = parseStringArray(buffer, numberOfFoes);
     }
-    if (!checkAndFreeIfNull(hackerId, desiredCourses, friendsArray, foesArray, numberOfCourses, numberOfFriends, numberOfFoes))
+    if (!checkAndFreeIfNull(hackerId, desiredCourses, friendsArray, foesArray,
+                            numberOfCourses, numberOfFriends, numberOfFoes))
     {
         return NULL;
     }
@@ -928,7 +902,6 @@ EnrollmentSystemError addFriendshipFunctionsAndThresholds(IsraeliQueue queue, bo
     {
         return ENROLLMENT_SYSTEM_BAD_PARAM;
     }
-    //TODO: check if the FriendshipFunction actually points to the functions below.
     FriendshipFunction function = byHackerFile;
     if (IsraeliQueueAddFriendshipMeasure(queue, function) != ISRAELIQUEUE_SUCCESS)
     {
@@ -964,27 +937,29 @@ EnrollmentSystemError addFriendshipFunctionsAndThresholds(IsraeliQueue queue, bo
 }
 
 
-EnrollmentSystemError enrollStudents(Person* allStudentsList, int numberOfStudents, Course currentCourse, char* studentsIdList, bool isFlagOn)
+EnrollmentSystemError enrollStudents(Person* allStudentsList, int numberOfStudents,
+                                     Course currentCourse, char* studentsIdList, bool isFlagOn)
 {
     if (currentCourse == NULL || studentsIdList == NULL)
     {
         return ENROLLMENT_SYSTEM_BAD_PARAM;
     }
-    char* token = strtok(studentsIdList, " ");
+    char* token = strtok(studentsIdList, SPACE_BAR_STRING);
     while(token != NULL)
     {
         for(int i = 0; i < numberOfStudents; i++)
         {
             if (strcmp(token, personGetID(allStudentsList[i])) == IDENTICAL_STRINGS)
             {
-                EnrollmentSystemError insertionStatus = insertStudentToCourseQueue(currentCourse, allStudentsList[i]);
+                EnrollmentSystemError insertionStatus = insertStudentToCourseQueue(currentCourse,
+                                                                                   allStudentsList[i]);
                 if(insertionStatus != ENROLLMENT_SYSTEM_SUCCESS)
                 {
                     return insertionStatus;
                 }
             }
         }
-        token = strtok(NULL, " ");
+        token = strtok(NULL, SPACE_BAR_STRING);
     }
     return addFriendshipFunctionsAndThresholds(getCourseQueue(currentCourse), isFlagOn);
 }
@@ -1000,7 +975,7 @@ EnrollmentSystemError makeCourseQueue(EnrollmentSystem sys, char* buffer)
     {
         return ENROLLMENT_SYSTEM_ERROR;
     }
-    int courseNumber = strtol(buffer, NULL, 10); // TODO: make sure this is the right way to convert this specific string to int
+    int courseNumber = strtol(buffer, NULL, DECIMAL);
     char* studentsIdString = spacePosition + 1;
     int numberOfStudents = sys->m_numberOfStudents;
     Person* allStudentsList = sys->m_students;
@@ -1010,7 +985,8 @@ EnrollmentSystemError makeCourseQueue(EnrollmentSystem sys, char* buffer)
     {
         if(courseNumber == getCourseNumber(currentCourse[i]))
         {
-            return enrollStudents(allStudentsList, numberOfStudents, currentCourse[i], studentsIdString, sys->m_isFlagOn);
+            return enrollStudents(allStudentsList, numberOfStudents, currentCourse[i],
+                                  studentsIdString, sys->m_isFlagOn);
         }
     }
     return ENROLLMENT_SYSTEM_ERROR;
@@ -1096,7 +1072,7 @@ bool enrolledInTwoChoices(Person currentPerson,Hacker currentHackerStruct,Course
             enrollmentCounter += 1;
         }
     }
-    if(enrollmentCounter >= 2){
+    if(enrollmentCounter >= OFFSET){
         return true;
     }
     else{
@@ -1129,8 +1105,8 @@ void hackEnrollment(EnrollmentSystem system, FILE* out){
         char* studentID = personGetID(currentPerson);
         int* desiredCoursesArray = getCourseArray(currentHackerStruct);
         int numberOfDesiredCourses = getCoursesCount(currentHackerStruct);
-        // loop through this Hacker's desired courses and assign him in the course. at the end we'll check that he got at least
-        // two courses overall (unless he asked for only one course and didn't get it):
+        // loop through this Hacker's desired courses and assign him in the course.
+        // checks for two courses overall (unless he asked for only one course and didn't get it):
         for (int i = 0; i < numberOfDesiredCourses; i++) {
             int currentCourseNumber = desiredCoursesArray[i];
             Course currentCourse = findCourseByNumber(currentCourseNumber, totalNumberOfCourses, courseArray);
@@ -1206,7 +1182,7 @@ void writeCourseQueueToFile(Course* CourseArray, int totalNumberOfCourses, FILE*
         fprintf(out, "%d", courseNumber);
         Person head = IsraeliQueueDequeue(queue);
         while (head != NULL){
-            fprintf(out, " ");
+            fprintf(out, SPACE_BAR_STRING);
             char* studentID = personGetID(head);
             fprintf(out, "%s", studentID);
             head = IsraeliQueueDequeue(queue);
@@ -1259,127 +1235,4 @@ Course findCourseByNumber(int courseNumber, int totalNumberOfCourses, Course *co
         }
     }
     return NULL;
-}
-
-int getCount(Friends* array)
-{
-    int count = 0;
-    while(*array != NULL)
-    {
-        count++;
-        array++;
-    }
-    return count;
-}
-
-void printFriends(Hacker hacker) {
-    Friends* friends = getFriendsArray(hacker); // Assuming there is a function to get the friends array
-    int friendCount = getCount(friends);
-    fprintf(stdout, "Friends: ");
-    for (int i = 0; i < friendCount; i++) {
-        fprintf(stdout, "%s ", friends[i]);
-    }
-    fprintf(stdout, "\n");
-}
-
-void printFoes(Hacker hacker) {
-    Foes* foes = getFoesArray(hacker);
-    int foeCount = getCount(foes);
-    fprintf(stdout, "Foes: ");
-    for (int i = 0; i < foeCount; i++) {
-        fprintf(stdout, "%s ", foes[i]);
-    }
-    fprintf(stdout, "\n");
-}
-
-void printQueue(IsraeliQueue queue)
-{
-    fprintf(stdout, "Course Queue:\n");
-    Person student = (Person) IsraeliQueueDequeue(queue);
-    while (student != NULL)
-    {
-        fprintf(stdout, "%s\n", personGetID(student));
-        student = IsraeliQueueDequeue(queue);
-    }
-}
-
-
-void printCourse(Course course)
-{
-    if (course == NULL)
-    {
-        fprintf(stdout, "Course is NULL\n");
-        return;
-    }
-    fprintf(stdout, "Course number: %d\n", getCourseNumber(course));
-    fprintf(stdout, "Course capacity: %d\n", getCourseSize(course));
-    printQueue(getCourseQueue(course));
-}
-
-void printHacker(Hacker hacker)
-{
-    if (hacker == NULL)
-    {
-        fprintf(stdout, "Hacker is NULL\n");
-        return;
-    }
-    fprintf(stdout, "Hacker ID: %s\n", getHackerId(hacker));
-    fprintf(stdout, "Desired courses count: %d\n", getCoursesCount(hacker));
-    fprintf(stdout, "Desired courses: ");
-    for (int i = 0; i < getCoursesCount(hacker) ; i++)
-    {
-        fprintf(stdout, "%d ", *(getCourseArray(hacker) + i));
-    }
-    fprintf(stdout, "\n");
-    printFriends(hacker);
-    printFoes(hacker);
-}
-
-void printPerson(Person person)
-{
-    if (person == NULL)
-    {
-        fprintf(stdout, "Person is NULL\n");
-        return;
-    }
-
-    fprintf(stdout, "ID: %s\n", personGetID(person));
-    fprintf(stdout, "Name: %s %s\n", personGetName(person), personGetSurName(person));
-    fprintf(stdout, "Hacker details:\n");
-    printHacker(personGetHacker(person));
-}
-
-
-void printEnrollmentSystem(EnrollmentSystem sys)
-{
-    if (sys == NULL)
-    {
-        fprintf(stdout, "EnrollmentSystem is NULL\n");
-        return;
-    }
-
-    fprintf(stdout, "EnrollmentSystem:\n");
-    fprintf(stdout, "Number of courses: %d\n", sys->m_numberOfCourses);
-
-    for (int i = 0; i < sys->m_numberOfCourses; i++)
-    {
-        fprintf(stdout, "Course %d: \n", i);
-        printCourse(sys->m_courses[i]);
-    }
-
-    fprintf(stdout, "Number of hackers: %d\n", sys->m_numberOfHackers);
-    for (int i = 0; i < sys->m_numberOfHackers; i++)
-    {
-        fprintf(stdout, "Hacker %d: \n", i);
-        printHacker(sys->m_hackerPointerArray[i]);
-    }
-
-    fprintf(stdout, "Number of students: %d\n", sys->m_numberOfStudents);
-
-    for (int i = 0; i < sys->m_numberOfStudents; i++)
-    {
-        fprintf(stdout, "Student %d: \n", i);
-        printPerson(sys->m_students[i]); // Assuming m_students is an array of Person instances
-    }
-    fprintf(stdout, "Is flag on: %s\n", sys->m_isFlagOn ? "true" : "false");
 }

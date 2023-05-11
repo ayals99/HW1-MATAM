@@ -16,7 +16,7 @@ struct IsraeliQueue_t {
     ComparisonFunction m_comparisonFunction;
     Node m_head;
     int m_friendshipThreshold;
-    int rivalryThreshold;
+    int m_rivalryThreshold;
 };
 
 /** Type for defining the Relationship */
@@ -102,7 +102,7 @@ IsraeliQueue IsraeliQueueCreate(FriendshipFunction* friendshipFunctions,
     newQueue -> m_comparisonFunction = comparisonFunction;
     newQueue -> m_head = NULL;
     newQueue -> m_friendshipThreshold = friendship_th;
-    newQueue -> rivalryThreshold = rivalry_th;
+    newQueue -> m_rivalryThreshold = rivalry_th;
     return newQueue;
 }
 
@@ -110,7 +110,7 @@ Relationship getRelationship(IsraeliQueue queue, Node existing, Node toAdd)
 {
     int numberOfFunctions = countFunction(queue->m_friendshipFunctions);
     int friendShipThreshold = queue->m_friendshipThreshold;
-    int rivalryThreshold = queue->rivalryThreshold;
+    int rivalryThreshold = queue->m_rivalryThreshold;
     double average = 0;
     if (numberOfFunctions == 0)
     {
@@ -287,7 +287,7 @@ IsraeliQueueError IsraeliQueueUpdateRivalryThreshold(IsraeliQueue queue, int new
     {
         return ISRAELIQUEUE_BAD_PARAM;
     }
-    queue->rivalryThreshold = newThreshold;
+    queue->m_rivalryThreshold = newThreshold;
     return ISRAELIQUEUE_SUCCESS;
 }
 
@@ -486,7 +486,7 @@ int getNewRivalryThreshold(IsraeliQueue* queueArray, int numberOfQueues)
     double newRivalryThreshold = 1;
     for(int i = 0; i < numberOfQueues; i++)
     {
-        newRivalryThreshold *= abs(queueArray[i]->rivalryThreshold);
+        newRivalryThreshold *= abs(queueArray[i]->m_rivalryThreshold);
     }
     newRivalryThreshold = ceil(pow(newRivalryThreshold, 1.0/(double)numberOfQueues));
     return (int)newRivalryThreshold;
@@ -628,7 +628,7 @@ IsraeliQueue IsraeliQueueClone(IsraeliQueue queue){
     IsraeliQueue clonedQueue =  IsraeliQueueCreate(clonedFriendshipFunctions,
                                                    clonedComparisonFunction,
                                                    queue->m_friendshipThreshold,
-                                                   queue->rivalryThreshold);
+                                                   queue->m_rivalryThreshold);
     cloneAllNodes(queue, clonedQueue);
     return clonedQueue;
 }

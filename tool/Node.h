@@ -122,6 +122,4 @@ NodeError nodeSetNext(Node, Node);
  */
 NodeError nodeSetPrevious(Node, Node);
 
-
-
 #endif

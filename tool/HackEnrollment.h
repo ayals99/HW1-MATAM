@@ -2,16 +2,10 @@
 #define PROVIDED_HACK_ENROLLMENT_H
 
 /** Included files */
+
 #include "../IsraeliQueue.h"
 #include "Person.h"
 #include "Course.h"
-/*
-    #Include tree:
-    HackEnrollment.h includes Person.h and Courses.h
-        Person.h includes Hacker.h and Node.h
-        Courses.h includes IsraeliQueue.h
-            IsraeliQueue.h includes Node.h
-*/
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -91,8 +85,5 @@ void enrollmentDestroy(EnrollmentSystem);
  * ENROLLMENT_SYSTEM_ERROR otherwise.
  */
 EnrollmentSystemError enrollmentSystemUpdateFlag(EnrollmentSystem system, bool isFlagOn);
-
-
-void printEnrollmentSystem(EnrollmentSystem sys);
 
 #endif

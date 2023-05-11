@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Base directory for the test files
+base_dir="/home/ayal.stein/ex1/"
+
+# Loop over the test directories
+for i in $(seq 1 16); do
+    # Create the directory path for the current test
+    test_dir="${base_dir}testing/Tests/Test${i}/"
+    
+    # Run HackEnrollment with the files in the current test directory
+    ./HackEnrollment "${test_dir}students.txt" "${test_dir}courses.txt" "${test_dir}hackers.txt" "${test_dir}queues.txt" "${test_dir}target.txt"
+    
+    # Print a separator for easier reading of the output
+    echo -e "\n==========================\n"
+done

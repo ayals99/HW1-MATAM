@@ -22,7 +22,7 @@ Hacker hackerCreate(char* hackerId, int desiredCourseCount, int* desiredCourses,
     newHacker->m_friends = friendsArray;
     newHacker->m_rivals = foesArray;
 
-    return newHacker;
+     return newHacker;
 }
 
 int countStrings(char** array){
@@ -102,41 +102,3 @@ Foes* getFoesArray(Hacker currHacker){
     }
     return currHacker->m_rivals;
 }
-
-/** Setter Functions */
-
-//TODO: never used
-//HackerError setCoursesCount(Hacker currHacker, int courseCount){
-//    if(currHacker == NULL){
-//        return HACKER_ERROR_BAD_PARA;
-//    }
-//    currHacker->m_desiredCoursesCount = courseCount;
-//    return HACKER_ERROR_SUCCESS;
-//}
-
-// TODO: never used
-//HackerError setCourseArray(Hacker currHacker, int* courseArray){
-//    if(currHacker == NULL){
-//        return HACKER_ERROR_BAD_PARA;
-//    }
-//    currHacker->m_desiredCoursesArray = courseArray;
-//    return HACKER_ERROR_SUCCESS;
-//}
-
-//TODO: never used
-//HackerError setFriendsArray(Hacker currHacker, Friends* friendsArray){
-//    if(currHacker == NULL){
-//        return HACKER_ERROR_BAD_PARA;
-//    }
-//    currHacker->m_friends = friendsArray;
-//    return HACKER_ERROR_SUCCESS;
-//}
-
-//TODO: never used
-//HackerError setFoesArray(Hacker currHacker, Foes* foesArray){
-//    if(currHacker == NULL){
-//        return HACKER_ERROR_BAD_PARA;
-//    }
-//    currHacker->m_rivals = foesArray;
-//    return HACKER_ERROR_SUCCESS;
-//}

@@ -123,7 +123,7 @@ int byHackerFile(void* student1, void* student2)
         Friends *tmp = getFriendsArray(personGetHacker(student1_AUX)); //This function is supposed to receive a Hacker but is given a person.
         while (*tmp != NULL)
         {
-            if (strcmp(*tmp, personGetID(student1_AUX)) == IDENTICAL_STRINGS)
+            if (strcmp(*tmp, personGetID(student2_AUX)) == IDENTICAL_STRINGS)
             {
                 return FRIENDS;
             }
@@ -132,7 +132,7 @@ int byHackerFile(void* student1, void* student2)
         tmp = getFoesArray(personGetHacker(student1_AUX));
         while (*tmp != NULL)
         {
-            if (strcmp(*tmp, personGetID(student1_AUX)) == IDENTICAL_STRINGS)
+            if (strcmp(*tmp, personGetID(student2_AUX)) == IDENTICAL_STRINGS)
             {
                 return FOES;
             }
@@ -145,7 +145,7 @@ int byHackerFile(void* student1, void* student2)
         Friends* tmp = getFriendsArray(personGetHacker(student2_AUX));
         while (*tmp != NULL)
         {
-            if (strcmp(*tmp, personGetID(student2_AUX)) == IDENTICAL_STRINGS)
+            if (strcmp(*tmp, personGetID(student1_AUX)) == IDENTICAL_STRINGS)
             {
                 return FRIENDS;
             }
@@ -154,7 +154,7 @@ int byHackerFile(void* student1, void* student2)
         tmp = getFoesArray(personGetHacker(student2_AUX));
         while (*tmp != NULL)
         {
-            if (strcmp(*tmp, personGetID(student2_AUX)) == IDENTICAL_STRINGS)
+            if (strcmp(*tmp, personGetID(student1_AUX)) == IDENTICAL_STRINGS)
             {
                 return FOES;
             }
@@ -1119,7 +1119,10 @@ void hackEnrollment(EnrollmentSystem system, FILE* out){
     HackerArray listOfHackers = system->m_hackerPointerArray;
     int numberOfHackers = system->m_numberOfHackers;
     // loop through all hackers and enroll them in the courses they requested
-    for (int hackerIndex = 0; hackerIndex < numberOfHackers; hackerIndex++) {
+    for (int hackerIndex = 0; hackerIndex < numberOfHackers; hackerIndex++)
+    {
+        //Don't we have the hacker pointer from the array of hackers?
+        //Hacker CurrentHacker = listOfHackers[i];
         Hacker currentHackerStruct = getHackerPointerFromList(listOfHackers, hackerIndex, numberOfHackers);
         Person currentPerson = getPersonByHacker(getHackerId(currentHackerStruct),
                                                  system->m_students, system->m_numberOfStudents);

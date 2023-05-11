@@ -121,7 +121,7 @@ int byHackerFile(void* student1, void* student2)
     if (isStudentHacker)
     {
         Friends *tmp = getFriendsArray(personGetHacker(student1_AUX)); //This function is supposed to receive a Hacker but is given a person.
-        while (*tmp != NULL)
+        while (tmp != NULL && *tmp != NULL)
         {
             if (strcmp(*tmp, personGetID(student2_AUX)) == IDENTICAL_STRINGS)
             {
@@ -130,7 +130,7 @@ int byHackerFile(void* student1, void* student2)
             tmp++;
         }
         tmp = getFoesArray(personGetHacker(student1_AUX));
-        while (*tmp != NULL)
+        while (tmp != NULL && *tmp != NULL)
         {
             if (strcmp(*tmp, personGetID(student2_AUX)) == IDENTICAL_STRINGS)
             {
@@ -143,7 +143,7 @@ int byHackerFile(void* student1, void* student2)
     if (isStudentHacker)
     {
         Friends* tmp = getFriendsArray(personGetHacker(student2_AUX));
-        while (*tmp != NULL)
+        while (tmp != NULL && *tmp != NULL)
         {
             if (strcmp(*tmp, personGetID(student1_AUX)) == IDENTICAL_STRINGS)
             {
@@ -152,7 +152,7 @@ int byHackerFile(void* student1, void* student2)
             tmp++;
         }
         tmp = getFoesArray(personGetHacker(student2_AUX));
-        while (*tmp != NULL)
+        while (tmp != NULL && *tmp != NULL)
         {
             if (strcmp(*tmp, personGetID(student1_AUX)) == IDENTICAL_STRINGS)
             {
